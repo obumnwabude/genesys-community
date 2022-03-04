@@ -39,12 +39,23 @@
                   src="assets/svgs/google.svg"
                   aria-hidden="true"
                   id="google-logo-sign-in-button"
+                  *ngIf="!isSigningIn"
                 />
-                <span>Sign In With Google</span>
+                <span *ngIf="!isSigningIn">Sign In With Google</span>
+                <mat-progress-spinner
+                  mode="indeterminate"
+                  strokeWidth="4"
+                  diameter="18"
+                  id="sign-in-spinner"
+                  *ngIf="isSigningIn"
+                ></mat-progress-spinner>
               </button>
             </p>
           </div>
-          <div *ngIf="auth.currentUser">
+          <div *ngIf="auth.currentUser && !auth.currentUser.phoneNumber">
+            <app-verify-phone></app-verify-phone>
+          </div>
+          <div *ngIf="auth.currentUser && auth.currentUser.phoneNumber">
             <p>You are signed in as {{ auth.currentUser.email }}.</p>
             <p>
               <button mat-stroked-button (click)="this.auth.signOut()">

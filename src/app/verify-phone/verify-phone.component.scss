@@ -1,0 +1,42 @@
+p {
+  margin-bottom: 16px;
+}
+
+#recaptcha-container.hidden {
+  visibility: hidden;
+  height: 0;
+}
+
+#recaptcha {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+
+#phone-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  #plus234 {
+    margin-bottom: 12px;
+    margin-right: 6px;
+  }
+}
+
+mat-form-field {
+  margin-right: 16px;
+  margin-bottom: 16px;
+}
+
+.phone-form-field {
+  max-width: 144px;
+}
+
+.verify-code-form-field {
+  max-width: 144px;
+}
+
+.cancel-code-button {
+  margin-right: 16px;
+}

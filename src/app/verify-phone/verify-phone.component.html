@@ -1,0 +1,86 @@
+<div class="text-center">
+  <p *ngIf="!phoneSubmitted">
+    Enter your phone number. We will send a code to your phone via SMS to verify
+    your phone.
+  </p>
+  <p *ngIf="phoneSubmitted">
+    Enter the code we sent to your phone number:
+    <span class="font-bold">+234{{ phoneCtrl.value }}</span>
+  </p>
+
+  <div id="recaptcha-container" [class.hidden]="phoneSubmitted">
+    <div id="recaptcha"></div>
+  </div>
+
+  <div *ngIf="!phoneSubmitted" id="phone-form-container">
+    <p id="plus234">+234</p>
+    <form [formGroup]="phoneForm" (ngSubmit)="submitPhone()">
+      <mat-form-field class="phone-form-field" mat-focused="true">
+        <mat-label>Phone Number</mat-label>
+        <input
+          matInput
+          type="text"
+          [formControl]="phoneCtrl"
+          required
+          placeholder="70xxxxxxxx"
+          #phoneInput="matInput"
+        />
+        <mat-error *ngIf="phoneCtrl.invalid">{{
+          phoneCtrl.hasError('required')
+            ? 'Phone Number required'
+            : 'Enter a valid phone in right format'
+        }}</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary">Send Code</button>
+    </form>
+  </div>
+
+  <form
+    *ngIf="phoneSubmitted"
+    [formGroup]="verifyCodeForm"
+    (ngSubmit)="submitCode()"
+  >
+    <mat-form-field class="verify-code-form-field" mat-focused="true">
+      <mat-label>6 Digits Code</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="xxxxxx"
+        [formControl]="verifyCodeCtrl"
+        required
+        #codeInput="matInput"
+      />
+      <mat-error *ngIf="verifyCodeCtrl.invalid">{{
+        verifyCodeCtrl.hasError('required')
+          ? 'Code is required'
+          : 'Enter the 6-digits code'
+      }}</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary">Verify Code</button>
+  </form>
+
+  <p *ngIf="phoneSubmitted && secondsLeft > 0">
+    Resend code in
+    <span class="countdown" color="primary"
+      >00:{{ secondsLeft | number: '2.0-0' }}</span
+    >
+  </p>
+  <p *ngIf="phoneSubmitted">
+    <button
+      mat-stroked-button
+      color="primary"
+      class="cancel-code-button"
+      (click)="restartVerification(true)"
+    >
+      Cancel
+    </button>
+    <button
+      mat-stroked-button
+      color="primary"
+      *ngIf="secondsLeft === 0"
+      (click)="restartVerification(false)"
+    >
+      Resend
+    </button>
+  </p>
+</div>

@@ -1,12 +1,14 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { constants } from './constants';
-import { ThemingService } from './theming.service';
 import {
   Auth,
   GoogleAuthProvider,
   signInWithRedirect
 } from '@angular/fire/auth';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { constants } from './constants';
+import { ThemingService } from './theming.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +16,7 @@ import {
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  isSigningIn = false;
   themes = constants.THEMES;
   year = new Date().getFullYear();
   @HostBinding('class') public cssClass!: string;
@@ -21,6 +24,7 @@ export class AppComponent implements OnInit {
   constructor(
     public auth: Auth,
     private overlayContainer: OverlayContainer,
+    private snackBar: MatSnackBar,
     public themingService: ThemingService
   ) {}
 
@@ -41,6 +45,14 @@ export class AppComponent implements OnInit {
   }
 
   async signInWithGoogle(): Promise<void> {
-    await signInWithRedirect(this.auth, new GoogleAuthProvider());
+    if (!this.isSigningIn) {
+      try {
+        this.isSigningIn = true;
+        await signInWithRedirect(this.auth, new GoogleAuthProvider());
+      } catch (error: any) {
+        this.snackBar.open(error.message);
+        this.isSigningIn = false;
+      }
+    }
   }
 }

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "genesysaefunai": {
+      "hosting": {
+        "community": [
+          "genesysaefunai"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "genesysaefunai"
+  }
+}

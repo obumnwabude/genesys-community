@@ -1,0 +1,13 @@
+mat-toolbar#navbar {
+  box-shadow: 0 3px 1.5px -1.5px #0d102517;
+
+  h1 {
+    display: flex;
+    align-items: center;
+
+    img#nav-logo {
+      width: 36px;
+      margin-right: 0.5rem;
+    }
+  }
+}

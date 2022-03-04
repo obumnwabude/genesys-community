@@ -1,13 +1,61 @@
 mat-toolbar#navbar {
   box-shadow: 0 3px 1.5px -1.5px #0d102517;
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 
-  h1 {
-    display: flex;
-    align-items: center;
+  > div {
+    width: 100%;
+    max-width: 992px;
+    margin-left: auto;
+    margin-right: auto;
 
-    img#nav-logo {
-      width: 36px;
-      margin-right: 0.5rem;
+    h1 {
+      display: flex;
+      align-items: center;
+
+      img#nav-logo {
+        width: 36px;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+mat-sidenav-container,
+mat-sidenav-content {
+  min-height: 100vh;
+}
+
+mat-sidenav-content {
+  padding-top: 64px;
+  display: flex;
+  flex-direction: column;
+
+  main {
+    padding: 16px;
+    max-width: 992px;
+  }
+
+  footer {
+    margin-top: auto;
+    box-shadow: 0 -1px 0.5px -0.5px #0d102517;
+
+    mat-toolbar > div {
+      max-width: 992px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-left: auto;
+      margin-right: auto;
+
+      > a {
+        width: 36px;
+        height: 36px;
+      }
     }
   }
 }

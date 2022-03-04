@@ -1,6 +1,29 @@
 <mat-toolbar id="navbar">
-  <h1>
-    <img id="nav-logo" src="assets/images/logo.png" aria-hidden="true">
-    <span>Genesys AE-FUNAI</span>
-  </h1>
+  <div>
+    <h1>
+      <img id="nav-logo" src="assets/images/logo.png" aria-hidden="true" />
+      <span>Genesys AE-FUNAI</span>
+    </h1>
+  </div>
 </mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav-content>
+    <main></main>
+
+    <footer>
+      <mat-toolbar>
+        <div>
+          <small>&copy; {{ year }} All Rights Reserved</small>
+          <a
+            href="https://twitter.com/GenesysAEFUNAI"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Follow Us on Twitter"
+            ><img src="assets/svgs/twitter.svg"
+          /></a>
+        </div>
+      </mat-toolbar>
+    </footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>

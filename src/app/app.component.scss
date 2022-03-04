@@ -6,7 +6,7 @@ mat-toolbar#navbar {
   left: 0;
   right: 0;
 
-  > div {
+  mat-toolbar-row {
     width: 100%;
     max-width: 992px;
     margin-left: auto;
@@ -43,7 +43,7 @@ mat-sidenav-content {
     margin-top: auto;
     box-shadow: 0 -1px 0.5px -0.5px #0d102517;
 
-    mat-toolbar > div {
+    mat-toolbar-row {
       max-width: 992px;
       width: 100%;
       display: flex;

@@ -1,10 +1,16 @@
 <mat-toolbar id="navbar">
-  <div>
+  <mat-toolbar-row>
     <h1>
       <img id="nav-logo" src="assets/images/logo.png" aria-hidden="true" />
       <span>Genesys AE-FUNAI</span>
     </h1>
-  </div>
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="changeTheme()" title="Switch Theme">
+      <mat-icon outlined>{{
+        themes.indexOf(cssClass) == 0 ? themes[1] : themes[0]
+      }}</mat-icon>
+    </button>
+  </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-sidenav-container>
@@ -13,7 +19,7 @@
 
     <footer>
       <mat-toolbar>
-        <div>
+        <mat-toolbar-row>
           <small>&copy; {{ year }} All Rights Reserved</small>
           <a
             href="https://twitter.com/GenesysAEFUNAI"
@@ -22,7 +28,7 @@
             title="Follow Us on Twitter"
             ><img src="assets/svgs/twitter.svg"
           /></a>
-        </div>
+        </mat-toolbar-row>
       </mat-toolbar>
     </footer>
   </mat-sidenav-content>

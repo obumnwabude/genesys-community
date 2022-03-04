@@ -27,10 +27,18 @@ $dark-theme: mat.define-dark-theme(
 
 .light_mode {
   @include mat.all-component-themes($light-theme);
+
+  #welcome-card {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+  }
 }
 
 .dark_mode {
   @include mat.all-component-themes($dark-theme);
+
+  #welcome-card {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
 }
 
 * {

@@ -35,8 +35,48 @@ mat-sidenav-content {
   flex-direction: column;
 
   main {
-    padding: 16px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 32px 16px;
     max-width: 992px;
+
+    #welcome-card {
+      max-width: 512px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2),
+        0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
+
+      img {
+        width: 100%;
+        border-radius: 10px 10px 0 0;
+      }
+
+      > div {
+        padding: 16px;
+      }
+
+      h2 {
+        margin-bottom: 0.5rem;
+        text-decoration: underline;
+        text-decoration-style: double;
+      }
+
+      p {
+        margin-bottom: 1rem;
+      }
+
+      p#welcome-with-clubname {
+        font-size: 1.25rem;
+      }
+
+      img#google-logo-sign-in-button {
+        width: 1rem;
+        margin-right: 0.5rem;
+      }
+    }
   }
 
   footer {

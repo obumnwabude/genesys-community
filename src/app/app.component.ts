@@ -2,6 +2,11 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { constants } from './constants';
 import { ThemingService } from './theming.service';
+import {
+  Auth,
+  GoogleAuthProvider,
+  signInWithRedirect
+} from '@angular/fire/auth';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +19,7 @@ export class AppComponent implements OnInit {
   @HostBinding('class') public cssClass!: string;
 
   constructor(
+    public auth: Auth,
     private overlayContainer: OverlayContainer,
     public themingService: ThemingService
   ) {}
@@ -32,5 +38,9 @@ export class AppComponent implements OnInit {
       this.themes.indexOf(this.cssClass) == 0 ? this.themes[1] : this.themes[0];
     this.themingService.theme.next(this.cssClass);
     localStorage.setItem(constants.LOCALSTORAGE_THEME_KEY, this.cssClass);
+  }
+
+  async signInWithGoogle(): Promise<void> {
+    await signInWithRedirect(this.auth, new GoogleAuthProvider());
   }
 }

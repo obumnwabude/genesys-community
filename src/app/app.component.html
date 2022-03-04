@@ -23,25 +23,35 @@
         />
         <div>
           <h2>Welcome</h2>
-          <p id="welcome-with-clubname">
-            Welcome to Genesys Campus Club AE-FUNAI.
-          </p>
-          <p>
-            We are a tech community. With us, you would create awesome projects
-            with others and become an expert in tech. We hold study jams,
-            workshops and meetups. Join us by signing in.
-          </p>
-          <p>Are you already a member? Still sign in to continue.</p>
-          <p>
-            <button mat-stroked-button>
-              <img
-                src="assets/svgs/google.svg"
-                aria-hidden="true"
-                id="google-logo-sign-in-button"
-              />
-              <span>Sign In With Google</span>
-            </button>
-          </p>
+          <div *ngIf="!auth.currentUser">
+            <p id="welcome-with-clubname">
+              Welcome to Genesys Campus Club AE-FUNAI.
+            </p>
+            <p>
+              We are a tech community. With us, you would create awesome
+              projects with others and become an expert in tech. We hold study
+              jams, workshops and meetups. Join us by signing in.
+            </p>
+            <p>Are you already a member? Still sign in to continue.</p>
+            <p>
+              <button mat-stroked-button (click)="signInWithGoogle()">
+                <img
+                  src="assets/svgs/google.svg"
+                  aria-hidden="true"
+                  id="google-logo-sign-in-button"
+                />
+                <span>Sign In With Google</span>
+              </button>
+            </p>
+          </div>
+          <div *ngIf="auth.currentUser">
+            <p>You are signed in as {{ auth.currentUser.email }}.</p>
+            <p>
+              <button mat-stroked-button (click)="this.auth.signOut()">
+                Sign Out
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </main>

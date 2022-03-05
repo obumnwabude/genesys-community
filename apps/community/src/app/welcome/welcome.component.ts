@@ -52,7 +52,7 @@ export class WelcomeComponent implements OnInit {
       if (redirectResult && redirectResult.user) this.isSigningIn = true;
     } catch (_) {}
     this.auth.onAuthStateChanged(async (member) => {
-        this.hasLoadedPage = true;
+      this.hasLoadedPage = true;
       if (!member) {
         this.isSigningIn = false;
         this.changeDetector.detectChanges();
@@ -65,9 +65,9 @@ export class WelcomeComponent implements OnInit {
             !firestoreMember.exists() ||
             (firestoreMember.exists() && !firestoreMember.data()['profile']);
           if (!this.isNewMember) {
-            this.router.navigate(
-              [this.route.snapshot.queryParams['next']] ?? ['/']
-            );
+            let nextRoute = this.route.snapshot.queryParams['next'];
+            if (!nextRoute) nextRoute = '/';
+            this.router.navigate([nextRoute]);
           }
         } catch (error: any) {
           if (error.code === 'unavailable') {
@@ -107,9 +107,9 @@ export class WelcomeComponent implements OnInit {
             { profile: this.profileData.toJSON() },
             { merge: true }
           );
-          this.router.navigate(
-            [this.route.snapshot.queryParams['next']] ?? ['/']
-          );
+          let nextRoute = this.route.snapshot.queryParams['next'];
+          if (!nextRoute) nextRoute = '/';
+          this.router.navigate([nextRoute]);
         } catch (error: any) {
           this.snackBar.open(error.message);
         } finally {

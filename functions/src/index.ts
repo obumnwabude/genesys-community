@@ -3,31 +3,30 @@ import * as admin from 'firebase-admin';
 admin.initializeApp();
 const db = admin.firestore();
 
-exports.createFirestoreUser = functions.auth
+exports.createFirestoreMember = functions.auth
   .user()
-  .onCreate(async (authUser) => {
+  .onCreate(async (authMember) => {
     await db
-      .doc('/users/counter')
+      .doc('/members/counter')
       .set({ count: admin.firestore.FieldValue.increment(1) }, { merge: true })
       .catch((error) => console.log(error));
 
     await db
-      .doc(`/users/${authUser.uid}`)
+      .doc(`/members/${authMember.uid}`)
       .set({}, { merge: true })
       .catch((error) => console.log(error));
   });
-  
-exports.deleteFirestoreUser = functions.auth
+
+exports.deleteFirestoreMember = functions.auth
   .user()
-  .onDelete(async (authUser) => {
+  .onDelete(async (authMember) => {
     await db
-      .doc('/users/counter')
+      .doc('/members/counter')
       .set({ count: admin.firestore.FieldValue.increment(-1) }, { merge: true })
       .catch((error) => console.log(error));
 
     await db
-      .doc(`/users/${authUser.uid}`)
+      .doc(`/members/${authMember.uid}`)
       .delete()
       .catch((error) => console.log(error));
   });
-

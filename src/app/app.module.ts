@@ -49,7 +49,7 @@ import { environment } from '../environments/environment';
     MatSidenavModule,
     MatToolbarModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAnalytics(() => getAnalytics()),
+    ...(environment.production ? [provideAnalytics(() => getAnalytics())] : []),
     provideAuth(() => {
       const auth = getAuth();
       if (!environment.production) {

@@ -38,9 +38,11 @@ import { environment } from '../environments/environment';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth.guard';
+import { ProgressComponent } from './progress/progress.component';
 
 const routes: Route[] = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'progress', component: ProgressComponent, canActivate: [AuthGuard] },
   { path: 'welcome', component: WelcomeComponent },
   { path: '**', redirectTo: '/', pathMatch: 'full' }
 ];
@@ -50,12 +52,13 @@ const routes: Route[] = [
     AppComponent,
     VerifyPhoneComponent,
     WelcomeComponent,
-    HomeComponent
+    HomeComponent,
+    ProgressComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { scrollPositionRestoration: 'top' }),
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,

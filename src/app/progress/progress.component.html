@@ -1,0 +1,65 @@
+<h2 id="page-heading">Record your Progress</h2>
+
+<p class="subheading">Share your progress so far.</p>
+
+<p *ngIf="auth.currentUser">
+  You are currently signed in, and your progress will be recorded under your
+  email: <span class="font-bold">{{ auth.currentUser.email }}</span>
+</p>
+
+<p>&nbsp;</p>
+
+<form id="progress-form" #progressForm="ngForm" (ngSubmit)="recordProgress()">
+  <mat-form-field>
+    <mat-label>Skill/Path</mat-label>
+    <small>In what tech skill you are making progress</small>
+    <input
+      matInput
+      required
+      type="text"
+      [(ngModel)]="progressData.skill"
+      name="skill"
+      #skill="ngModel"
+    />
+    <mat-error *ngIf="!skill.valid">Skill/Path is required</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <small
+      >Please share in details how you've been making progress. What can you now
+      do that you couldn't before? What's better compared to the last
+      time?</small
+    >
+    <textarea
+      matInput
+      required
+      type="text"
+      [(ngModel)]="progressData.description"
+      name="description"
+      #description="ngModel"
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="8"
+    >
+    </textarea>
+    <mat-error *ngIf="!description.valid">Description is required</mat-error>
+  </mat-form-field>
+
+  <p>
+    <button mat-raised-button type="submit" color="primary">
+      Record My Progress
+    </button>
+  </p>
+</form>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>Do you want to stop recording?</p>
+
+<p>
+  <a routerLink="/" mat-stroked-button color="primary">Go Back to Home Page</a>
+</p>
+
+<p>&nbsp;</p>

@@ -6,10 +6,10 @@ import {
   signInWithRedirect
 } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-import { constants } from './constants';
-import { ThemingService } from './theming.service';
+import { constants } from '@community/data';
 import { SPINNER } from 'ngx-ui-loader';
+
+import { ThemingService } from './theming.service';
 
 @Component({
   selector: 'app-root',

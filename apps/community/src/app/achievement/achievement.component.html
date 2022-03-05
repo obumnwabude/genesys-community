@@ -48,10 +48,16 @@
       required
       type="text"
       [(ngModel)]="achievementData.link"
+      placeholder="https://example.com/blog"
+      pattern="^https:\/\/.+$"
       name="link"
       #link="ngModel"
     />
-    <mat-error *ngIf="!link.valid">Link is required</mat-error>
+    <mat-error *ngIf="!link.valid">{{
+      link.hasError('required')
+        ? 'Link is required'
+        : 'Please start with https://'
+    }}</mat-error>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Description</mat-label>

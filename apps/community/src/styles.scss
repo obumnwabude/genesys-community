@@ -25,16 +25,14 @@ $dark-theme: mat.define-dark-theme(
   )
 );
 
-.light_mode {
-  @include mat.all-component-themes($light-theme);
+@include mat.all-component-themes($light-theme);
 
-  #content-card {
-    border: 1px solid rgba(0, 0, 0, 0.12);
-  }
+#content-card {
+  border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .dark_mode {
-  @include mat.all-component-themes($dark-theme);
+  @include mat.all-component-colors($dark-theme);
 
   #content-card {
     border: 1px solid rgba(255, 255, 255, 0.12);

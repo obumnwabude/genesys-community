@@ -16,6 +16,17 @@
   #achievementForm="ngForm"
   (ngSubmit)="shareAchievement()"
 >
+  <mat-form-field id="achievement-type">
+    <mat-label>Achievement Type</mat-label>
+    <mat-select [(value)]="achievementData.type">
+      <mat-option
+        *ngFor="let type of ['blog', 'code', 'design', 'video']"
+        [value]="type"
+      >
+        {{ capitalize(type) }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <mat-form-field>
     <mat-label>Title</mat-label>
     <small>In one line what did you achieve</small>
@@ -28,14 +39,6 @@
       #title="ngModel"
     />
     <mat-error *ngIf="!title.valid">Title is required</mat-error>
-  </mat-form-field>
-  <mat-form-field id="achievement-type">
-    <mat-label>Achievement Type</mat-label>
-    <mat-select [(value)]="achievementData.type">
-      <mat-option *ngFor="let type of ['blog', 'code', 'video']" [value]="type">
-        {{ capitalize(type) }}
-      </mat-option>
-    </mat-select>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Link</mat-label>

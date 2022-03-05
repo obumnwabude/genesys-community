@@ -40,7 +40,7 @@ mat-sidenav-content {
     padding: 32px 16px;
     max-width: 992px;
 
-    #welcome-card {
+    #content-card {
       max-width: 512px;
       margin-left: auto;
       margin-right: auto;
@@ -56,29 +56,6 @@ mat-sidenav-content {
 
       > div {
         padding: 16px;
-      }
-
-      h2 {
-        margin-bottom: 0.5rem;
-        text-decoration: underline;
-        text-decoration-style: double;
-      }
-
-      p {
-        margin-bottom: 1rem;
-      }
-
-      p#welcome-with-clubname {
-        font-size: 1.25rem;
-      }
-
-      img#google-logo-sign-in-button {
-        width: 1rem;
-        margin-right: 0.5rem;
-      }
-
-      #sign-in-spinner {
-        margin: 6px 32px;
       }
     }
   }

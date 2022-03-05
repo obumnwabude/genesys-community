@@ -110,9 +110,9 @@ export class VerifyPhoneComponent implements AfterViewInit {
         this.verifyCodeForm.reset();
         this.codeInput.focus();
       } catch (error) {
-         this.recaptchaVerifier
-           .render()
-           .then((widgetId) => grecaptcha.reset(widgetId));
+        this.recaptchaVerifier
+          .render()
+          .then((widgetId) => grecaptcha.reset(widgetId));
         this.snackBar.open(`Code not sent: ${error}`);
       }
     } else {
@@ -138,7 +138,7 @@ export class VerifyPhoneComponent implements AfterViewInit {
         this.verifyCodeCtrl.setValue('');
         if (error.code === 'auth/credential-already-in-use') {
           this.snackBar.open(
-            `${error.phoneNumber} has been verified by another user`
+            `${error.phoneNumber} has been verified by another member`
           );
           this.restartVerification(true);
         } else {

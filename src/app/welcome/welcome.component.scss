@@ -1,0 +1,37 @@
+h2 {
+  margin-bottom: 0.5rem;
+  text-decoration: underline;
+  text-decoration-style: double;
+}
+
+#page-loader > div {
+  height: 256px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+p.subheading {
+  font-size: 1.25rem;
+}
+
+img#google-logo-sign-in-button {
+  width: 1rem;
+  margin-right: 0.5rem;
+}
+
+#sign-in-spinner {
+  margin: 6px 32px;
+}
+
+mat-form-field {
+  max-width: 256px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  margin-bottom: 16px;
+}

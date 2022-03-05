@@ -28,7 +28,7 @@ $dark-theme: mat.define-dark-theme(
 .light_mode {
   @include mat.all-component-themes($light-theme);
 
-  #welcome-card {
+  #content-card {
     border: 1px solid rgba(0, 0, 0, 0.12);
   }
 }
@@ -36,7 +36,7 @@ $dark-theme: mat.define-dark-theme(
 .dark_mode {
   @include mat.all-component-themes($dark-theme);
 
-  #welcome-card {
+  #content-card {
     border: 1px solid rgba(255, 255, 255, 0.12);
   }
 }
@@ -67,4 +67,8 @@ body {
 
 .text-center {
   text-align: center;
+}
+
+mat-form-field#twitter-handle .mat-form-field-infix {
+  display: flex;
 }

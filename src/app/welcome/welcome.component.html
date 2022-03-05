@@ -1,0 +1,109 @@
+<h2>Welcome</h2>
+<div
+  id="page-loader"
+  *ngIf="
+    !hasLoadedPage ||
+    (auth.currentUser && auth.currentUser.phoneNumber && !isNewMember)
+  "
+>
+  <p class="subheading">Please wait ...</p>
+  <div>
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+</div>
+
+<div *ngIf="hasLoadedPage">
+  <div *ngIf="!auth.currentUser">
+    <p class="subheading">Welcome to Genesys Campus Club AE-FUNAI.</p>
+    <p>
+      We are a tech community. With us, you would create awesome projects with
+      others and become an expert in tech. We hold study jams, workshops and
+      meetups. Join us by signing in.
+    </p>
+    <p>Are you already a member? Still sign in to continue.</p>
+    <p>
+      <button mat-stroked-button (click)="signInWithGoogle()">
+        <img
+          src="assets/svgs/google.svg"
+          aria-hidden="true"
+          id="google-logo-sign-in-button"
+          *ngIf="!isSigningIn"
+        />
+        <span *ngIf="!isSigningIn">Sign In With Google</span>
+        <mat-progress-spinner
+          mode="indeterminate"
+          strokeWidth="4"
+          diameter="18"
+          id="sign-in-spinner"
+          *ngIf="isSigningIn"
+        ></mat-progress-spinner>
+      </button>
+    </p>
+  </div>
+
+  <div *ngIf="auth.currentUser && !auth.currentUser.phoneNumber">
+    <app-verify-phone></app-verify-phone>
+  </div>
+
+  <div *ngIf="auth.currentUser && auth.currentUser.phoneNumber && isNewMember">
+    <p class="subheading">Please let's know a little more about you.</p>
+    <form id="profile-form" #profileForm="ngForm" (ngSubmit)="saveProfile()">
+      <mat-form-field>
+        <mat-label>Faculty</mat-label>
+        <input
+          matInput
+          required
+          type="text"
+          [(ngModel)]="profileData.faculty"
+          name="faculty"
+          #faculty="ngModel"
+        />
+        <mat-error *ngIf="!faculty.valid">Faculty is required</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Department</mat-label>
+        <input
+          matInput
+          required
+          type="text"
+          [(ngModel)]="profileData.department"
+          name="department"
+          #department="ngModel"
+        />
+        <mat-error *ngIf="!department.valid">Department is required</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Level</mat-label>
+        <input
+          matInput
+          required
+          type="text"
+          [(ngModel)]="profileData.level"
+          name="level"
+          #level="ngModel"
+        />
+        <mat-error *ngIf="!level.valid">Level is required</mat-error>
+      </mat-form-field>
+      <mat-form-field id="twitter-handle">
+        <mat-label>Twitter Handle</mat-label>
+        <span>@</span>
+        <input
+          matInput
+          required
+          type="text"
+          [(ngModel)]="profileData.twitter"
+          name="twitter"
+          #twitter="ngModel"
+        />
+        <mat-error *ngIf="!department.valid"
+          >Twitter Handle is required</mat-error
+        >
+      </mat-form-field>
+      <p>
+        <button mat-raised-button type="submit" color="primary">
+          Save My Info
+        </button>
+      </p>
+    </form>
+  </div>
+</div>

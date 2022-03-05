@@ -1,7 +1,18 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import {
+  provideAnalytics,
+  getAnalytics,
+  ScreenTrackingService,
+  UserTrackingService
+} from '@angular/fire/analytics';
+import { provideAuth, getAuth, connectAuthEmulator } from '@angular/fire/auth';
+import {
+  provideFirestore,
+  getFirestore,
+  connectFirestoreEmulator
+} from '@angular/fire/firestore';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -16,29 +27,28 @@ import {
 } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import {
-  provideAnalytics,
-  getAnalytics,
-  ScreenTrackingService,
-  UserTrackingService
-} from '@angular/fire/analytics';
-import { provideAuth, getAuth, connectAuthEmulator } from '@angular/fire/auth';
-import {
-  provideFirestore,
-  getFirestore,
-  connectFirestoreEmulator
-} from '@angular/fire/firestore';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Route, RouterModule } from '@angular/router';
+import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
 
 import { AppComponent } from './app.component';
 import { VerifyPhoneComponent } from './verify-phone/verify-phone.component';
 import { environment } from '../environments/environment';
+import { WelcomeComponent } from './welcome/welcome.component';
+
+const routes: Route[] = [
+  { path: 'welcome', component: WelcomeComponent },
+  { path: '**', redirectTo: '/welcome', pathMatch: 'full' }
+];
 
 @NgModule({
-  declarations: [AppComponent, VerifyPhoneComponent],
+  declarations: [AppComponent, VerifyPhoneComponent, WelcomeComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    RouterModule.forRoot(routes),
+    FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -48,6 +58,8 @@ import { environment } from '../environments/environment';
     MatSnackBarModule,
     MatSidenavModule,
     MatToolbarModule,
+    NgxUiLoaderModule,
+    NgxUiLoaderRouterModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     ...(environment.production ? [provideAnalytics(() => getAnalytics())] : []),
     provideAuth(() => {

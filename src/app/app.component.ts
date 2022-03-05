@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { constants } from './constants';
 import { ThemingService } from './theming.service';
+import { SPINNER } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,10 @@ import { ThemingService } from './theming.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  SPINNER = SPINNER;
   isSigningIn = false;
+  // the 500 level of orange palette in Material design
+  primaryColor = '#ff9800';
   themes = constants.THEMES;
   year = new Date().getFullYear();
   @HostBinding('class') public cssClass!: string;

@@ -28,7 +28,7 @@ export class VerifyPhoneComponent implements AfterViewInit {
   recaptchaSolved = false;
   recaptchaExpired = false;
   phoneSubmitted = false;
-  secondsLeft = 59;
+  secondsLeft = 29;
   countdownInterval!: number;
   confirmationResult: ConfirmationResult | null = null;
   recaptchaVerifier!: RecaptchaVerifier;
@@ -136,9 +136,12 @@ export class VerifyPhoneComponent implements AfterViewInit {
         await this.confirmationResult.confirm(this.verifyCodeCtrl.value);
       } catch (error: any) {
         this.verifyCodeCtrl.setValue('');
-        if (error.code === 'auth/credential-already-in-use') {
+        if (
+          error.code === 'auth/credential-already-in-use' ||
+          error.code === 'auth/account-exists-with-different-credential'
+        ) {
           this.snackBar.open(
-            `${error.phoneNumber} has been verified by another member`
+            `+234${this.phoneCtrl.value} has been verified by another member`
           );
           this.restartVerification(true);
         } else {
@@ -156,7 +159,7 @@ export class VerifyPhoneComponent implements AfterViewInit {
   restartVerification(clearPhone: boolean): void {
     this.recaptchaSolved = false;
     this.confirmationResult = null;
-    this.secondsLeft = 59;
+    this.secondsLeft = 29;
     clearInterval(this.countdownInterval);
     this.verifyCodeCtrl.setValue('');
     if (clearPhone) this.phoneCtrl.setValue('');

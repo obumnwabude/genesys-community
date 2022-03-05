@@ -51,9 +51,7 @@
               "apps/community/src/favicon.ico",
               "apps/community/src/assets"
             ],
-            "styles": [
-              "apps/community/src/styles.scss"
-            ],
+            "styles": ["apps/community/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -119,9 +117,7 @@
               "apps/community/src/favicon.ico",
               "apps/community/src/assets"
             ],
-            "styles": [
-              "apps/community/src/styles.scss"
-            ],
+            "styles": ["apps/community/src/styles.scss"],
             "scripts": []
           }
         },
@@ -136,6 +132,58 @@
           }
         }
       }
+    },
+    "functions": {
+      "root": "apps/functions",
+      "sourceRoot": "apps/functions/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:webpack",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/functions",
+            "main": "apps/functions/src/main.ts",
+            "tsConfig": "apps/functions/tsconfig.app.json",
+            "assets": ["apps/functions/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/functions/src/environments/environment.ts",
+                  "with": "apps/functions/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "functions:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/functions/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/functions"],
+          "options": {
+            "jestConfig": "apps/functions/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
     }
   }
 }

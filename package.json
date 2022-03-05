@@ -8,6 +8,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "nx": "nx",
+    "functions:deploy": "firebase deploy --only functions",
+    "functions:logs": "concurrently \"npm run nx build functions --watch\" \"firebase functions:log\"",
+    "functions:serve": "concurrently \"npm run nx build functions -- --watch\" \"firebase emulators:start --only functions\"",
+    "functions:shell": "concurrently \"npm run nx build functions --watch\" \"firebase functions:shell\" --raw",
     "affected:apps": "nx affected:apps",
     "affected:libs": "nx affected:libs",
     "affected:build": "nx affected:build",
@@ -28,6 +32,10 @@
     "postinstall": "node ./decorate-angular-cli.js"
   },
   "private": true,
+  "firebase-functions-dependencies": [
+    "firebase-admin",
+    "firebase-functions"
+  ],
   "dependencies": {
     "@angular/animations": "~13.2.0",
     "@angular/cdk": "^13.2.5",
@@ -40,28 +48,42 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
+    "@nrwl/angular": "13.8.4",
     "firebase": "^9.4.0",
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.18.1",
     "ngx-ui-loader": "^11.0.0",
     "rxfire": "^6.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4",
-    "@nrwl/angular": "13.8.4"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.2.4",
     "@angular/cli": "~13.2.4",
     "@angular/compiler-cli": "~13.2.0",
+    "@nrwl/eslint-plugin-nx": "13.8.4",
+    "@nrwl/jest": "13.8.4",
+    "@nrwl/linter": "13.8.4",
+    "@nrwl/node": "13.8.4",
+    "@nrwl/workspace": "13.8.4",
     "@types/jasmine": "~3.10.0",
+    "@types/jest": "27.0.2",
     "@types/node": "^12.11.1",
+    "@typescript-eslint/eslint-plugin": "~5.10.0",
+    "@typescript-eslint/parser": "~5.10.0",
+    "concurrently": "^7.0.0",
+    "eslint": "~8.7.0",
+    "eslint-config-prettier": "8.1.0",
     "jasmine-core": "~4.0.0",
+    "jest": "27.2.3",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "typescript": "~4.5.2",
-    "@nrwl/workspace": "13.8.4",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "ts-jest": "27.0.5",
+    "typescript": "~4.5.2"
   }
 }

@@ -46,12 +46,12 @@
       "port": 5001
     }
   },
-  "functions": {
+ "functions": {
+    "source": "dist/apps/functions",
     "predeploy": [
-      "npm --prefix \"$RESOURCE_DIR\" run lint",
-      "npm --prefix \"$RESOURCE_DIR\" run build"
-    ],
-    "source": "functions"
+      "nx build functions",
+      "node tools/scripts/build-firebase-functions-package-json.js"
+    ]
   },
   "firestore": {
     "rules": "firestore.rules",

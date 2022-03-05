@@ -8,6 +8,7 @@ import {
 import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 class ProfileData {
@@ -40,7 +41,8 @@ export class WelcomeComponent implements OnInit {
     private changeDetector: ChangeDetectorRef,
     private firestore: Firestore,
     private ngxLoader: NgxUiLoaderService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -56,9 +58,13 @@ export class WelcomeComponent implements OnInit {
       } else {
         this.hasLoadedPage = true;
         try {
-          const fU = await getDoc(doc(this.firestore, 'members', member.uid));
+          const firestoreMember = await getDoc(
+            doc(this.firestore, 'members', member.uid)
+          );
           this.isNewMember =
-            !fU.exists() || (fU.exists() && !fU.data()['profile']);
+            !firestoreMember.exists() ||
+            (firestoreMember.exists() && !firestoreMember.data()['profile']);
+          if (!this.isNewMember) this.router.navigate(['/']);
         } catch (error: any) {
           if (error.code === 'unavailable') {
             this.hasLoadedPage = false;
@@ -97,7 +103,7 @@ export class WelcomeComponent implements OnInit {
             { profile: this.profileData.toJSON() },
             { merge: true }
           );
-          this.isNewMember = false;
+          this.router.navigate(['/']);
         } catch (error: any) {
           this.snackBar.open(error.message);
         } finally {

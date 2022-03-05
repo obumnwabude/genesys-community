@@ -69,6 +69,20 @@ body {
   text-align: center;
 }
 
+h2#page-heading {
+  margin-bottom: 0.5rem;
+  text-decoration: underline;
+  text-decoration-style: double;
+}
+
+p.subheading {
+  font-size: 1.25rem;
+}
+
+p {
+  margin-bottom: 16px;
+}
+
 mat-form-field#twitter-handle .mat-form-field-infix {
   display: flex;
 }

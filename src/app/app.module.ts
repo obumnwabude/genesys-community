@@ -36,14 +36,22 @@ import { AppComponent } from './app.component';
 import { VerifyPhoneComponent } from './verify-phone/verify-phone.component';
 import { environment } from '../environments/environment';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { HomeComponent } from './home/home.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Route[] = [
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'welcome', component: WelcomeComponent },
-  { path: '**', redirectTo: '/welcome', pathMatch: 'full' }
+  { path: '**', redirectTo: '/', pathMatch: 'full' }
 ];
 
 @NgModule({
-  declarations: [AppComponent, VerifyPhoneComponent, WelcomeComponent],
+  declarations: [
+    AppComponent,
+    VerifyPhoneComponent,
+    WelcomeComponent,
+    HomeComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

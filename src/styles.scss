@@ -88,6 +88,11 @@ mat-form-field {
   margin-right: auto;
   display: block !important;
   margin-bottom: 16px;
+
+  small {
+    margin-bottom: 16px;
+    display: inline-block;
+  }
 }
 
 mat-form-field#twitter-handle .mat-form-field-infix {

@@ -21,6 +21,7 @@ import {
 } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import {
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS
@@ -39,9 +40,15 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth.guard';
 import { ProgressComponent } from './progress/progress.component';
+import { AchievementComponent } from './achievement/achievement.component';
 
 const routes: Route[] = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  {
+    path: 'achievement',
+    component: AchievementComponent,
+    canActivate: [AuthGuard]
+  },
   { path: 'progress', component: ProgressComponent, canActivate: [AuthGuard] },
   { path: 'welcome', component: WelcomeComponent },
   { path: '**', redirectTo: '/', pathMatch: 'full' }
@@ -53,7 +60,8 @@ const routes: Route[] = [
     VerifyPhoneComponent,
     WelcomeComponent,
     HomeComponent,
-    ProgressComponent
+    ProgressComponent,
+    AchievementComponent
   ],
   imports: [
     BrowserModule,
@@ -66,6 +74,7 @@ const routes: Route[] = [
     MatInputModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
     MatSnackBarModule,
     MatSidenavModule,
     MatToolbarModule,

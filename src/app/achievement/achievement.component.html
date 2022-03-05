@@ -1,0 +1,91 @@
+<h2 id="page-heading">Share your Achievement</h2>
+
+<p class="subheading">
+  Congratulations on the latest win! Kindly share it with the community.
+</p>
+
+<p *ngIf="auth.currentUser">
+  You are currently signed in, and your achievement will be recorded under your
+  email: <span class="font-bold">{{ auth.currentUser.email }}</span>
+</p>
+
+<p>&nbsp;</p>
+
+<form
+  id="achievement-form"
+  #achievementForm="ngForm"
+  (ngSubmit)="shareAchievement()"
+>
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <small>In one line what did you achieve</small>
+    <input
+      matInput
+      required
+      type="text"
+      [(ngModel)]="achievementData.title"
+      name="title"
+      #title="ngModel"
+    />
+    <mat-error *ngIf="!title.valid">Title is required</mat-error>
+  </mat-form-field>
+  <mat-form-field id="achievement-type">
+    <mat-label>Achievement Type</mat-label>
+    <mat-select [(value)]="achievementData.type">
+      <mat-option *ngFor="let type of ['blog', 'code', 'video']" [value]="type">
+        {{ capitalize(type) }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Link</mat-label>
+    <small>Please share a valid link to what you achieved</small>
+    <input
+      matInput
+      required
+      type="text"
+      [(ngModel)]="achievementData.link"
+      name="link"
+      #link="ngModel"
+    />
+    <mat-error *ngIf="!link.valid">Link is required</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <small
+      >Please share the achievement in details. In your opinion what makes this
+      win stand out. What do you like the most about what you achieved?</small
+    >
+    <textarea
+      matInput
+      required
+      type="text"
+      [(ngModel)]="achievementData.description"
+      name="description"
+      #description="ngModel"
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="8"
+    >
+    </textarea>
+    <mat-error *ngIf="!description.valid">Description is required</mat-error>
+  </mat-form-field>
+
+  <p>
+    <button mat-raised-button type="submit" color="primary">
+      Share My achievement
+    </button>
+  </p>
+</form>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>Do you want to stop recording?</p>
+
+<p>
+  <a routerLink="/" mat-stroked-button color="primary">Go Back to Home Page</a>
+</p>
+
+<p>&nbsp;</p>

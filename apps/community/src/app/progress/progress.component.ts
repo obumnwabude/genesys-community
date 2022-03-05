@@ -15,7 +15,6 @@ class ProgressData {
 }
 
 @Component({
-  selector: 'app-progress',
   templateUrl: './progress.component.html',
   styleUrls: ['./progress.component.scss']
 })
@@ -55,7 +54,8 @@ export class ProgressComponent {
         this.snackBar.open('Please resolve all errors first.');
       }
     } else {
-      this.snackBar.open('You should not be here. Sign In first.');
+      this.snackBar.open('Please Sign In first.');
+      this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
     }
   }
 }

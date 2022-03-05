@@ -38,18 +38,13 @@ import { VerifyPhoneComponent } from './verify-phone/verify-phone.component';
 import { environment } from '../environments/environment';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { HomeComponent } from './home/home.component';
-import { AuthGuard } from './auth.guard';
 import { ProgressComponent } from './progress/progress.component';
 import { AchievementComponent } from './achievement/achievement.component';
 
 const routes: Route[] = [
-  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-  {
-    path: 'achievement',
-    component: AchievementComponent,
-    canActivate: [AuthGuard]
-  },
-  { path: 'progress', component: ProgressComponent, canActivate: [AuthGuard] },
+  { path: '', component: HomeComponent },
+  { path: 'achievement', component: AchievementComponent },
+  { path: 'progress', component: ProgressComponent },
   { path: 'welcome', component: WelcomeComponent },
   { path: '**', redirectTo: '/', pathMatch: 'full' }
 ];

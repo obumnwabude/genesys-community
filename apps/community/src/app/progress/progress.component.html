@@ -1,6 +1,6 @@
 <h2 id="page-heading">Record your Progress</h2>
 
-<p class="subheading">Share your progress so far.</p>
+<p class="subheading">What has been your progress so far?</p>
 
 <p *ngIf="auth.currentUser">
   You are currently signed in, and your progress will be recorded under your
@@ -12,7 +12,7 @@
 <form id="progress-form" #progressForm="ngForm" (ngSubmit)="recordProgress()">
   <mat-form-field>
     <mat-label>Skill/Path</mat-label>
-    <small>In what tech skill you are making progress</small>
+    <small>In what tech skill you are making progress?</small>
     <input
       matInput
       required
@@ -26,9 +26,8 @@
   <mat-form-field>
     <mat-label>Description</mat-label>
     <small
-      >Please share in details how you've been making progress. What can you now
-      do that you couldn't before? What's better compared to the last
-      time?</small
+      >Please explain in details how you've been making progress. What can you
+      now do that you couldn't before? What's has improved with you?</small
     >
     <textarea
       matInput

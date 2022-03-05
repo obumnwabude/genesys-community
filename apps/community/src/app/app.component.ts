@@ -5,7 +5,9 @@ import {
   GoogleAuthProvider,
   signInWithRedirect
 } from '@angular/fire/auth';
+import { doc, Firestore, getDoc } from '@angular/fire/firestore';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { constants } from '@community/data';
 import { SPINNER } from 'ngx-ui-loader';
 
@@ -28,8 +30,10 @@ export class AppComponent implements OnInit {
   constructor(
     public auth: Auth,
     private overlayContainer: OverlayContainer,
+    private firestore: Firestore,
     private snackBar: MatSnackBar,
-    public themingService: ThemingService
+    public themingService: ThemingService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +42,25 @@ export class AppComponent implements OnInit {
       const oCClasses = this.overlayContainer.getContainerElement().classList;
       oCClasses.remove(...Array.from(this.themes));
       oCClasses.add(this.cssClass);
+    });
+    this.auth.onAuthStateChanged(async (member) => {
+      if (!member) {
+        this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
+      } else {
+        try {
+          const firestoreMember = await getDoc(
+            doc(this.firestore, 'members', this.auth.currentUser!.uid)
+          );
+          const isNewMember =
+            !firestoreMember.exists() ||
+            (firestoreMember.exists() && !firestoreMember.data()['profile']);
+          if (isNewMember) {
+            this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
+          }
+        } catch (_) {
+          this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
+        }
+      }
     });
   }
 

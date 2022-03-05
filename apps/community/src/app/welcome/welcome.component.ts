@@ -8,7 +8,7 @@ import {
 import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 class ProfileData {
@@ -42,6 +42,7 @@ export class WelcomeComponent implements OnInit {
     private firestore: Firestore,
     private ngxLoader: NgxUiLoaderService,
     private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
     private router: Router
   ) {}
 
@@ -51,12 +52,11 @@ export class WelcomeComponent implements OnInit {
       if (redirectResult && redirectResult.user) this.isSigningIn = true;
     } catch (_) {}
     this.auth.onAuthStateChanged(async (member) => {
+        this.hasLoadedPage = true;
       if (!member) {
         this.isSigningIn = false;
-        this.hasLoadedPage = true;
         this.changeDetector.detectChanges();
       } else {
-        this.hasLoadedPage = true;
         try {
           const firestoreMember = await getDoc(
             doc(this.firestore, 'members', member.uid)
@@ -64,7 +64,11 @@ export class WelcomeComponent implements OnInit {
           this.isNewMember =
             !firestoreMember.exists() ||
             (firestoreMember.exists() && !firestoreMember.data()['profile']);
-          if (!this.isNewMember) this.router.navigate(['/']);
+          if (!this.isNewMember) {
+            this.router.navigate(
+              [this.route.snapshot.queryParams['next']] ?? ['/']
+            );
+          }
         } catch (error: any) {
           if (error.code === 'unavailable') {
             this.hasLoadedPage = false;
@@ -103,7 +107,9 @@ export class WelcomeComponent implements OnInit {
             { profile: this.profileData.toJSON() },
             { merge: true }
           );
-          this.router.navigate(['/']);
+          this.router.navigate(
+            [this.route.snapshot.queryParams['next']] ?? ['/']
+          );
         } catch (error: any) {
           this.snackBar.open(error.message);
         } finally {
@@ -113,7 +119,7 @@ export class WelcomeComponent implements OnInit {
         this.snackBar.open('Please resolve all errors first.');
       }
     } else {
-      this.snackBar.open('You should not be here. Sign In first.');
+      this.snackBar.open('Please Sign In first.');
     }
   }
 }

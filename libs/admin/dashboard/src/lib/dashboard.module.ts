@@ -8,6 +8,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
 import {
@@ -31,6 +32,7 @@ import { MemberComponent } from './member/member.component';
     MatExpansionModule,
     MatIconModule,
     MatSnackBarModule,
+    MatPaginatorModule,
     MatProgressSpinnerModule,
     MatTabsModule,
     provideFirestore(() => {

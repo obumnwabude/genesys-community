@@ -22,8 +22,18 @@
       </button>
     </div>
 
+    <mat-paginator
+      class="mat-elevation-z1"
+      [hidePageSize]="true"
+      [length]="noOfMembers"
+      (page)="changePage($event)"
+      [pageIndex]="currentPage"
+      [pageSize]="membersPerPage"
+    >
+    </mat-paginator>
+
     <mat-accordion multi>
-      <mat-expansion-panel *ngFor="let member of members">
+      <mat-expansion-panel *ngFor="let member of members" [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title> {{ member.authInfo.displayName }} </mat-panel-title>
         </mat-expansion-panel-header>

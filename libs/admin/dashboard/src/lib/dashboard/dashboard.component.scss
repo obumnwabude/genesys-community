@@ -39,6 +39,11 @@
     margin-right: 16px;
   }
 
+  mat-paginator {
+    margin-bottom: 24px;
+    max-width: 216px;
+  }
+
   mat-panel-title {
     white-space: nowrap;
     overflow: hidden;

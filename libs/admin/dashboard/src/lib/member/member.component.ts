@@ -20,30 +20,34 @@ export class MemberComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    const memberId = this.route.snapshot.paramMap.get('id');
-    if (!memberId) this.router.navigateByUrl('/dashboard');
-    else {
-      try {
-        const snap = await memberSnap(this.firestore, memberId);
-        if (!snap.exists()) {
-          this.snackBar.open(`Member with uid: ${memberId} does not exist.`);
-          this.router.navigateByUrl('/dashboard');
-        } else {
-          this.member = snap.data();
-        }
-        this.isLoading = false;
-      } catch (error: any) {
-        if (error.code === 'unavailable') {
-          this.snackBar
-            .open(
-              'Network Error. Please check internet connection.',
-              'REFRESH PAGE'
-            )
-            .onAction()
-            .subscribe(() => window.location.reload());
-        } else {
-          this.snackBar.open(error.message);
-          this.router.navigateByUrl('/dashboard');
+    if (window.history.state.member) {
+      this.member = window.history.state.member;
+    } else {
+      const memberId = this.route.snapshot.paramMap.get('id');
+      if (!memberId) this.router.navigateByUrl('/dashboard');
+      else {
+        try {
+          const snap = await memberSnap(this.firestore, memberId);
+          if (!snap.exists()) {
+            this.snackBar.open(`Member with uid: ${memberId} does not exist.`);
+            this.router.navigateByUrl('/dashboard');
+          } else {
+            this.member = snap.data();
+          }
+          this.isLoading = false;
+        } catch (error: any) {
+          if (error.code === 'unavailable') {
+            this.snackBar
+              .open(
+                'Network Error. Please check internet connection.',
+                'REFRESH PAGE'
+              )
+              .onAction()
+              .subscribe(() => window.location.reload());
+          } else {
+            this.snackBar.open(error.message);
+            this.router.navigateByUrl('/dashboard');
+          }
         }
       }
     }

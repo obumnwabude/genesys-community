@@ -29,7 +29,7 @@ export const memberSnap = async (
   );
 };
 
-export class AchievementData {
+export class Achievement {
   constructor(
     public description: string,
     public link: string,
@@ -38,8 +38,8 @@ export class AchievementData {
     public type: string
   ) {}
 
-  static fromJSON(json: any): AchievementData {
-    return new AchievementData(
+  static fromJSON(json: any): Achievement {
+    return new Achievement(
       json['description'],
       json['link'],
       json['title'],
@@ -48,7 +48,7 @@ export class AchievementData {
     );
   }
 
-  static toJSON(achievement: AchievementData) {
+  static toJSON(achievement: Achievement) {
     const { description, link, title, type } = achievement;
     return {
       description,
@@ -60,7 +60,7 @@ export class AchievementData {
   }
 }
 
-export class ProfileData {
+export class Profile {
   constructor(
     public department: string,
     public faculty: string,
@@ -68,8 +68,8 @@ export class ProfileData {
     public twitter: string
   ) {}
 
-  static fromJSON(json: any): ProfileData {
-    return new ProfileData(
+  static fromJSON(json: any): Profile {
+    return new Profile(
       json['department'],
       json['faculty'],
       json['level'],
@@ -77,28 +77,28 @@ export class ProfileData {
     );
   }
 
-  static toJSON(profile: ProfileData) {
+  static toJSON(profile: Profile) {
     const { department, faculty, level, twitter } = profile;
     return { department, faculty, level, twitter };
   }
 }
 
-export class ProgressData {
+export class Progress {
   constructor(
     public description: string,
     public skill: string,
     public time: Date
   ) {}
 
-  static fromJSON(json: any): ProgressData {
-    return new ProgressData(
+  static fromJSON(json: any): Progress {
+    return new Progress(
       json['description'],
       json['skill'],
       json['time'].toDate()
     );
   }
 
-  static toJSON(progress: ProgressData) {
+  static toJSON(progress: Progress) {
     return {
       description: progress.description,
       skill: progress.skill,
@@ -143,19 +143,19 @@ export class AuthInfo {
 
 export class Member {
   constructor(
-    public achievements: AchievementData[],
+    public achievements: Achievement[],
     public authInfo: AuthInfo,
-    public profile: ProfileData,
-    public progress: ProgressData[]
+    public profile: Profile,
+    public progress: Progress[]
   ) {}
 
   static converter = {
     toFirestore(member: Member) {
       return {
-        achievements: member.achievements.map((a) => AchievementData.toJSON(a)),
+        achievements: member.achievements.map((a) => Achievement.toJSON(a)),
         authInfo: AuthInfo.toJSON(member.authInfo),
-        profile: ProfileData.toJSON(member.profile),
-        progress: member.progress.map((p) => ProgressData.toJSON(p))
+        profile: Profile.toJSON(member.profile),
+        progress: member.progress.map((p) => Progress.toJSON(p))
       };
     },
     fromFirestore(
@@ -164,16 +164,16 @@ export class Member {
     ): Member {
       const data = snapshot.data(options);
       const achievements = data['achievements']
-        ? data['achievements'].map((a: any) => AchievementData.fromJSON(a))
+        ? data['achievements'].map((a: any) => Achievement.fromJSON(a))
         : [];
       // had to access AuthInfo directly because its data comes solely from auth
       const authInfo = AuthInfo.fromJSON(data['authInfo']);
       const profile =
         data['profile'] && Object.keys(data['profile']).length > 0
-          ? ProfileData.fromJSON(data['profile'])
-          : new ProfileData('', '', '', '');
+          ? Profile.fromJSON(data['profile'])
+          : new Profile('', '', '', '');
       const progress = data['progress']
-        ? data['progress'].map((p: any) => ProgressData.fromJSON(p))
+        ? data['progress'].map((p: any) => Progress.fromJSON(p))
         : [];
 
       return new Member(achievements, authInfo, profile, progress);

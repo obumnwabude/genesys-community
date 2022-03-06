@@ -4,7 +4,7 @@ import { arrayUnion, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ProgressData } from '@community/data';
+import { Progress } from '@community/data';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
@@ -12,7 +12,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
   styleUrls: ['./progress.component.scss']
 })
 export class ProgressComponent {
-  progressData = new ProgressData('', '', new Date());
+  progress = new Progress('', '', new Date());
   @ViewChild('progressForm') progressForm!: NgForm;
   constructor(
     public auth: Auth,
@@ -27,10 +27,10 @@ export class ProgressComponent {
       if (this.progressForm.valid) {
         try {
           this.ngxLoader.start();
-          this.progressData.time = new Date();
+          this.progress.time = new Date();
           await setDoc(
             doc(this.firestore, 'members', this.auth.currentUser.uid),
-            { progress: arrayUnion(ProgressData.toJSON(this.progressData)) },
+            { progress: arrayUnion(Progress.toJSON(this.progress)) },
             { merge: true }
           );
           this.snackBar.open('Your progress has been recorded');

@@ -18,7 +18,7 @@
 >
   <mat-form-field id="achievement-type">
     <mat-label>Achievement Type</mat-label>
-    <mat-select [(value)]="achievementData.type">
+    <mat-select [(value)]="achievement.type">
       <mat-option
         *ngFor="let type of ['blog', 'code', 'design', 'video']"
         [value]="type"
@@ -34,7 +34,7 @@
       matInput
       required
       type="text"
-      [(ngModel)]="achievementData.title"
+      [(ngModel)]="achievement.title"
       name="title"
       #title="ngModel"
     />
@@ -47,7 +47,7 @@
       matInput
       required
       type="text"
-      [(ngModel)]="achievementData.link"
+      [(ngModel)]="achievement.link"
       placeholder="https://example.com/blog"
       pattern="^https:\/\/.+$"
       name="link"
@@ -69,7 +69,7 @@
       matInput
       required
       type="text"
-      [(ngModel)]="achievementData.description"
+      [(ngModel)]="achievement.description"
       name="description"
       #description="ngModel"
       cdkTextareaAutosize

@@ -10,7 +10,7 @@ import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { memberSnap, ProfileData } from '@community/data';
+import { memberSnap, Profile } from '@community/data';
 
 @Component({
   templateUrl: './welcome.component.html',
@@ -20,7 +20,7 @@ export class WelcomeComponent implements OnInit {
   hasLoadedPage = false;
   isNewMember = false;
   isSigningIn = false;
-  profileData = new ProfileData('', '', '', '');
+  profile = new Profile('', '', '', '');
   @ViewChild('profileForm') profileForm!: NgForm;
 
   constructor(
@@ -117,7 +117,7 @@ export class WelcomeComponent implements OnInit {
           this.ngxLoader.start();
           await setDoc(
             doc(this.firestore, 'members', this.auth.currentUser.uid),
-            { profile: ProfileData.toJSON(this.profileData) },
+            { profile: Profile.toJSON(this.profile) },
             { merge: true }
           );
           let nextRoute = this.route.snapshot.queryParams['next'];

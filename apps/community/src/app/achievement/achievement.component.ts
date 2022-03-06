@@ -4,7 +4,7 @@ import { arrayUnion, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { AchievementData } from '@community/data';
+import { Achievement } from '@community/data';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
@@ -12,7 +12,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
   styleUrls: ['./achievement.component.scss']
 })
 export class AchievementComponent {
-  achievementData = new AchievementData('', '', '', new Date(), 'blog');
+  achievement = new Achievement('', '', '', new Date(), 'blog');
   @ViewChild('achievementForm') achievementForm!: NgForm;
 
   constructor(
@@ -32,13 +32,11 @@ export class AchievementComponent {
       if (this.achievementForm.valid) {
         try {
           this.ngxLoader.start();
-          this.achievementData.time = new Date();
+          this.achievement.time = new Date();
           await setDoc(
             doc(this.firestore, 'members', this.auth.currentUser.uid),
             {
-              achievements: arrayUnion(
-                AchievementData.toJSON(this.achievementData)
-              )
+              achievements: arrayUnion(Achievement.toJSON(this.achievement))
             },
             { merge: true }
           );

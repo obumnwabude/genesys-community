@@ -10,20 +10,7 @@ import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-
-class ProfileData {
-  constructor(
-    public department: string,
-    public faculty: string,
-    public level: string,
-    public twitter: string
-  ) {}
-
-  toJSON() {
-    const { department, faculty, level, twitter } = this;
-    return { department, faculty, level, twitter };
-  }
-}
+import { memberSnap, ProfileData } from '@community/data';
 
 @Component({
   templateUrl: './welcome.component.html',
@@ -58,12 +45,17 @@ export class WelcomeComponent implements OnInit {
         this.changeDetector.detectChanges();
       } else {
         try {
-          const firestoreMember = await getDoc(
-            doc(this.firestore, 'members', member.uid)
-          );
-          this.isNewMember =
-            !firestoreMember.exists() ||
-            (firestoreMember.exists() && !firestoreMember.data()['profile']);
+          const snap = await memberSnap(this.firestore, member.uid);
+          if (!snap.exists()) {
+            this.isNewMember = true;
+          } else {
+            const { department, faculty, level, twitter } = snap.data().profile;
+            this.isNewMember =
+              department === '' &&
+              faculty === '' &&
+              level === '' &&
+              twitter === '';
+          }
           if (!this.isNewMember) {
             let nextRoute = this.route.snapshot.queryParams['next'];
             if (!nextRoute) nextRoute = '/';
@@ -104,7 +96,7 @@ export class WelcomeComponent implements OnInit {
           this.ngxLoader.start();
           await setDoc(
             doc(this.firestore, 'members', this.auth.currentUser.uid),
-            { profile: this.profileData.toJSON() },
+            { profile: ProfileData.toJSON(this.profileData) },
             { merge: true }
           );
           let nextRoute = this.route.snapshot.queryParams['next'];

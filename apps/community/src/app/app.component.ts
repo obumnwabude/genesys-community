@@ -1,9 +1,9 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Auth } from '@angular/fire/auth';
-import { doc, Firestore, getDoc } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { constants } from '@community/data';
+import { constants, memberSnap } from '@community/data';
 import { SPINNER } from 'ngx-ui-loader';
 
 import { ThemingService } from './theming.service';
@@ -44,12 +44,23 @@ export class AppComponent implements OnInit {
         }
       } else {
         try {
-          const firestoreMember = await getDoc(
-            doc(this.firestore, 'members', member.uid)
-          );
-          const isNewMember =
-            !firestoreMember.exists() ||
-            (firestoreMember.exists() && !firestoreMember.data()['profile']);
+          const snap = await memberSnap(this.firestore, member.uid);
+          let isNewMember: boolean;
+          if (!member.phoneNumber) {
+            isNewMember = true;
+          } else {
+            if (!snap.exists()) {
+              isNewMember = true;
+            } else {
+              const { department, faculty, level, twitter } =
+                snap.data().profile;
+              isNewMember =
+                department === '' &&
+                faculty === '' &&
+                level === '' &&
+                twitter === '';
+            }
+          }
           if (isNewMember) {
             if (!this.router.url.includes('welcome')) {
               this.router.navigateByUrl(`/welcome?next=${this.router.url}`);

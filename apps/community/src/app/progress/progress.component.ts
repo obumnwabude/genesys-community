@@ -1,25 +1,18 @@
 import { Component, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { arrayUnion, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { ProgressData } from '@community/data';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-
-class ProgressData {
-  constructor(public skill: string, public description: string) {}
-
-  toJSON() {
-    return { skill: this.skill, description: this.description };
-  }
-}
 
 @Component({
   templateUrl: './progress.component.html',
   styleUrls: ['./progress.component.scss']
 })
 export class ProgressComponent {
-  progressData = new ProgressData('', '');
+  progressData = new ProgressData('', '', new Date());
   @ViewChild('progressForm') progressForm!: NgForm;
   constructor(
     public auth: Auth,
@@ -34,13 +27,10 @@ export class ProgressComponent {
       if (this.progressForm.valid) {
         try {
           this.ngxLoader.start();
-          const progress = {
-            time: new Date(),
-            ...this.progressData.toJSON()
-          };
+          this.progressData.time = new Date();
           await setDoc(
             doc(this.firestore, 'members', this.auth.currentUser.uid),
-            { progress: [progress] },
+            { progress: arrayUnion(ProgressData.toJSON(this.progressData)) },
             { merge: true }
           );
           this.snackBar.open('Your progress has been recorded');

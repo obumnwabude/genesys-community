@@ -1,31 +1,18 @@
 import { Component, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { arrayUnion, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AchievementData } from '@community/data';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-
-class AchievementData {
-  constructor(
-    public description: string,
-    public link: string,
-    public title: string,
-    public type: string
-  ) {}
-
-  toJSON() {
-    const { description, link, title, type } = this;
-    return { description, link, title, type };
-  }
-}
 
 @Component({
   templateUrl: './achievement.component.html',
   styleUrls: ['./achievement.component.scss']
 })
 export class AchievementComponent {
-  achievementData = new AchievementData('', '', '', 'blog');
+  achievementData = new AchievementData('', '', '', new Date(), 'blog');
   @ViewChild('achievementForm') achievementForm!: NgForm;
 
   constructor(
@@ -45,13 +32,14 @@ export class AchievementComponent {
       if (this.achievementForm.valid) {
         try {
           this.ngxLoader.start();
-          const achievement = {
-            time: new Date(),
-            ...this.achievementData.toJSON()
-          };
+          this.achievementData.time = new Date();
           await setDoc(
             doc(this.firestore, 'members', this.auth.currentUser.uid),
-            { achievements: [achievement] },
+            {
+              achievements: arrayUnion(
+                AchievementData.toJSON(this.achievementData)
+              )
+            },
             { merge: true }
           );
           this.snackBar.open('Your achievement has been shared.');

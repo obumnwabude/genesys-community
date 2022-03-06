@@ -13,7 +13,7 @@ exports.createFirestoreMember = functions.auth
 
     await db
       .doc(`/members/${authMember.uid}`)
-      .set({}, { merge: true })
+      .set({ achievements: [], profile: {}, progress: [] }, { merge: true })
       .catch((error) => console.log(error));
   });
 

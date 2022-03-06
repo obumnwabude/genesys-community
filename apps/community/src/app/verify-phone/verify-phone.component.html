@@ -14,10 +14,10 @@
   </div>
 
   <div *ngIf="!phoneSubmitted" id="phone-form-container">
-    <p id="plus234">+234</p>
     <form [formGroup]="phoneForm" (ngSubmit)="submitPhone()">
-      <mat-form-field class="phone-form-field" mat-focused="true">
+      <mat-form-field id="phone-form-field" mat-focused="true">
         <mat-label>Phone Number</mat-label>
+        <span>+234</span>
         <input
           matInput
           type="text"
@@ -56,7 +56,7 @@
     [formGroup]="verifyCodeForm"
     (ngSubmit)="submitCode()"
   >
-    <mat-form-field class="verify-code-form-field" mat-focused="true">
+    <mat-form-field mat-focused="true">
       <mat-label>6 Digits Code</mat-label>
       <input
         matInput
@@ -100,7 +100,7 @@
     <button
       mat-stroked-button
       color="primary"
-      class="cancel-code-button"
+      id="cancel-code-button"
       (click)="restartVerification(true)"
     >
       Cancel

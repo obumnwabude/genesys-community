@@ -159,6 +159,32 @@
       },
       "tags": []
     },
+    "admin-member": {
+      "projectType": "library",
+      "root": "libs/admin/member",
+      "sourceRoot": "libs/admin/member/src",
+      "prefix": "community",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/member"],
+          "options": {
+            "jestConfig": "libs/admin/member/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/admin/member/src/**/*.ts",
+              "libs/admin/member/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
     "admin-sign-in": {
       "projectType": "library",
       "root": "libs/admin/sign-in",

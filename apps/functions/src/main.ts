@@ -31,7 +31,34 @@ exports.deleteFirestoreMember = functions.auth
       .catch((error) => console.log(error));
   });
 
-exports.getMembers = functions.https.onCall(async (_, context) => {
+exports.getAuthMember = functions.https.onCall(async (data, context) => {
+  if (!data.memberId) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'Provide memberId'
+    );
+  }
+  const unauthenticated = new functions.https.HttpsError(
+    'unauthenticated',
+    'You are not authorized to access this resource.'
+  );
+  if (!context.auth) throw unauthenticated;
+  else {
+    const claims = (await admin.auth().getUser(context.auth.uid)).customClaims;
+    if (claims && !claims['admin']) throw unauthenticated;
+    else {
+      try {
+        const user = await admin.auth().getUser(data.memberId);
+        const { uid, email, displayName, phoneNumber } = user;
+        return { uid, email, displayName, phoneNumber };
+      } catch (error: any) {
+        throw new functions.https.HttpsError('unknown', error);
+      }
+    }
+  }
+});
+
+exports.getAuthMembers = functions.https.onCall(async (_, context) => {
   const unauthenticated = new functions.https.HttpsError(
     'unauthenticated',
     'You are not authorized to access this resource.'

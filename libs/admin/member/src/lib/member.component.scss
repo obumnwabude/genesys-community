@@ -1,0 +1,147 @@
+#page-loader {
+  margin-top: 64px;
+
+  p {
+    text-align: center;
+    font-size: 1.25rem;
+  }
+
+  div {
+    height: 256px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.tab-body {
+  padding: 128px 16px 32px;
+}
+
+#profile-body {
+  .info-container {
+    margin-bottom: 32px;
+
+    @media (min-width: 576px) and (max-width: 767.98px) {
+      text-align: center;
+    }
+  }
+
+  .info-label {
+    text-decoration: underline;
+    margin-bottom: 8px;
+  }
+
+  .twitter-link-button {
+    margin-left: -16px;
+
+    @media (min-width: 576px) and (max-width: 767.98px) {
+      margin-left: 16px;
+    }
+
+    .info-value {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .info-value {
+    font-size: 1.125rem;
+  }
+  
+  @media (min-width: 768px) {
+    display: flex;
+    width: 576px;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+#no-progress,
+#no-achievement {
+  height: 256px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    font-size: 1.125rem;
+    opacity: 0.8;
+  }
+}
+
+#progress-body,
+#achievement-body {
+  > div {
+    @media (min-width: 768px) {
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: 32px;
+    }
+
+    @media (min-width: 992px) {
+      grid-template-columns: auto auto auto;
+    }
+  }
+}
+
+.app-card {
+  max-width: 512px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 24px;
+
+  @media (max-width: 767.98px) {
+    margin-bottom: 24px;
+  }
+}
+
+.time {
+  text-decoration: underline;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.skill {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+.description {
+  font-size: 0.875rem;
+}
+
+#achievement-body .time {
+  text-align: center;
+}
+
+.type {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.125rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  text-align: center;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.link {
+  margin-bottom: 1rem;
+
+  a[mat-stroked-button] {
+    white-space: pre-wrap !important;
+    word-break: break-all;
+    line-height: 1.2;
+    padding: 0.5rem 1rem;
+
+    mat-icon {
+      margin-left: 0.5rem;
+    }
+  }
+}

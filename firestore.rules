@@ -7,7 +7,9 @@ service cloud.firestore {
 
     match /members/{memberId} {
       allow create, delete: if false;
-      allow read, update: if request.auth != null && request.auth.uid == memberId;
+      allow update: if request.auth != null && request.auth.uid == memberId;
+      allow read: if (request.auth != null && request.auth.uid == memberId)
+        || request.auth.token.admin;
     }
   }
 }

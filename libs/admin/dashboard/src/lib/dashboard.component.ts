@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      this.members = (await httpsCallable(this.fns, 'getMembers')({}))
+      this.members = (await httpsCallable(this.fns, 'getAuthMembers')({}))
         .data as AuthMember[];
       this.isLoading = false;
     } catch (error: any) {

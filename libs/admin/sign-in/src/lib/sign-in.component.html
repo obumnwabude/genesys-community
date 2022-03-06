@@ -1,11 +1,11 @@
-<div id="sign-in-card">
+<div id="sign-in-card" class="app-card">
   <div id="page-loader" *ngIf="!hasLoadedPage">
     <p class="subheading">Please wait ...</p>
     <div>
       <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     </div>
   </div>
-  
+
   <div *ngIf="hasLoadedPage">
     <h2 id="page-heading">Sign In</h2>
     <p class="subheading">Kindly sign in to continue.</p>

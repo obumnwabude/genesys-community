@@ -27,15 +27,26 @@ $dark-theme: mat.define-dark-theme(
 
 @include mat.all-component-themes($light-theme);
 
-#sign-in-card {
+.app-card {
   border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2),
+    0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
 }
 
 .dark_mode {
   @include mat.all-component-colors($dark-theme);
 
-  #sign-in-card {
+  .app-card {
     border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  #member-details {
+    p#member-name,
+    mat-tab-header {
+      // mat-sidenav-content's background in dark theme
+      background-color: #303030;
+    }
   }
 }
 
@@ -57,4 +68,36 @@ body {
 
 .spacer {
   flex: 1 1 auto;
+}
+
+#member-details {
+  p#member-name,
+  mat-tab-header {
+    z-index: 3;
+    position: fixed;
+    left: 0;
+    right: 0;
+    // mat-sidenav-content's background in light theme
+    background-color: #fafafa;
+
+    @media (min-width: 992px) {
+      width: 992px;
+      left: calc((100vw - 992px) / 2);
+      right: calc((100vw - 992px) / 2);
+    }
+  }
+
+  p#member-name {
+    padding: 48px 32px 32px;
+    font-size: 1.5rem;
+    text-align: center;
+    text-decoration: underline;
+    font-weight: bold;
+    text-decoration-style: double;
+    top: 54px;
+  }
+
+  mat-tab-header {
+    margin-top: 48px;
+  }
 }

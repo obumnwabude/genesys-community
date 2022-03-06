@@ -20,6 +20,7 @@
     "lib": ["es2020", "dom"],
     "paths": {
       "@community/admin/dashboard": ["libs/admin/dashboard/src/index.ts"],
+      "@community/admin/member": ["libs/admin/member/src/index.ts"],
       "@community/admin/sign-in": ["libs/admin/sign-in/src/index.ts"],
       "@community/data": ["libs/data/src/index.ts"],
       "@community/env/*": ["apps/admin/src/environments/*"]

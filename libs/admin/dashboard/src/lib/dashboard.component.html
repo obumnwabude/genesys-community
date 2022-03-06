@@ -32,7 +32,12 @@
           <p><span class="info-label">Email:</span> {{ member.email }}</p>
           <p><span class="info-label">Phone:</span> {{ member.phoneNumber }}</p>
           <p class="more-button-container">
-            <a mat-stroked-button color="primary">MORE</a>
+            <a
+              mat-stroked-button
+              color="primary"
+              [routerLink]="['/member', member.uid]"
+              >MORE</a
+            >
           </p>
         </div>
       </mat-expansion-panel>

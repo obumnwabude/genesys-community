@@ -45,7 +45,9 @@ export class AppComponent implements OnInit {
     });
     this.auth.onAuthStateChanged(async (member) => {
       if (!member) {
-        this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
+        if (!this.router.url.includes('welcome')) {
+          this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
+        }
       } else {
         try {
           const firestoreMember = await getDoc(
@@ -55,10 +57,14 @@ export class AppComponent implements OnInit {
             !firestoreMember.exists() ||
             (firestoreMember.exists() && !firestoreMember.data()['profile']);
           if (isNewMember) {
-            this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
+            if (!this.router.url.includes('welcome')) {
+              this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
+            }
           }
         } catch (_) {
-          this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
+          if (!this.router.url.includes('welcome')) {
+            this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
+          }
         }
       }
     });

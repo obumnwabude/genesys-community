@@ -107,9 +107,28 @@ export class ProgressData {
   }
 }
 
+export class AuthActivity {
+  constructor(public creationTime: Date, public lastSignInTime: Date) {}
+
+  static fromJSON(json: any): AuthActivity {
+    return new AuthActivity(
+      new Date(json['creationTime']),
+      new Date(json['lastSignInTime'])
+    );
+  }
+
+  static toJSON(aa: AuthActivity) {
+    return {
+      creationTime: aa.creationTime.getTime(),
+      lastSignInTime: aa.lastSignInTime.getTime()
+    };
+  }
+}
+
 export class FirestoreMember {
   constructor(
     public achievements: AchievementData[],
+    public authActivity: AuthActivity,
     public profile: ProfileData,
     public progress: ProgressData[]
   ) {}
@@ -127,6 +146,12 @@ export class FirestoreMember {
       options: SnapshotOptions
     ): FirestoreMember {
       const data = snapshot.data(options);
+      const achievements = data['achievements']
+        ? data['achievements'].map((a: any) => AchievementData.fromJSON(a))
+        : [];
+      const aa = data['authActivity']
+        ? AuthActivity.fromJSON(data['authActivity'])
+        : new AuthActivity(new Date(), new Date());
       const profile =
         data['profile'] && Object.keys(data['profile']).length > 0
           ? ProfileData.fromJSON(data['profile'])
@@ -134,11 +159,8 @@ export class FirestoreMember {
       const progress = data['progress']
         ? data['progress'].map((p: any) => ProgressData.fromJSON(p))
         : [];
-      const achievements = data['achievements']
-        ? data['achievements'].map((a: any) => AchievementData.fromJSON(a))
-        : [];
 
-      return new FirestoreMember(achievements, profile, progress);
+      return new FirestoreMember(achievements, aa, profile, progress);
     }
   };
 }

@@ -5,7 +5,7 @@ import {
   GoogleAuthProvider,
   signInWithRedirect
 } from '@angular/fire/auth';
-import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
+import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -36,8 +36,23 @@ export class WelcomeComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     try {
       const redirectResult = await getRedirectResult(this.auth);
-      if (redirectResult && redirectResult.user) this.isSigningIn = true;
-    } catch (_) {}
+      if (redirectResult && redirectResult.user) {
+        this.isSigningIn = true;
+        const { creationTime, lastSignInTime } = redirectResult.user.metadata;
+        // save on very first sign in since the cloud function will do so
+        // and it might not yet have run (to create the firestore object)
+        // by the time this code runs for the first time on a given user.
+        if (creationTime !== lastSignInTime) {
+          await setDoc(
+            doc(this.firestore, 'members', redirectResult.user.uid),
+            { authActivity: { creationTime, lastSignInTime } },
+            { merge: true }
+          );
+        }
+      }
+    } catch (_) {
+      /* ignore error */
+    }
     this.auth.onAuthStateChanged(async (member) => {
       this.hasLoadedPage = true;
       if (!member) {

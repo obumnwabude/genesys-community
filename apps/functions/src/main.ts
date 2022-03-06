@@ -11,9 +11,18 @@ exports.createFirestoreMember = functions.auth
       .set({ count: admin.firestore.FieldValue.increment(1) }, { merge: true })
       .catch((error) => console.log(error));
 
+    const { creationTime, lastSignInTime } = authMember.metadata;
     await db
       .doc(`/members/${authMember.uid}`)
-      .set({ achievements: [], profile: {}, progress: [] }, { merge: true })
+      .set(
+        {
+          achievements: [],
+          authActivity: { creationTime, lastSignInTime },
+          profile: {},
+          progress: []
+        },
+        { merge: true }
+      )
       .catch((error) => console.log(error));
   });
 

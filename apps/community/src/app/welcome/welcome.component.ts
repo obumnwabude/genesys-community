@@ -108,7 +108,8 @@ export class WelcomeComponent implements OnInit {
             { merge: true }
           );
           let nextRoute = this.route.snapshot.queryParams['next'];
-          if (!nextRoute) nextRoute = '/';
+          // record member's progress on completing first sign in
+          if (!nextRoute || nextRoute === '/') nextRoute = '/progress';
           this.router.navigate([nextRoute]);
         } catch (error: any) {
           this.snackBar.open(error.message);

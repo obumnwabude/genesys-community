@@ -10,10 +10,12 @@ import {
   linkWithPhoneNumber,
   RecaptchaVerifier
 } from '@angular/fire/auth';
+import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatInput } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+// eslint-disable-next-line no-var
 declare var grecaptcha: any;
 
 @Component({
@@ -49,6 +51,7 @@ export class VerifyPhoneComponent implements AfterViewInit {
 
   constructor(
     private auth: Auth,
+    private firestore: Firestore,
     private snackBar: MatSnackBar,
     private changeDetector: ChangeDetectorRef
   ) {}
@@ -128,41 +131,52 @@ export class VerifyPhoneComponent implements AfterViewInit {
   }
 
   async submitCode(): Promise<void> {
-    if (this.isVerifyingCode) return;
+    if (this.auth.currentUser) {
+      if (this.isVerifyingCode) return;
 
-    if (this.verifyCodeCtrl.hasError('required')) {
-      this.snackBar.open('Six digits code is required.');
-      return;
-    }
+      if (this.verifyCodeCtrl.hasError('required')) {
+        this.snackBar.open('Six digits code is required.');
+        return;
+      }
 
-    if (this.verifyCodeCtrl.hasError('pattern')) {
-      this.snackBar.open('Please enter the six digits sent to you.');
-      return;
-    }
+      if (this.verifyCodeCtrl.hasError('pattern')) {
+        this.snackBar.open('Please enter the six digits sent to you.');
+        return;
+      }
 
-    if (this.confirmationResult) {
-      try {
-        this.isVerifyingCode = true;
-        await this.confirmationResult.confirm(this.verifyCodeCtrl.value);
-      } catch (error: any) {
-        this.verifyCodeCtrl.setValue('');
-        if (
-          error.code === 'auth/credential-already-in-use' ||
-          error.code === 'auth/account-exists-with-different-credential'
-        ) {
-          this.snackBar.open(
-            `+234${this.phoneCtrl.value} has been verified by another member`
+      if (this.confirmationResult) {
+        try {
+          this.isVerifyingCode = true;
+          await this.confirmationResult.confirm(this.verifyCodeCtrl.value);
+          await setDoc(
+            doc(this.firestore, 'members', this.auth.currentUser.uid),
+            {
+              authInfo: { phoneNumber: `+234${this.phoneCtrl.value}` }
+            },
+            { merge: true }
           );
-          this.restartVerification(true);
-        } else {
-          this.snackBar.open('Wrong code, please try again');
-          this.codeInput.focus();
+        } catch (error: any) {
+          this.verifyCodeCtrl.setValue('');
+          if (
+            error.code === 'auth/credential-already-in-use' ||
+            error.code === 'auth/account-exists-with-different-credential'
+          ) {
+            this.snackBar.open(
+              `+234${this.phoneCtrl.value} has been verified by another member`
+            );
+            this.restartVerification(true);
+          } else {
+            this.snackBar.open('Wrong code, please try again');
+            this.codeInput.focus();
+          }
+        } finally {
+          this.isVerifyingCode = false;
         }
-      } finally {
-        this.isVerifyingCode = false;
+      } else {
+        this.snackBar.open('Please submit your phone number first.');
       }
     } else {
-      this.snackBar.open('Please submit your phone number first.');
+      this.snackBar.open('Please Sign In First');
     }
   }
 

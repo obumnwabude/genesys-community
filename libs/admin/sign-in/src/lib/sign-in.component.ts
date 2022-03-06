@@ -32,6 +32,10 @@ export class SignInComponent implements OnInit {
           this.snackBar.open(
             `${user.email} is not authorized to access the next page.`
           );
+          // delete the user if this is their first time signing in.
+          // This means they've never signed in on the main community website.
+          const { creationTime, lastSignInTime } = user.metadata;
+          if (creationTime === lastSignInTime) await user.delete();
           await this.auth.signOut();
         }
       }

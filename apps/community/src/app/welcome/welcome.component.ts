@@ -5,7 +5,7 @@ import {
   GoogleAuthProvider,
   signInWithRedirect
 } from '@angular/fire/auth';
-import { doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { doc, Firestore, setDoc, Timestamp } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -42,10 +42,16 @@ export class WelcomeComponent implements OnInit {
         // save on very first sign in since the cloud function will do so
         // and it might not yet have run (to create the firestore object)
         // by the time this code runs for the first time on a given user.
-        if (creationTime !== lastSignInTime) {
+        if (creationTime && lastSignInTime && creationTime !== lastSignInTime) {
           await setDoc(
             doc(this.firestore, 'members', redirectResult.user.uid),
-            { authActivity: { creationTime, lastSignInTime } },
+            {
+              authActivity: {
+                // save only lastSignInTime (which is now), as creationTime
+                // won't change again.
+                lastSignInTime: Timestamp.fromDate(new Date(lastSignInTime))
+              }
+            },
             { merge: true }
           );
         }

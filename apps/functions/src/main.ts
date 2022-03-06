@@ -12,12 +12,16 @@ exports.createFirestoreMember = functions.auth
       .catch((error) => console.log(error));
 
     const { creationTime, lastSignInTime } = authMember.metadata;
+    const { Timestamp } = admin.firestore;
     await db
       .doc(`/members/${authMember.uid}`)
       .set(
         {
           achievements: [],
-          authActivity: { creationTime, lastSignInTime },
+          authActivity: {
+            creationTime: Timestamp.fromDate(new Date(+creationTime)),
+            lastSignInTime: Timestamp.fromDate(new Date(+lastSignInTime))
+          },
           profile: {},
           progress: []
         },

@@ -5,7 +5,8 @@ import {
   Firestore,
   getDoc,
   QueryDocumentSnapshot,
-  SnapshotOptions
+  SnapshotOptions,
+  Timestamp
 } from '@angular/fire/firestore';
 
 export const constants = {
@@ -49,14 +50,20 @@ export class AchievementData {
       json['description'],
       json['link'],
       json['title'],
-      new Date(json['time']),
+      json['time'].toDate(),
       json['type']
     );
   }
 
   static toJSON(achievement: AchievementData) {
     const { description, link, title, type } = achievement;
-    return { description, link, title, type, time: achievement.time.getTime() };
+    return {
+      description,
+      link,
+      title,
+      type,
+      time: Timestamp.fromDate(achievement.time)
+    };
   }
 }
 
@@ -94,7 +101,7 @@ export class ProgressData {
     return new ProgressData(
       json['description'],
       json['skill'],
-      new Date(json['time'])
+      json['time'].toDate()
     );
   }
 
@@ -102,7 +109,7 @@ export class ProgressData {
     return {
       description: progress.description,
       skill: progress.skill,
-      time: progress.time.getTime()
+      time: Timestamp.fromDate(progress.time)
     };
   }
 }
@@ -112,15 +119,15 @@ export class AuthActivity {
 
   static fromJSON(json: any): AuthActivity {
     return new AuthActivity(
-      new Date(json['creationTime']),
-      new Date(json['lastSignInTime'])
+      json['creationTime'].toDate(),
+      json['lastSignInTime'].toDate()
     );
   }
 
   static toJSON(aa: AuthActivity) {
     return {
-      creationTime: aa.creationTime.getTime(),
-      lastSignInTime: aa.lastSignInTime.getTime()
+      creationTime: Timestamp.fromDate(aa.creationTime),
+      lastSignInTime: Timestamp.fromDate(aa.lastSignInTime)
     };
   }
 }

@@ -81,13 +81,11 @@ p {
   margin-bottom: 16px;
 }
 
-mat-form-field#phone-form-field .mat-form-field-infix {
-  display: flex;
-  margin-top: -2px;
-}
-
-mat-form-field#twitter-handle .mat-form-field-infix {
-  display: flex;
+mat-form-field#phone-form-field,
+mat-form-field#twitter-handle {
+  .mat-form-field-infix {
+    display: flex;
+  }
 }
 
 .black-spinner-container {

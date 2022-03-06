@@ -15,43 +15,45 @@
     <div id="recaptcha"></div>
   </div>
 
-  <div *ngIf="!phoneSubmitted" id="phone-form-container">
-    <form [formGroup]="phoneForm" (ngSubmit)="submitPhone()">
-      <mat-form-field id="phone-form-field" mat-focused="true">
-        <mat-label>Phone Number</mat-label>
-        <span>+234</span>
-        <input
-          matInput
-          type="text"
-          [formControl]="phoneCtrl"
-          required
-          placeholder="70xxxxxxxx"
-          #phoneInput="matInput"
-        />
-        <mat-error *ngIf="phoneCtrl.invalid">{{
-          phoneCtrl.hasError('required')
-            ? 'Phone Number required'
-            : 'Enter a valid phone in right format'
-        }}</mat-error>
-      </mat-form-field>
-      <button
-        mat-raised-button
-        color="primary"
-        class="black-spinner-container"
-        [class.horizontal-padding]="isSubmittingPhone"
-      >
-        <span *ngIf="!isSubmittingPhone">Send Code</span>
-        &nbsp;
-        <span *ngIf="isSubmittingPhone">
-          <mat-progress-spinner
-            mode="indeterminate"
-            strokeWidth="4"
-            diameter="18"
-          ></mat-progress-spinner
-        ></span>
-      </button>
-    </form>
-  </div>
+  <form
+    *ngIf="!phoneSubmitted"
+    [formGroup]="phoneForm"
+    (ngSubmit)="submitPhone()"
+  >
+    <mat-form-field id="phone-form-field" mat-focused="true">
+      <mat-label>Phone Number</mat-label>
+      <span>+234</span>
+      <input
+        matInput
+        type="text"
+        [formControl]="phoneCtrl"
+        required
+        placeholder="70xxxxxxxx"
+        #phoneInput="matInput"
+      />
+      <mat-error *ngIf="phoneCtrl.invalid">{{
+        phoneCtrl.hasError('required')
+          ? 'Phone Number required'
+          : 'Enter a valid phone in right format'
+      }}</mat-error>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="primary"
+      class="black-spinner-container"
+      [class.horizontal-padding]="isSubmittingPhone"
+    >
+      <span *ngIf="!isSubmittingPhone">Send Code</span>
+      &nbsp;
+      <span *ngIf="isSubmittingPhone">
+        <mat-progress-spinner
+          mode="indeterminate"
+          strokeWidth="4"
+          diameter="18"
+        ></mat-progress-spinner
+      ></span>
+    </button>
+  </form>
 
   <form
     *ngIf="phoneSubmitted"

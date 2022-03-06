@@ -1,1 +1,60 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@include mat.core();
+
+$primary: mat.define-palette(mat.$orange-palette);
+$accent: mat.define-palette(mat.$orange-palette, A200, A100, A400);
+$warn: mat.define-palette(mat.$amber-palette);
+
+$light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $primary,
+      accent: $accent,
+      warn: $warn
+    )
+  )
+);
+
+$dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $primary,
+      accent: $accent,
+      warn: $warn
+    )
+  )
+);
+
+@include mat.all-component-themes($light-theme);
+
+#sign-in-card {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.dark_mode {
+  @include mat.all-component-colors($dark-theme);
+
+  #sign-in-card {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-size: 16px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

@@ -1,0 +1,31 @@
+<div id="sign-in-card">
+  <div id="page-loader" *ngIf="!hasLoadedPage">
+    <p class="subheading">Please wait ...</p>
+    <div>
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+  </div>
+  
+  <div *ngIf="hasLoadedPage">
+    <h2 id="page-heading">Sign In</h2>
+    <p class="subheading">Kindly sign in to continue.</p>
+    <p>
+      <button mat-stroked-button (click)="signInWithGoogle()">
+        <img
+          src="assets/svgs/google.svg"
+          aria-hidden="true"
+          id="google-logo-sign-in-button"
+          *ngIf="!isSigningIn"
+        />
+        <span *ngIf="!isSigningIn">Sign In With Google</span>
+        <mat-progress-spinner
+          mode="indeterminate"
+          strokeWidth="4"
+          diameter="18"
+          id="sign-in-spinner"
+          *ngIf="isSigningIn"
+        ></mat-progress-spinner>
+      </button>
+    </p>
+  </div>
+</div>

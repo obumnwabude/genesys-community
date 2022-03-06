@@ -36,7 +36,7 @@
       },
       "root": "apps/admin",
       "sourceRoot": "apps/admin/src",
-      "prefix": "community",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -118,6 +118,68 @@
           "options": {
             "jestConfig": "apps/admin/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "admin:build:production",
+            "firebaseProject": "genesysaefunai",
+            "firebaseHostingSite": "admingccfunai"
+          }
+        }
+      },
+      "tags": []
+    },
+    "admin-dashboard": {
+      "projectType": "library",
+      "root": "libs/admin/dashboard",
+      "sourceRoot": "libs/admin/dashboard/src",
+      "prefix": "app",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/dashboard"],
+          "options": {
+            "jestConfig": "libs/admin/dashboard/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/admin/dashboard/src/**/*.ts",
+              "libs/admin/dashboard/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "admin-sign-in": {
+      "projectType": "library",
+      "root": "libs/admin/sign-in",
+      "sourceRoot": "libs/admin/sign-in/src",
+      "prefix": "app",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/sign-in"],
+          "options": {
+            "jestConfig": "libs/admin/sign-in/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/admin/sign-in/src/**/*.ts",
+              "libs/admin/sign-in/src/**/*.html"
+            ]
           }
         }
       },
@@ -258,7 +320,7 @@
       "projectType": "library",
       "root": "libs/data",
       "sourceRoot": "libs/data/src",
-      "prefix": "community",
+      "prefix": "app",
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",

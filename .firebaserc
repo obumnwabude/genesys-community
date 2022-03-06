@@ -2,6 +2,9 @@
   "targets": {
     "genesysaefunai": {
       "hosting": {
+        "admin": [
+          "admingccfunai"
+        ],
         "community": [
           "genesysaefunai"
         ]

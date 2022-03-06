@@ -12,7 +12,7 @@ export class ThemingService {
       constants.DEFAULT_THEME
   );
 
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+  constructor(@Inject(PLATFORM_ID) platformId: any) {
     isPlatformBrowser(platformId) &&
       window.matchMedia &&
       window.matchMedia('(prefers-color-scheme: dark)').matches &&

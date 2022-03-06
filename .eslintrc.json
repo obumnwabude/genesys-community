@@ -24,7 +24,10 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {}
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@nrwl/nx/enforce-module-boundaries": "off"
+      }
     },
     {
       "files": ["*.js", "*.jsx"],

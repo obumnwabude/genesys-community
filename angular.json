@@ -314,20 +314,21 @@
             "browserTarget": "community:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "main": "apps/community/src/test.ts",
-            "polyfills": "apps/community/src/polyfills.ts",
-            "tsConfig": "apps/community/tsconfig.spec.json",
-            "karmaConfig": "apps/community/karma.conf.js",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "apps/community/src/favicon.ico",
-              "apps/community/src/assets"
-            ],
-            "styles": ["apps/community/src/styles.scss"],
-            "scripts": []
+            "lintFilePatterns": [
+              "apps/admin/src/**/*.ts",
+              "apps/admin/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/community"],
+          "options": {
+            "jestConfig": "apps/community/jest.config.js",
+            "passWithNoTests": true
           }
         },
         "deploy": {

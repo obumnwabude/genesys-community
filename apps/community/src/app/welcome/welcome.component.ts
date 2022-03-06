@@ -46,7 +46,7 @@ export class WelcomeComponent implements OnInit {
           await setDoc(
             doc(this.firestore, 'members', redirectResult.user.uid),
             {
-              authActivity: {
+              authInfo: {
                 // save only lastSignInTime (which is now), as creationTime
                 // won't change again.
                 lastSignInTime: Timestamp.fromDate(new Date(lastSignInTime))

@@ -1,14 +1,14 @@
 <div id="dashboard">
   <h2 id="page-heading">Community Members</h2>
 
-  <div id="page-loader" *ngIf="isLoading">
+  <div id="page-loader" *ngIf="isLoading || !members">
     <p>Please wait ...</p>
     <div>
       <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     </div>
   </div>
 
-  <div *ngIf="!isLoading">
+  <div *ngIf="!isLoading && members">
     <div id="accordion-buttons">
       <button
         id="expand-all-button"
@@ -25,17 +25,22 @@
     <mat-accordion multi>
       <mat-expansion-panel *ngFor="let member of members">
         <mat-expansion-panel-header>
-          <mat-panel-title> {{ member.displayName }} </mat-panel-title>
+          <mat-panel-title> {{ member.authInfo.displayName }} </mat-panel-title>
         </mat-expansion-panel-header>
 
         <div class="info-container">
-          <p><span class="info-label">Email:</span> {{ member.email }}</p>
-          <p><span class="info-label">Phone:</span> {{ member.phoneNumber }}</p>
+          <p>
+            <span class="info-label">Email:</span> {{ member.authInfo.email }}
+          </p>
+          <p>
+            <span class="info-label">Phone:</span>
+            {{ member.authInfo.phoneNumber }}
+          </p>
           <p class="more-button-container">
             <a
               mat-stroked-button
               color="primary"
-              [routerLink]="['/member', member.uid]"
+              [routerLink]="['/member', member.authInfo.uid]"
               >MORE</a
             >
           </p>

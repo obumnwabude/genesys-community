@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  provideFunctions,
-  getFunctions,
-  connectFunctionsEmulator
-} from '@angular/fire/functions';
+  provideFirestore,
+  getFirestore,
+  connectFirestoreEmulator
+} from '@angular/fire/firestore';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,28 +14,34 @@ import {
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS
 } from '@angular/material/snack-bar';
+import { MatTabsModule } from '@angular/material/tabs';
 import { environment } from '@community/env/environment';
 
-import { DashboardComponent } from './dashboard.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { MemberComponent } from './member/member.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild([{ path: '', component: DashboardComponent }]),
+    RouterModule.forChild([
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'member/:id', component: MemberComponent }
+    ]),
     MatButtonModule,
     MatExpansionModule,
     MatIconModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    provideFunctions(() => {
-      const functions = getFunctions();
+    MatTabsModule,
+    provideFirestore(() => {
+      const firestore = getFirestore();
       if (!environment.production) {
-        connectFunctionsEmulator(functions, 'localhost', 5001);
+        connectFirestoreEmulator(firestore, 'localhost', 8080);
       }
-      return functions;
+      return firestore;
     })
   ],
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, MemberComponent],
   providers: [
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,

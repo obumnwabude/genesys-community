@@ -22,16 +22,9 @@ import { environment } from '../environments/environment';
 
 const routes: Route[] = [
   {
-    path: 'dashboard',
+    path: '',
     loadChildren: () =>
       import('@community/admin/dashboard').then((m) => m.DashboardModule),
-    canActivate: [AuthGuard],
-    data: { authGuardPipe: () => redirectUnauthorizedTo('/sign-in') }
-  },
-  {
-    path: 'member/:id',
-    loadChildren: () =>
-      import('@community/admin/member').then((m) => m.MemberModule),
     canActivate: [AuthGuard],
     data: { authGuardPipe: () => redirectUnauthorizedTo('/sign-in') }
   },

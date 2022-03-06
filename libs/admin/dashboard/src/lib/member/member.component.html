@@ -1,52 +1,52 @@
-<div id="page-loader" *ngIf="isLoading || !authMember || !firestoreMember">
+<div id="page-loader" *ngIf="isLoading || !member">
   <p>Please wait ...</p>
   <div>
     <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
   </div>
 </div>
 
-<div id="member-details" *ngIf="!isLoading && authMember && firestoreMember">
-  <p id="member-name">{{ authMember.displayName }}</p>
+<div id="member-details" *ngIf="!isLoading && member">
+  <p id="member-name">{{ member.authInfo.displayName }}</p>
   <mat-tab-group mat-stretch-tabs>
     <mat-tab label="Profile">
       <div id="profile-body" class="tab-body">
         <div id="left-profile-desktop">
           <div class="info-container">
             <p class="info-label">Email Address</p>
-            <p class="info-value">{{ authMember.email }}</p>
+            <p class="info-value">{{ member.authInfo.email }}</p>
           </div>
           <div class="info-container">
             <p class="info-label">Phone Number</p>
-            <p class="info-value">{{ authMember.phoneNumber }}</p>
+            <p class="info-value">{{ member.authInfo.phoneNumber }}</p>
           </div>
           <div class="info-container">
             <p class="info-label">Faculty</p>
-            <p class="info-value">{{ firestoreMember.profile.faculty }}</p>
+            <p class="info-value">{{ member.profile.faculty }}</p>
           </div>
         </div>
         <div>
           <div class="info-container">
             <p class="info-label">Department</p>
-            <p class="info-value">{{ firestoreMember.profile.department }}</p>
+            <p class="info-value">{{ member.profile.department }}</p>
           </div>
           <div class="info-container">
             <p class="info-label">Level</p>
-            <p class="info-value">{{ firestoreMember.profile.level }}</p>
+            <p class="info-value">{{ member.profile.level }}</p>
           </div>
           <div class="info-container">
             <p class="info-label">Twitter</p>
-            <p class="info-value" *ngIf="!firestoreMember.profile.twitter">
-              {{ firestoreMember.profile.twitter }}
+            <p class="info-value" *ngIf="!member.profile.twitter">
+              {{ member.profile.twitter }}
             </p>
             <a
-              [href]="'https://twitter.com/' + firestoreMember.profile.twitter"
-              *ngIf="firestoreMember.profile.twitter"
+              [href]="'https://twitter.com/' + member.profile.twitter"
+              *ngIf="member.profile.twitter"
               target="_blank"
               rel="noreferrer noopener"
               mat-button
               class="twitter-link-button"
               ><p class="info-value">
-                @{{ firestoreMember.profile.twitter }} &nbsp;
+                @{{ member.profile.twitter }} &nbsp;
                 <mat-icon>open_in_new</mat-icon>
               </p></a
             >
@@ -56,12 +56,12 @@
     </mat-tab>
     <mat-tab label="Progress">
       <div id="progress-body" class="tab-body">
-        <div id="no-progress" *ngIf="firestoreMember.progress.length === 0">
+        <div id="no-progress" *ngIf="member.progress.length === 0">
           <p>No recorded progress yet.</p>
         </div>
-        <div *ngIf="firestoreMember.progress.length > 0">
+        <div *ngIf="member.progress.length > 0">
           <div
-            *ngFor="let p of firestoreMember.progress"
+            *ngFor="let p of member.progress"
             class="app-card progress"
           >
             <p class="time">{{ p.time | date: 'EEE, dd/MM/YYYY, hh:mm a' }}</p>
@@ -75,13 +75,13 @@
       <div id="achievement-body" class="tab-body">
         <div
           id="no-achievement"
-          *ngIf="firestoreMember.achievements.length === 0"
+          *ngIf="member.achievements.length === 0"
         >
           <p>No shared achievement yet.</p>
         </div>
-        <div *ngIf="firestoreMember.achievements.length > 0">
+        <div *ngIf="member.achievements.length > 0">
           <div
-            *ngFor="let a of firestoreMember.achievements"
+            *ngFor="let a of member.achievements"
             class="app-card progress"
           >
             <p class="time">{{ a.time | date: 'EEE, dd/MM/YYYY, hh:mm a' }}</p>

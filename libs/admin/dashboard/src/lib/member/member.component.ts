@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { Functions, httpsCallable } from '@angular/fire/functions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthMember, FirestoreMember, memberSnap } from '@community/data';
+import { Member, memberSnap } from '@community/data';
 
 @Component({
   templateUrl: './member.component.html',
@@ -11,12 +10,10 @@ import { AuthMember, FirestoreMember, memberSnap } from '@community/data';
 })
 export class MemberComponent implements OnInit {
   isLoading = false;
-  authMember: AuthMember | null = null;
-  firestoreMember: FirestoreMember | null = null;
+  member: Member | null = null;
 
   constructor(
     private firestore: Firestore,
-    private fns: Functions,
     private route: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar
@@ -27,15 +24,12 @@ export class MemberComponent implements OnInit {
     if (!memberId) this.router.navigateByUrl('/dashboard');
     else {
       try {
-        this.authMember = (
-          await httpsCallable(this.fns, 'getAuthMember')({ memberId })
-        ).data as AuthMember;
         const snap = await memberSnap(this.firestore, memberId);
         if (!snap.exists()) {
           this.snackBar.open(`Member with uid: ${memberId} does not exist.`);
           this.router.navigateByUrl('/dashboard');
         } else {
-          this.firestoreMember = snap.data();
+          this.member = snap.data();
         }
         this.isLoading = false;
       } catch (error: any) {

@@ -20,21 +20,14 @@ export const constants = {
 export const memberSnap = async (
   firestore: Firestore,
   memberId: string
-): Promise<DocumentSnapshot<FirestoreMember>> => {
+): Promise<DocumentSnapshot<Member>> => {
   return await getDoc(
     doc(
-      collection(firestore, 'members').withConverter(FirestoreMember.converter),
+      collection(firestore, 'members').withConverter(Member.converter),
       memberId
     )
   );
 };
-
-export interface AuthMember {
-  uid: string;
-  email: string;
-  displayName: string;
-  phoneNumber: string;
-}
 
 export class AchievementData {
   constructor(
@@ -114,36 +107,53 @@ export class ProgressData {
   }
 }
 
-export class AuthActivity {
-  constructor(public creationTime: Date, public lastSignInTime: Date) {}
+export class AuthInfo {
+  constructor(
+    public creationTime: Date,
+    public displayName: string,
+    public email: string,
+    public lastSignInTime: Date,
+    public phoneNumber: string,
+    public uid: string
+  ) {}
 
-  static fromJSON(json: any): AuthActivity {
-    return new AuthActivity(
+  static fromJSON(json: any): AuthInfo {
+    return new AuthInfo(
       json['creationTime'].toDate(),
-      json['lastSignInTime'].toDate()
+      json['displayName'],
+      json['email'],
+      json['lastSignInTime'].toDate(),
+      json['phoneNumber'],
+      json['uid']
     );
   }
 
-  static toJSON(aa: AuthActivity) {
+  static toJSON(authInfo: AuthInfo) {
+    const { displayName, email, phoneNumber, uid } = authInfo;
     return {
-      creationTime: Timestamp.fromDate(aa.creationTime),
-      lastSignInTime: Timestamp.fromDate(aa.lastSignInTime)
+      creationTime: Timestamp.fromDate(authInfo.creationTime),
+      displayName,
+      email,
+      lastSignInTime: Timestamp.fromDate(authInfo.lastSignInTime),
+      phoneNumber,
+      uid
     };
   }
 }
 
-export class FirestoreMember {
+export class Member {
   constructor(
     public achievements: AchievementData[],
-    public authActivity: AuthActivity,
+    public authInfo: AuthInfo,
     public profile: ProfileData,
     public progress: ProgressData[]
   ) {}
 
   static converter = {
-    toFirestore(member: FirestoreMember) {
+    toFirestore(member: Member) {
       return {
         achievements: member.achievements.map((a) => AchievementData.toJSON(a)),
+        authInfo: AuthInfo.toJSON(member.authInfo),
         profile: ProfileData.toJSON(member.profile),
         progress: member.progress.map((p) => ProgressData.toJSON(p))
       };
@@ -151,14 +161,13 @@ export class FirestoreMember {
     fromFirestore(
       snapshot: QueryDocumentSnapshot,
       options: SnapshotOptions
-    ): FirestoreMember {
+    ): Member {
       const data = snapshot.data(options);
       const achievements = data['achievements']
         ? data['achievements'].map((a: any) => AchievementData.fromJSON(a))
         : [];
-      const aa = data['authActivity']
-        ? AuthActivity.fromJSON(data['authActivity'])
-        : new AuthActivity(new Date(), new Date());
+      // had to access AuthInfo directly because its data comes solely from auth
+      const authInfo = AuthInfo.fromJSON(data['authInfo']);
       const profile =
         data['profile'] && Object.keys(data['profile']).length > 0
           ? ProfileData.fromJSON(data['profile'])
@@ -167,7 +176,7 @@ export class FirestoreMember {
         ? data['progress'].map((p: any) => ProgressData.fromJSON(p))
         : [];
 
-      return new FirestoreMember(achievements, aa, profile, progress);
+      return new Member(achievements, authInfo, profile, progress);
     }
   };
 }

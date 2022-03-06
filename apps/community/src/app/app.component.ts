@@ -1,12 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import {
-  Auth,
-  GoogleAuthProvider,
-  signInWithRedirect
-} from '@angular/fire/auth';
+import { Auth } from '@angular/fire/auth';
 import { doc, Firestore, getDoc } from '@angular/fire/firestore';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { constants } from '@community/data';
 import { SPINNER } from 'ngx-ui-loader';
@@ -31,7 +26,6 @@ export class AppComponent implements OnInit {
     public auth: Auth,
     private overlayContainer: OverlayContainer,
     private firestore: Firestore,
-    private snackBar: MatSnackBar,
     public themingService: ThemingService,
     private router: Router
   ) {}
@@ -51,7 +45,7 @@ export class AppComponent implements OnInit {
       } else {
         try {
           const firestoreMember = await getDoc(
-            doc(this.firestore, 'members', this.auth.currentUser!.uid)
+            doc(this.firestore, 'members', member.uid)
           );
           const isNewMember =
             !firestoreMember.exists() ||
@@ -75,17 +69,5 @@ export class AppComponent implements OnInit {
       this.themes.indexOf(this.cssClass) == 0 ? this.themes[1] : this.themes[0];
     this.themingService.theme.next(this.cssClass);
     localStorage.setItem(constants.LOCALSTORAGE_THEME_KEY, this.cssClass);
-  }
-
-  async signInWithGoogle(): Promise<void> {
-    if (!this.isSigningIn) {
-      try {
-        this.isSigningIn = true;
-        await signInWithRedirect(this.auth, new GoogleAuthProvider());
-      } catch (error: any) {
-        this.snackBar.open(error.message);
-        this.isSigningIn = false;
-      }
-    }
   }
 }

@@ -1,1 +1,41 @@
-<p>dashboard works!</p>
+<div id="dashboard">
+  <h2 id="page-heading">Community Members</h2>
+
+  <div id="page-loader" *ngIf="isLoading">
+    <p>Please wait ...</p>
+    <div>
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading">
+    <div id="accordion-buttons">
+      <button
+        id="expand-all-button"
+        mat-stroked-button
+        (click)="accordion.openAll()"
+      >
+        Expand All
+      </button>
+      <button mat-stroked-button (click)="accordion.closeAll()">
+        Collapse All
+      </button>
+    </div>
+
+    <mat-accordion multi>
+      <mat-expansion-panel *ngFor="let member of members">
+        <mat-expansion-panel-header>
+          <mat-panel-title> {{ member.displayName }} </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="info-container">
+          <p><span class="info-label">Email:</span> {{ member.email }}</p>
+          <p><span class="info-label">Phone:</span> {{ member.phoneNumber }}</p>
+          <p class="more-button-container">
+            <a mat-stroked-button color="primary">MORE</a>
+          </p>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

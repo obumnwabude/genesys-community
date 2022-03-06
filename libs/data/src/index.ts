@@ -5,3 +5,11 @@ export const constants = {
   DEFAULT_THEME: 'light_mode',
   LOCALSTORAGE_THEME_KEY: 'theme'
 };
+
+export interface AuthMember {
+  uid: string;
+  email: string;
+  displayName: string;
+  photoURL: string;
+  phoneNumber: string;
+}

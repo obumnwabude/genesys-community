@@ -25,6 +25,8 @@ export class VerifyPhoneComponent implements AfterViewInit {
   @ViewChild('phoneInput') phoneInput!: MatInput;
   @ViewChild('codeInput') codeInput!: MatInput;
 
+  isSubmittingPhone = false;
+  isVerifyingCode = false;
   recaptchaSolved = false;
   recaptchaExpired = false;
   phoneSubmitted = false;
@@ -68,6 +70,8 @@ export class VerifyPhoneComponent implements AfterViewInit {
   }
 
   async submitPhone(): Promise<void> {
+    if (this.isSubmittingPhone) return;
+
     if (!this.recaptchaSolved) {
       this.snackBar.open('Please solve the recaptcha.');
       return;
@@ -90,6 +94,7 @@ export class VerifyPhoneComponent implements AfterViewInit {
 
     if (this.auth.currentUser) {
       try {
+        this.isSubmittingPhone = true;
         this.confirmationResult = await linkWithPhoneNumber(
           this.auth.currentUser,
           `+234${this.phoneCtrl.value}`,
@@ -114,13 +119,17 @@ export class VerifyPhoneComponent implements AfterViewInit {
           .render()
           .then((widgetId) => grecaptcha.reset(widgetId));
         this.snackBar.open(`Code not sent: ${error}`);
+      } finally {
+        this.isSubmittingPhone = false;
       }
     } else {
-      this.snackBar.open('You should not be here. Sign In with Google First');
+      this.snackBar.open('Please Sign In First');
     }
   }
 
   async submitCode(): Promise<void> {
+    if (this.isVerifyingCode) return;
+
     if (this.verifyCodeCtrl.hasError('required')) {
       this.snackBar.open('Six digits code is required.');
       return;
@@ -133,6 +142,7 @@ export class VerifyPhoneComponent implements AfterViewInit {
 
     if (this.confirmationResult) {
       try {
+        this.isVerifyingCode = true;
         await this.confirmationResult.confirm(this.verifyCodeCtrl.value);
       } catch (error: any) {
         this.verifyCodeCtrl.setValue('');
@@ -148,11 +158,11 @@ export class VerifyPhoneComponent implements AfterViewInit {
           this.snackBar.open('Wrong code, please try again');
           this.codeInput.focus();
         }
+      } finally {
+        this.isVerifyingCode = false;
       }
     } else {
-      this.snackBar.open(
-        'You should not be here. Submit your phone number first.'
-      );
+      this.snackBar.open('Please submit your phone number first.');
     }
   }
 

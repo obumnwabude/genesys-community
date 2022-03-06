@@ -84,3 +84,15 @@ p {
 mat-form-field#twitter-handle .mat-form-field-infix {
   display: flex;
 }
+
+.black-spinner-container {
+  .mat-button-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .mat-progress-spinner circle,
+  .mat-spinner circle {
+    stroke: #000000de;
+  }
+}

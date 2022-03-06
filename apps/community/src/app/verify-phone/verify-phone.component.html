@@ -32,7 +32,22 @@
             : 'Enter a valid phone in right format'
         }}</mat-error>
       </mat-form-field>
-      <button mat-raised-button color="primary">Send Code</button>
+      <button
+        mat-raised-button
+        color="primary"
+        class="black-spinner-container"
+        [class.horizontal-padding]="isSubmittingPhone"
+      >
+        <span *ngIf="!isSubmittingPhone">Send Code</span>
+        &nbsp;
+        <span *ngIf="isSubmittingPhone">
+          <mat-progress-spinner
+            mode="indeterminate"
+            strokeWidth="4"
+            diameter="18"
+          ></mat-progress-spinner
+        ></span>
+      </button>
     </form>
   </div>
 
@@ -57,7 +72,22 @@
           : 'Enter the 6-digits code'
       }}</mat-error>
     </mat-form-field>
-    <button mat-raised-button color="primary">Verify Code</button>
+    <button
+      mat-raised-button
+      color="primary"
+      class="black-spinner-container"
+      [class.horizontal-padding]="isVerifyingCode"
+    >
+      <span *ngIf="!isVerifyingCode">Verify Code</span>
+      &nbsp;
+      <span *ngIf="isVerifyingCode">
+        <mat-progress-spinner
+          mode="indeterminate"
+          strokeWidth="4"
+          diameter="18"
+        ></mat-progress-spinner
+      ></span>
+    </button>
   </form>
 
   <p *ngIf="phoneSubmitted && secondsLeft > 0">

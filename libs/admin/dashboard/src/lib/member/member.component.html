@@ -23,8 +23,6 @@
             <p class="info-label">Faculty</p>
             <p class="info-value">{{ member.profile.faculty }}</p>
           </div>
-        </div>
-        <div>
           <div class="info-container">
             <p class="info-label">Department</p>
             <p class="info-value">{{ member.profile.department }}</p>
@@ -32,6 +30,49 @@
           <div class="info-container">
             <p class="info-label">Level</p>
             <p class="info-value">{{ member.profile.level }}</p>
+          </div>
+        </div>
+        <div>
+          <div class="info-container">
+            <p class="info-label">Creation Time</p>
+            <p class="info-value">
+              {{
+                member.authInfo.creationTime | date: 'EEE, dd/MM/YYYY, hh:mm a'
+              }}.
+            </p>
+          </div>
+          <div class="info-container">
+            <p class="info-label">Last Sign In Time</p>
+            <p class="info-value">
+              {{
+                member.authInfo.lastSignInTime
+                  | date: 'EEE, dd/MM/YYYY, hh:mm a'
+              }}.
+            </p>
+          </div>
+          <div class="info-container">
+            <p class="info-label">Recorded Progress</p>
+            <p class="info-value">
+              {{
+                member.stats.progress === 0
+                  ? 'Never'
+                  : member.stats.progress === 1
+                  ? 'Once'
+                  : member.stats.progress + ' Times'
+              }}
+            </p>
+          </div>
+          <div class="info-container">
+            <p class="info-label">Shared Achievements</p>
+            <p class="info-value">
+              {{
+                member.stats.achievements === 0
+                  ? 'Never'
+                  : member.stats.achievements === 1
+                  ? 'Once'
+                  : member.stats.achievements + ' Times'
+              }}
+            </p>
           </div>
           <div class="info-container">
             <p class="info-label">Twitter</p>
@@ -60,10 +101,7 @@
           <p>No recorded progress yet.</p>
         </div>
         <div *ngIf="member.progress.length > 0">
-          <div
-            *ngFor="let p of member.progress"
-            class="app-card progress"
-          >
+          <div *ngFor="let p of member.progress" class="app-card progress">
             <p class="time">{{ p.time | date: 'EEE, dd/MM/YYYY, hh:mm a' }}</p>
             <p class="skill">In {{ p.skill }}</p>
             <p class="description">{{ p.description }}</p>
@@ -73,17 +111,11 @@
     </mat-tab>
     <mat-tab label="Achievements">
       <div id="achievement-body" class="tab-body">
-        <div
-          id="no-achievement"
-          *ngIf="member.achievements.length === 0"
-        >
+        <div id="no-achievement" *ngIf="member.achievements.length === 0">
           <p>No shared achievement yet.</p>
         </div>
         <div *ngIf="member.achievements.length > 0">
-          <div
-            *ngFor="let a of member.achievements"
-            class="app-card progress"
-          >
+          <div *ngFor="let a of member.achievements" class="app-card progress">
             <p class="time">{{ a.time | date: 'EEE, dd/MM/YYYY, hh:mm a' }}</p>
             <p class="type">{{ capitalise(a.type) }}</p>
             <p class="title">{{ a.title }}</p>

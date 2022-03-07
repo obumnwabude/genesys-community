@@ -22,10 +22,6 @@
 #profile-body {
   .info-container {
     margin-bottom: 32px;
-
-    @media (min-width: 576px) and (max-width: 767.98px) {
-      text-align: center;
-    }
   }
 
   .info-label {
@@ -36,10 +32,6 @@
   .twitter-link-button {
     margin-left: -16px;
 
-    @media (min-width: 576px) and (max-width: 767.98px) {
-      margin-left: 16px;
-    }
-
     .info-value {
       display: flex;
       align-items: center;
@@ -49,8 +41,8 @@
   .info-value {
     font-size: 1.125rem;
   }
-  
-  @media (min-width: 768px) {
+
+  @media (min-width: 576px) {
     display: flex;
     width: 576px;
     justify-content: space-between;

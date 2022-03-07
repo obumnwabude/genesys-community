@@ -104,7 +104,18 @@
           <div *ngFor="let p of member.progress" class="app-card progress">
             <p class="time">{{ p.time | date: 'EEE, dd/MM/YYYY, hh:mm a' }}</p>
             <p class="skill">In {{ p.skill }}</p>
-            <p class="description">{{ p.description }}</p>
+
+            <mat-form-field appearance="standard" class="description-container">
+              <textarea
+                matInput
+                readonly
+                class="description"
+                [value]="p.description"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="8"
+              ></textarea>
+            </mat-form-field>
           </div>
         </div>
       </div>
@@ -130,7 +141,17 @@
                 <mat-icon>open_in_new</mat-icon>
               </a>
             </p>
-            <p class="description">{{ a.description }}</p>
+             <mat-form-field appearance="standard" class="description-container">
+              <textarea
+                matInput
+                readonly
+                class="description"
+                [value]="a.description"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="8"
+              ></textarea>
+            </mat-form-field>
           </div>
         </div>
       </div>

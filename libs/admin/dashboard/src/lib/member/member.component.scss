@@ -17,7 +17,6 @@
 
 .tab-body {
   padding: 128px 16px 64px;
-  height: 2000px;
 }
 
 #profile-body {
@@ -82,12 +81,12 @@
 
 .app-card {
   max-width: 512px;
-  margin-left: auto;
-  margin-right: auto;
   padding: 24px;
 
   @media (max-width: 767.98px) {
     margin-bottom: 24px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -100,6 +99,11 @@
 .skill {
   font-size: 1.125rem;
   margin-bottom: 1rem;
+}
+
+mat-form-field {
+  width: 100%;
+  padding: 0;
 }
 
 .description {

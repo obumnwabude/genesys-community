@@ -142,12 +142,25 @@ export class AuthInfo {
   }
 }
 
+export class MemberStats {
+  constructor(public achievements: number, public progress: number) {}
+
+  static fromJSON(json: any): MemberStats {
+    return new MemberStats(json['achievements'], json['progress']);
+  }
+
+  static toJSON(stats: MemberStats) {
+    return { achievements: stats.achievements, progress: stats.progress };
+  }
+}
+
 export class Member {
   constructor(
     public achievements: Achievement[],
     public authInfo: AuthInfo,
     public profile: Profile,
-    public progress: Progress[]
+    public progress: Progress[],
+    public stats: MemberStats
   ) {}
 
   static converter = {
@@ -156,7 +169,8 @@ export class Member {
         achievements: member.achievements.map((a) => Achievement.toJSON(a)),
         authInfo: AuthInfo.toJSON(member.authInfo),
         profile: Profile.toJSON(member.profile),
-        progress: member.progress.map((p) => Progress.toJSON(p))
+        progress: member.progress.map((p) => Progress.toJSON(p)),
+        stats: MemberStats.toJSON(member.stats)
       };
     },
     fromFirestore(
@@ -176,8 +190,11 @@ export class Member {
       const progress = data['progress']
         ? data['progress'].map((p: any) => Progress.fromJSON(p))
         : [];
+      const stats = data['stats']
+        ? MemberStats.fromJSON(data['stats'])
+        : new MemberStats(achievements.length, progress.length);
 
-      return new Member(achievements, authInfo, profile, progress);
+      return new Member(achievements, authInfo, profile, progress, stats);
     }
   };
 }

@@ -1,6 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { arrayUnion, doc, Firestore, setDoc } from '@angular/fire/firestore';
+import {
+  arrayUnion,
+  doc,
+  Firestore,
+  increment,
+  setDoc
+} from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -30,7 +36,10 @@ export class ProgressComponent {
           this.progress.time = new Date();
           await setDoc(
             doc(this.firestore, 'members', this.auth.currentUser.uid),
-            { progress: arrayUnion(Progress.toJSON(this.progress)) },
+            {
+              progress: arrayUnion(Progress.toJSON(this.progress)),
+              stats: { progress: increment(1) }
+            },
             { merge: true }
           );
           this.snackBar.open('Your progress has been recorded');

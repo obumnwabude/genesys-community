@@ -26,7 +26,11 @@ exports.createMember = functions.auth.user().onCreate(async (member) => {
           uid
         },
         profile: {},
-        progress: []
+        progress: [],
+        stats: {
+          achievements: 0,
+          progress: 0
+        }
       },
       { merge: true }
     )

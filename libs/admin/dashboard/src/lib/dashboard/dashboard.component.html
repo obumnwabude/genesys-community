@@ -76,6 +76,14 @@
         </mat-expansion-panel-header>
 
         <div class="info-container">
+          <p class="hide-in-wide-screen" *ngIf="extraLabel">
+            <span class="info-label">{{ extraLabel + ':' }}</span>
+            {{
+              orderBy.toLowerCase().split('.')[1].includes('time')
+                ? (extraValue(member) | date: 'EEE, dd/MM/YYYY, hh:mm a')
+                : extraValue(member)
+            }}
+          </p>
           <div>
             <p>
               <span class="info-label">Email:</span> {{ member.authInfo.email }}
@@ -85,16 +93,6 @@
               {{ member.authInfo.phoneNumber }}
             </p>
           </div>
-          <p class="hide-in-wide-screen">
-            <span class="info-label"
-              >{{ extraLabel }}{{ extraLabel ? ': ' : '' }}
-            </span>
-            {{
-              orderBy.toLowerCase().split('.')[1].includes('time')
-                ? (extraValue(member) | date: 'EEE, dd/MM/YYYY, hh:mm a')
-                : extraValue(member)
-            }}
-          </p>
           <p class="more-button-container">
             <a
               mat-stroked-button

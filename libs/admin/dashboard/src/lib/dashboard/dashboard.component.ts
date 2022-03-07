@@ -55,11 +55,21 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.orderDirection = (localStorage.getItem(
       constants.LOCALSTORAGE_ORDER_DIRECTION_KEY
     ) ?? constants.DEFAULT_ORDER_DIRECTION) as OrderByDirection;
+    this.assignExtraLabel();
     await this.fetchMembers();
   }
 
   ngOnDestroy(): void {
     this.memberCountUnSub();
+  }
+
+  assignExtraLabel(): void {
+    const order = this.orderBy.split('authInfo.')[1];
+    if (!['email', 'displayName', 'phoneNumber'].includes(order)) {
+      this.extraLabel = this.orderByOptions.filter(
+        (o) => o.value === this.orderBy
+      )[0].viewValue;
+    } else this.extraLabel = '';
   }
 
   changePage(event: PageEvent): void {
@@ -76,13 +86,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
       constants.LOCALSTORAGE_ORDER_DIRECTION_KEY,
       this.orderDirection
     );
-    const order = this.orderBy.split('authInfo.')[1];
     this.currentPage = 0;
-    if (!['email', 'displayName', 'phoneNumber'].includes(order)) {
-      this.extraLabel = this.orderByOptions.filter(
-        (o) => o.value === this.orderBy
-      )[0].viewValue;
-    } else this.extraLabel = '';
+    this.assignExtraLabel();
     this.lastQueryMember = null;
     this.fetchMembers();
   }

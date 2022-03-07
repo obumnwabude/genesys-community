@@ -13,12 +13,10 @@ mat-toolbar#navbar {
     margin-right: auto;
 
     h1 {
-      display: flex;
-      align-items: center;
+      line-height: 0;
 
       img#nav-logo {
-        width: 36px;
-        margin-right: 0.5rem;
+        height: 36px;
       }
     }
   }

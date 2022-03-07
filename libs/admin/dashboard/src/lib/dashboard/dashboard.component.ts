@@ -54,7 +54,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     private firestore: Firestore,
     private snackBar: MatSnackBar,
     private scroll: ViewportScroller
-  ) { }
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.memberCountUnSub = onSnapshot(
@@ -87,24 +87,28 @@ export class DashboardComponent implements OnDestroy, OnInit {
     } else this.extraLabel = '';
   }
 
+  changeOrderBy(): void {
+    localStorage.setItem(constants.LOCALSTORAGE_ORDER_BY_KEY, this.orderBy);
+    this.currentPage = 0;
+    this.assignExtraLabel();
+    this.lastQueryMember = null;
+    this.fetchMembers();
+  }
+
+  changeOrderDirection(): void {
+    localStorage.setItem(
+      constants.LOCALSTORAGE_ORDER_DIRECTION_KEY,
+      this.orderDirection
+    );
+    if (this.members) this.members = this.members.reverse();
+  }
+
   changePage(event: PageEvent): void {
     if (this.currentPage !== event.pageIndex) {
       const oldIndex = this.currentPage;
       this.currentPage = event.pageIndex;
       this.fetchMembers(event.pageIndex > oldIndex);
     }
-  }
-
-  changedSelectOption(): void {
-    localStorage.setItem(constants.LOCALSTORAGE_ORDER_BY_KEY, this.orderBy);
-    localStorage.setItem(
-      constants.LOCALSTORAGE_ORDER_DIRECTION_KEY,
-      this.orderDirection
-    );
-    this.currentPage = 0;
-    this.assignExtraLabel();
-    this.lastQueryMember = null;
-    this.fetchMembers();
   }
 
   extraValue(member: Member): string {

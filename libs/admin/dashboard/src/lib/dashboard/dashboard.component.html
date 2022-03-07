@@ -22,7 +22,7 @@
       <div id="bottom-tools">
         <mat-form-field>
           <mat-label>Order By</mat-label>
-          <mat-select [(value)]="orderBy" (valueChange)="changedSelectOption()">
+          <mat-select [(value)]="orderBy" (valueChange)="changeOrderBy()">
             <mat-option *ngFor="let o of orderByOptions" [value]="o.value">
               {{ o.viewValue }}
             </mat-option>
@@ -33,7 +33,7 @@
           <mat-label>Direction</mat-label>
           <mat-select
             [(value)]="orderDirection"
-            (valueChange)="changedSelectOption()"
+            (valueChange)="changeOrderDirection()"
           >
             <mat-option
               *ngFor="let o of orderDirectionOptions"

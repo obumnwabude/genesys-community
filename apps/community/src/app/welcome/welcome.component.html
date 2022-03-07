@@ -93,11 +93,14 @@
           type="text"
           [(ngModel)]="profile.twitter"
           name="twitter"
+          pattern="^(\w){1,15}$"
           #twitter="ngModel"
         />
-        <mat-error *ngIf="!department.valid"
-          >Twitter Handle is required</mat-error
-        >
+        <mat-error *ngIf="!twitter.valid">{{
+          twitter.hasError('required')
+            ? 'Twitter Handle is required'
+            : 'Please just a valid Twitter username'
+        }}</mat-error>
       </mat-form-field>
       <p>
         <button mat-raised-button type="submit" color="primary">

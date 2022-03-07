@@ -9,42 +9,91 @@
   </div>
 
   <div *ngIf="!isLoading && members">
-    <div id="accordion-buttons">
-      <button
-        id="expand-all-button"
-        mat-stroked-button
-        (click)="accordion.openAll()"
-      >
-        Expand All
-      </button>
-      <button mat-stroked-button (click)="accordion.closeAll()">
-        Collapse All
-      </button>
-    </div>
+    <div id="tools">
+      <div id="accordion-buttons">
+        <button mat-stroked-button (click)="accordion.openAll()">
+          Expand All
+        </button>
+        <button mat-stroked-button (click)="accordion.closeAll()">
+          Collapse All
+        </button>
+      </div>
 
-    <mat-paginator
-      class="mat-elevation-z1"
-      [hidePageSize]="true"
-      [length]="noOfMembers"
-      (page)="changePage($event)"
-      [pageIndex]="currentPage"
-      [pageSize]="membersPerPage"
-    >
-    </mat-paginator>
+      <div id="bottom-tools">
+        <mat-form-field>
+          <mat-label>Order By</mat-label>
+          <mat-select [(value)]="orderBy" (valueChange)="changedSelectOption()">
+            <mat-option *ngFor="let o of orderByOptions" [value]="o.value">
+              {{ o.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Direction</mat-label>
+          <mat-select
+            [(value)]="orderDirection"
+            (valueChange)="changedSelectOption()"
+          >
+            <mat-option
+              *ngFor="let o of orderDirectionOptions"
+              [value]="o.value"
+            >
+              {{ o.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-paginator
+          class="mat-elevation-z1"
+          [hidePageSize]="true"
+          [length]="noOfMembers"
+          (page)="changePage($event)"
+          [pageIndex]="currentPage"
+          [pageSize]="membersPerPage"
+          *ngIf="noOfMembers > membersPerPage"
+        >
+        </mat-paginator>
+      </div>
+    </div>
 
     <mat-accordion multi>
       <mat-expansion-panel *ngFor="let member of members" [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title> {{ member.authInfo.displayName }} </mat-panel-title>
+          <mat-panel-description class="show-in-wide-screen">
+            <div class="info-container">
+              <span class="info-label"
+                >{{ extraLabel }}{{ extraLabel ? ': ' : '' }}
+              </span>
+              {{
+                orderBy.toLowerCase().split('.')[1].includes('time')
+                  ? (extraValue(member) | date: 'EEE, dd/MM/YYYY, hh:mm a')
+                  : extraValue(member)
+              }}
+            </div>
+          </mat-panel-description>
         </mat-expansion-panel-header>
 
         <div class="info-container">
-          <p>
-            <span class="info-label">Email:</span> {{ member.authInfo.email }}
-          </p>
-          <p>
-            <span class="info-label">Phone:</span>
-            {{ member.authInfo.phoneNumber }}
+          <div>
+            <p>
+              <span class="info-label">Email:</span> {{ member.authInfo.email }}
+            </p>
+            <p>
+              <span class="info-label">Phone:</span>
+              {{ member.authInfo.phoneNumber }}
+            </p>
+          </div>
+          <p class="hide-in-wide-screen">
+            <span class="info-label"
+              >{{ extraLabel }}{{ extraLabel ? ': ' : '' }}
+            </span>
+            {{
+              orderBy.toLowerCase().split('.')[1].includes('time')
+                ? (extraValue(member) | date: 'EEE, dd/MM/YYYY, hh:mm a')
+                : extraValue(member)
+            }}
           </p>
           <p class="more-button-container">
             <a

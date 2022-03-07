@@ -1,6 +1,6 @@
 #dashboard {
   padding: 0 16px;
-  max-width: 768px;
+  max-width: 992px;
   margin-left: auto;
   margin-right: auto;
 
@@ -9,9 +9,11 @@
   }
 
   h2#page-heading {
-    margin-bottom: 24px;
+    margin-top: 16px;
+    margin-bottom: 32px;
     text-decoration: underline;
     text-decoration-style: double;
+    text-align: center;
   }
 
   #page-loader {
@@ -31,23 +33,68 @@
     }
   }
 
-  #accordion-buttons {
-    margin-bottom: 24px;
-  }
+  #tools {
+    text-align: center;
 
-  #expand-all-button {
-    margin-right: 16px;
-  }
+    @media (min-width: 992px) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-  mat-paginator {
-    margin-bottom: 24px;
-    max-width: 216px;
+    #accordion-buttons {
+      margin-bottom: 24px;
+      width: fit-content;
+
+      @media (max-width: 991.98px) {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      button {
+        margin-right: 16px;
+      }
+    }
+
+    #bottom-tools {
+      @media (min-width: 768px) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      mat-form-field {
+        margin-right: 24px !important;
+        margin-bottom: 24px;
+      }
+
+      mat-paginator {
+        margin-bottom: 24px;
+        max-width: 216px;
+
+        @media (max-width: 767.98px) {
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+    }
   }
 
   mat-panel-title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .show-in-wide-screen {
+    .info-container {
+      margin-top: 0;
+    }
+
+    @media (max-width: 767.98px) {
+      display: none;
+    }
   }
 
   mat-expansion-panel.mat-expanded {
@@ -72,6 +119,18 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      > div {
+        display: flex;
+      }
+
+      .hide-in-wide-screen {
+        display: none;
+      }
+
+      p:first-of-type {
+        margin-right: 32px;
+      }
     }
 
     p {

@@ -27,7 +27,7 @@ export class SignInComponent implements OnInit {
       if (user) {
         const idTokenResult = await user.getIdTokenResult();
         if (idTokenResult.claims['admin']) {
-          this.router.navigateByUrl('/dashboard');
+          this.router.navigateByUrl('/');
         } else {
           this.snackBar.open(
             `${user.email} is not authorized to access the next page.`

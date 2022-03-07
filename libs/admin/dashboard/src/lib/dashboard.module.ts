@@ -12,12 +12,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import {
-  MatSnackBarModule,
-  MAT_SNACK_BAR_DEFAULT_OPTIONS
-} from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { environment } from '@community/env/environment';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -27,17 +24,16 @@ import { MemberComponent } from './member/member.component';
   imports: [
     CommonModule,
     RouterModule.forChild([
-      { path: 'dashboard', component: DashboardComponent },
+      { path: '', component: DashboardComponent },
       { path: 'member/:id', component: MemberComponent }
     ]),
     MatButtonModule,
     MatExpansionModule,
-    MatFormFieldModule ,
+    MatFormFieldModule,
     MatIconModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatSelectModule,
-    MatSnackBarModule,
     MatTabsModule,
     provideFirestore(() => {
       const firestore = getFirestore();
@@ -47,15 +43,6 @@ import { MemberComponent } from './member/member.component';
       return firestore;
     })
   ],
-  declarations: [DashboardComponent, MemberComponent],
-  providers: [
-    {
-      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
-      useValue: {
-        duration: 5000,
-        verticalPosition: 'top'
-      }
-    }
-  ]
+  declarations: [DashboardComponent, MemberComponent]
 })
 export class DashboardModule {}

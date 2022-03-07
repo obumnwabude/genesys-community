@@ -56,6 +56,10 @@ $dark-theme: mat.define-dark-theme(
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body {
   height: 100%;
@@ -68,6 +72,26 @@ body {
 
 .spacer {
   flex: 1 1 auto;
+}
+
+button[mat-fab].scroll-to-top {
+  position: fixed;
+  bottom: 48px;
+  right: 32px;
+
+  @media (min-width: 1232px) {
+    right: calc(((100vw - 1232px) / 2) + 32px);
+  }
+}
+
+.hide-scroll {
+  opacity: 0;
+  transition: all 0.4s ease-in-out;
+}
+
+.show-scroll {
+  opacity: 1;
+  transition: all 0.4s ease-in-out;
 }
 
 #member-details {

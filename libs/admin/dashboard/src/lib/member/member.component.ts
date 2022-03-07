@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,12 +11,17 @@ import { Member, memberSnap } from '@community/data';
 })
 export class MemberComponent implements OnInit {
   isLoading = false;
+  hasScrolled = false;
   member: Member | null = null;
+  @HostListener('window:scroll') scrolled() {
+    this.hasScrolled = this.scroll.getScrollPosition()[1] > 256;
+  }
 
   constructor(
     private firestore: Firestore,
     private route: ActivatedRoute,
     private router: Router,
+    private scroll: ViewportScroller,
     private snackBar: MatSnackBar
   ) {}
 
@@ -55,5 +61,9 @@ export class MemberComponent implements OnInit {
 
   capitalise(str: string): string {
     return str.charAt(0).toUpperCase() + str.substring(1);
+  }
+
+  scrollToTop(): void {
+    this.scroll.scrollToPosition([0, 0]);
   }
 }

@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {
   collection,
   doc,
@@ -29,6 +36,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   currentPage = 0;
   extraLabel!: string;
   isLoading = true;
+  hasScrolled = false;
   lastQueryMember: DocumentSnapshot<Member> | null = null;
   memberCountUnSub!: Unsubscribe;
   members: Member[] | null = null;
@@ -38,8 +46,15 @@ export class DashboardComponent implements OnDestroy, OnInit {
   orderByOptions = constants.ORDER_BY_OPTIONS;
   orderDirection!: OrderByDirection;
   orderDirectionOptions = constants.ORDER_DIRECTION_OPTIONS;
+  @HostListener('window:scroll') scrolled() {
+    this.hasScrolled = this.scroll.getScrollPosition()[1] > 256;
+  }
 
-  constructor(private firestore: Firestore, private snackBar: MatSnackBar) {}
+  constructor(
+    private firestore: Firestore,
+    private snackBar: MatSnackBar,
+    private scroll: ViewportScroller
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.memberCountUnSub = onSnapshot(
@@ -136,5 +151,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
       .open(error.message, 'REFRESH PAGE')
       .onAction()
       .subscribe(() => window.location.reload());
+  }
+
+  scrollToTop(): void {
+    this.scroll.scrollToPosition([0, 0]);
   }
 }

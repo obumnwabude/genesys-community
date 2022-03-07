@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Auth } from '@angular/fire/auth';
-import { Firestore } from '@angular/fire/firestore';
+import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { constants, memberSnap } from '@community/data';
 import { SPINNER } from 'ngx-ui-loader';
@@ -37,28 +37,37 @@ export class AppComponent implements OnInit {
       oCClasses.remove(...Array.from(this.themes));
       oCClasses.add(this.cssClass);
     });
-    this.auth.onAuthStateChanged(async (member) => {
-      if (!member) {
+    this.auth.onAuthStateChanged(async (authMember) => {
+      if (!authMember) {
         if (!this.router.url.includes('welcome')) {
           this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
         }
       } else {
         try {
-          const snap = await memberSnap(this.firestore, member.uid);
+          const snap = await memberSnap(this.firestore, authMember.uid);
           let isNewMember: boolean;
-          if (!member.phoneNumber) {
+          if (!snap.exists()) {
             isNewMember = true;
           } else {
-            if (!snap.exists()) {
+            const phoneInAuth = authMember.phoneNumber;
+            if (!phoneInAuth) {
               isNewMember = true;
             } else {
+              const firestoreMember = snap.data();
+              const phoneNumber = authMember.phoneNumber;
+              const phoneInFirestore = firestoreMember.authInfo.phoneNumber;
+              if (!phoneInFirestore || phoneInFirestore !== phoneInAuth) {
+                await setDoc(
+                  doc(this.firestore, 'members', authMember.uid),
+                  { authInfo: { phoneNumber } },
+                  { merge: true }
+                );
+              }
               const { department, faculty, level, twitter } =
-                snap.data().profile;
+                firestoreMember.profile;
               isNewMember =
-                department === '' &&
-                faculty === '' &&
-                level === '' &&
-                twitter === '';
+                [department, faculty, level, twitter].filter((i) => i === '')
+                  .length === 4;
             }
           }
           if (isNewMember) {

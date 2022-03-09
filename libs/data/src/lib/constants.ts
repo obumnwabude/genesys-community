@@ -14,6 +14,7 @@ export const constants = {
     { value: 'profile.department', viewValue: 'Department' },
     { value: 'authInfo.email', viewValue: 'Email' },
     { value: 'profile.faculty', viewValue: 'Faculty' },
+    { value: 'profile.gender', viewValue: 'Gender' },
     { value: 'authInfo.lastSignInTime', viewValue: 'Last Sign In Time' },
     { value: 'profile.level', viewValue: 'Level' },
     { value: 'authInfo.displayName', viewValue: 'Name' },

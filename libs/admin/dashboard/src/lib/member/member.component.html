@@ -20,6 +20,10 @@
             <p class="info-value">{{ member.authInfo.phoneNumber }}</p>
           </div>
           <div class="info-container">
+            <p class="info-label">Gender</p>
+            <p class="info-value">{{ member.profile.gender }}</p>
+          </div>
+          <div class="info-container">
             <p class="info-label">Faculty</p>
             <p class="info-value">{{ member.profile.faculty }}</p>
           </div>
@@ -92,6 +96,10 @@
               </p></a
             >
           </div>
+          <div class="info-container">
+            <p class="info-label">User Id</p>
+            <p class="info-value">{{ member.authInfo.uid }}</p>
+          </div>
         </div>
       </div>
     </mat-tab>
@@ -141,7 +149,7 @@
                 <mat-icon>open_in_new</mat-icon>
               </a>
             </p>
-             <mat-form-field appearance="standard" class="description-container">
+            <mat-form-field appearance="standard" class="description-container">
               <textarea
                 matInput
                 readonly

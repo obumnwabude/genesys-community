@@ -6,6 +6,24 @@ export class Profile {
     public twitter: string
   ) {}
 
+  static FACULTIES = [
+    'Agriculture',
+    'Basic Medical Sciences',
+    'Biological Sciences',
+    'College of Medicine',
+    'Education',
+    'Engineering and Technology',
+    'Humanities',
+    'Law',
+    'Management Sciences',
+    'Physical Sciences',
+    'Science',
+    'Social Sciences',
+    'Not Applicable'
+  ];
+
+  static LEVELS = ['100', '200', '300', '400', '500', '600', 'Not Applicable'];
+
   static fromJSON(json: any): Profile {
     return new Profile(
       json['department'],

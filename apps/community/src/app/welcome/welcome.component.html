@@ -45,21 +45,23 @@
     <app-verify-phone></app-verify-phone>
   </div>
 
-  <div *ngIf="auth.currentUser && auth.currentUser.phoneNumber && isNewMember">
+  <div
+    id="profile-section"
+    *ngIf="auth.currentUser && auth.currentUser.phoneNumber && isNewMember"
+  >
     <p class="subheading">Please let's know a little more about you.</p>
     <form id="profile-form" #profileForm="ngForm" (ngSubmit)="saveProfile()">
-      <mat-form-field>
-        <mat-label>Faculty</mat-label>
-        <input
-          matInput
-          required
-          type="text"
-          [(ngModel)]="profile.faculty"
-          name="faculty"
-          #faculty="ngModel"
-        />
-        <mat-error *ngIf="!faculty.valid">Faculty is required</mat-error>
-      </mat-form-field>
+      <label class="label-for-radio-group">Faculty *</label>
+      <mat-radio-group>
+        <mat-radio-button
+          *ngFor="let faculty of faculties; first as first"
+          (change)="profile.faculty = $event.value"
+          [checked]="first"
+          [value]="faculty"
+        >
+          {{ faculty }}
+        </mat-radio-button>
+      </mat-radio-group>
       <mat-form-field>
         <mat-label>Department</mat-label>
         <input
@@ -72,18 +74,17 @@
         />
         <mat-error *ngIf="!department.valid">Department is required</mat-error>
       </mat-form-field>
-      <mat-form-field>
-        <mat-label>Level</mat-label>
-        <input
-          matInput
-          required
-          type="text"
-          [(ngModel)]="profile.level"
-          name="level"
-          #level="ngModel"
-        />
-        <mat-error *ngIf="!level.valid">Level is required</mat-error>
-      </mat-form-field>
+      <label class="label-for-radio-group">Level *</label>
+      <mat-radio-group>
+        <mat-radio-button
+          *ngFor="let level of levels; first as first"
+          (change)="profile.level = $event.value"
+          [checked]="first"
+          [value]="level"
+        >
+          {{ level }}
+        </mat-radio-button>
+      </mat-radio-group>
       <mat-form-field id="twitter-handle">
         <mat-label>Twitter Handle</mat-label>
         <span>@</span>

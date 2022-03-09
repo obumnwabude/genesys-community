@@ -21,6 +21,7 @@ import {
 } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import {
   MatSnackBarModule,
@@ -69,6 +70,7 @@ const routes: Route[] = [
     MatInputModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatRadioModule,
     MatSelectModule,
     MatSnackBarModule,
     MatSidenavModule,

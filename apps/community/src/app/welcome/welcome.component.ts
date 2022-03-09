@@ -17,10 +17,12 @@ import { memberSnap, Profile } from '@community/data';
   styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
+  faculties = Profile.FACULTIES;
   hasLoadedPage = false;
   isNewMember = false;
   isSigningIn = false;
-  profile = new Profile('', '', '', '');
+  levels = Profile.LEVELS;
+  profile = new Profile('', this.faculties[0], this.levels[0], '');
   @ViewChild('profileForm') profileForm!: NgForm;
 
   constructor(

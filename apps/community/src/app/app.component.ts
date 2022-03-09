@@ -63,11 +63,12 @@ export class AppComponent implements OnInit {
                   { merge: true }
                 );
               }
-              const { department, faculty, level, twitter } =
+              const { department, gender, faculty, level, twitter } =
                 firestoreMember.profile;
               isNewMember =
-                [department, faculty, level, twitter].filter((i) => i === '')
-                  .length === 4;
+                [department, gender, faculty, level, twitter].filter(
+                  (i) => i === ''
+                ).length === 5;
             }
           }
           if (isNewMember) {

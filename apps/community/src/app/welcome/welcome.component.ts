@@ -18,11 +18,18 @@ import { memberSnap, Profile } from '@community/data';
 })
 export class WelcomeComponent implements OnInit {
   faculties = Profile.FACULTIES;
+  genders = Profile.GENDERS;
   hasLoadedPage = false;
   isNewMember = false;
   isSigningIn = false;
   levels = Profile.LEVELS;
-  profile = new Profile('', this.faculties[0], this.levels[0], '');
+  profile = new Profile(
+    '',
+    this.faculties[0],
+    this.genders[0],
+    this.levels[0],
+    ''
+  );
   @ViewChild('profileForm') profileForm!: NgForm;
 
   constructor(
@@ -72,12 +79,12 @@ export class WelcomeComponent implements OnInit {
           if (!snap.exists()) {
             this.isNewMember = true;
           } else {
-            const { department, faculty, level, twitter } = snap.data().profile;
+            const { department, faculty, gender, level, twitter } =
+              snap.data().profile;
             this.isNewMember =
-              department === '' &&
-              faculty === '' &&
-              level === '' &&
-              twitter === '';
+              [department, gender, faculty, level, twitter].filter(
+                (i) => i === ''
+              ).length === 5;
           }
           if (!this.isNewMember) {
             let nextRoute = this.route.snapshot.queryParams['next'];

@@ -41,7 +41,7 @@ export class Member {
       const profile =
         data['profile'] && Object.keys(data['profile']).length > 0
           ? Profile.fromJSON(data['profile'])
-          : new Profile('', '', '', '');
+          : new Profile('', '', '', '', '');
       const progress = data['progress']
         ? data['progress'].map((p: any) => Progress.fromJSON(p))
         : [];

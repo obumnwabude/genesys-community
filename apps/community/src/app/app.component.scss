@@ -16,7 +16,13 @@ mat-toolbar#navbar {
       line-height: 0;
 
       img#nav-logo {
-        height: 36px;
+        @media (max-width: 575.98px) {
+          height: 30px;
+        }
+
+        @media (min-width: 576px) {
+          height: 36px;
+        }
       }
     }
   }

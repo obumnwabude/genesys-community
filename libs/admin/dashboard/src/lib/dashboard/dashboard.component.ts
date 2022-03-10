@@ -61,7 +61,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
       doc(this.firestore, 'members', 'counter'),
       {
         next: (s) => (this.noOfMembers = (s.data() as Counter).count ?? 0),
-        error: this.handleError
+        error: (e) => this.handleError(e)
       }
     );
     this.orderBy =

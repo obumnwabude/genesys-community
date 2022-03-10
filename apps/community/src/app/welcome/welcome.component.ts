@@ -48,16 +48,19 @@ export class WelcomeComponent implements OnInit {
       if (redirectResult && redirectResult.user) {
         this.isSigningIn = true;
         const { creationTime, lastSignInTime } = redirectResult.user.metadata;
-        // save on very first sign in since the cloud function will do so
-        // and it might not yet have run (to create the firestore object)
-        // by the time this code runs for the first time on a given user.
+        // Save lastSignInTime at all new signIns except the very first signIn.
+        // Avoided the first signIn because cloud functions will save the
+        // signInTime as it creates the firestore member document.
+        //
+        // It was also worth avoiding the save at first signInn because the
+        // cloud function might not yet have run (to create the firestore
+        // member document), and hence could an error could be thrown.
         if (creationTime && lastSignInTime && creationTime !== lastSignInTime) {
           await setDoc(
             doc(this.firestore, 'members', redirectResult.user.uid),
             {
               authInfo: {
-                // save only lastSignInTime (which is now), as creationTime
-                // won't change again.
+                // save only lastSignInTime as creationTime won't change again.
                 lastSignInTime: Timestamp.fromDate(new Date(lastSignInTime))
               }
             },
@@ -66,7 +69,13 @@ export class WelcomeComponent implements OnInit {
         }
       }
     } catch (_) {
-      /* ignore error */
+      // Ignore checking redirect errors since getRedirectResult() may not
+      // always return a valid RedirectResult or could return null.
+      //
+      // In other words, member fit just dey reload page, no be say him be
+      // just dey land back from signInWithGoogle. Shaa, the koko be say error
+      // from this place no just matter. Na ESLint talk say catch block no
+      // suppose dey empty. Say I must put comment if I wan ignore error.
     }
     this.auth.onAuthStateChanged(async (member) => {
       this.hasLoadedPage = true;

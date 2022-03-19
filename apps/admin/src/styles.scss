@@ -1,6 +1,31 @@
 @use '@angular/material' as mat;
 @include mat.core();
 
+@font-face {
+  font-family: Avenir;
+  src: url(assets/fonts/AvenirNextLTPro-Regular.otf);
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: Avenir;
+  src: url(assets/fonts/AvenirNextLTPro-It.otf);
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Avenir;
+  src: url(assets/fonts/AvenirNextLTPro-Bold.otf);
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: Avenir;
+  src: url(assets/fonts/AvenirNextLTPro-UltLt.otf);
+  font-weight: 300;
+}
+
 $primary: mat.define-palette(mat.$orange-palette);
 $accent: mat.define-palette(mat.$orange-palette, A200, A100, A400);
 $warn: mat.define-palette(mat.$amber-palette);
@@ -11,7 +36,11 @@ $light-theme: mat.define-light-theme(
       primary: $primary,
       accent: $accent,
       warn: $warn
-    )
+    ),
+    typography:
+      mat.define-typography-config(
+        $font-family: '"Avenir", sans-serif;'
+      )
   )
 );
 
@@ -66,7 +95,7 @@ body {
 }
 
 body {
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: Avenir, Roboto, 'Helvetica Neue', sans-serif !important;
   font-size: 16px;
 }
 

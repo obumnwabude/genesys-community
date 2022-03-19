@@ -33,6 +33,32 @@ mat-sidenav-content {
   min-height: 100vh;
 }
 
+mat-sidenav {
+  padding: 2rem 1rem;
+
+  @media (min-width: 992px) {
+    left: calc((100% - 992px) / 2);
+  }
+}
+
+.active-nav-link {
+  // A100 of orange palette (with reduced transparency)
+  background-color: rgb(255, 209, 128, 0.2);
+  border-radius: 8px;
+}
+
+.label-for-radio-group {
+  margin-top: 1rem;
+}
+
+.label-for-radio-group,
+mat-radio-button {
+  display: block;
+  padding-left: 1rem;
+  padding-right: 2rem;
+  margin-bottom: 12px;
+}
+
 mat-sidenav-content {
   padding-top: 64px;
   display: flex;
@@ -63,24 +89,30 @@ mat-sidenav-content {
       }
     }
   }
+}
 
-  footer {
-    margin-top: auto;
-    box-shadow: 0 -1px 0.5px -0.5px #0d102517;
+footer {
+  margin-top: auto;
+  box-shadow: 0 -1px 0.5px -0.5px #0d102517;
 
-    mat-toolbar-row {
-      max-width: 992px;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-left: auto;
-      margin-right: auto;
+  mat-toolbar-row {
+    max-width: 992px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
 
-      > a {
-        width: 36px;
-        height: 36px;
-      }
+    > a {
+      width: 36px;
+      height: 36px;
     }
   }
+}
+
+footer.wide-screen-footer {
+  z-index: 10;
+  position: relative;
+  bottom: 0;
 }

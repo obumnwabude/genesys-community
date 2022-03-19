@@ -8,6 +8,7 @@ export const constants = {
   LOCALSTORAGE_ORDER_BY_KEY: 'order_by',
   LOCALSTORAGE_ORDER_DIRECTION_KEY: 'order_direction',
   LOCALSTORAGE_THEME_KEY: 'theme',
+  LOCALSTORAGE_SYSTEM_MODE_KEY: 'is_in_system_theme_mode',
   ORDER_BY_OPTIONS: [
     { value: 'stats.achievements', viewValue: 'Achievement Count' },
     { value: 'authInfo.creationTime', viewValue: 'Creation Time' },
@@ -27,5 +28,6 @@ export const constants = {
     { value: 'asc', viewValue: 'Ascending' },
     { value: 'desc', viewValue: 'Descending' }
   ],
+  SYSTEM_THEME_MODE: 'system_mode',
   THEMES: ['light_mode', 'dark_mode']
 };

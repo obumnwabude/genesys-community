@@ -1,10 +1,13 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Auth } from '@angular/fire/auth';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
+import { MatSidenav } from '@angular/material/sidenav';
+import { NavigationEnd, Router } from '@angular/router';
 import { constants, memberSnap } from '@community/data';
 import { SPINNER } from 'ngx-ui-loader';
+import { filter } from 'rxjs/operators';
 
 import { ThemingService } from './theming.service';
 
@@ -15,15 +18,32 @@ import { ThemingService } from './theming.service';
 })
 export class AppComponent implements OnInit {
   SPINNER = SPINNER;
-  isSigningIn = false;
+  SYSTEM_THEME_MODE = constants.SYSTEM_THEME_MODE;
+  isLargeScreen = false;
+  isMember = false;
+  navLinks = [
+    { link: '/progress', name: 'Record Progress' },
+    { link: '/achievement', name: 'Share Achievement' }
+  ];
   // the 500 level of orange palette in Material design
   primaryColor = '#ff9800';
-  themes = constants.THEMES;
   year = new Date().getFullYear();
   @HostBinding('class') public cssClass!: string;
+  @ViewChild('snav') snav!: MatSidenav;
+
+  get isInSystemThemeMode(): boolean {
+    return (
+      localStorage.getItem(constants.LOCALSTORAGE_SYSTEM_MODE_KEY) === 'true'
+    );
+  }
+
+  get themeModes(): string[] {
+    return [...constants.THEMES, constants.SYSTEM_THEME_MODE];
+  }
 
   constructor(
-    public auth: Auth,
+    private auth: Auth,
+    private breakpoint: BreakpointObserver,
     private overlayContainer: OverlayContainer,
     private firestore: Firestore,
     public themingService: ThemingService,
@@ -31,14 +51,24 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.breakpoint
+      .observe('(min-width: 768px)')
+      .subscribe((b) => (this.isLargeScreen = b.matches));
+
+    this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => !this.isLargeScreen && this.snav.close());
+
     this.themingService.theme.subscribe((theme: string) => {
       this.cssClass = theme;
       const oCClasses = this.overlayContainer.getContainerElement().classList;
-      oCClasses.remove(...Array.from(this.themes));
+      oCClasses.remove(...Array.from(constants.THEMES));
       oCClasses.add(this.cssClass);
     });
+
     this.auth.onAuthStateChanged(async (authMember) => {
       if (!authMember) {
+        this.isMember = false;
         if (!this.router.url.includes('welcome')) {
           this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
         }
@@ -71,6 +101,7 @@ export class AppComponent implements OnInit {
                 ).length === 5;
             }
           }
+          this.isMember = !isNewMember;
           if (isNewMember) {
             if (!this.router.url.includes('welcome')) {
               this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
@@ -85,10 +116,28 @@ export class AppComponent implements OnInit {
     });
   }
 
-  changeTheme(): void {
-    this.cssClass =
-      this.themes.indexOf(this.cssClass) == 0 ? this.themes[1] : this.themes[0];
-    this.themingService.theme.next(this.cssClass);
-    localStorage.setItem(constants.LOCALSTORAGE_THEME_KEY, this.cssClass);
+  capitalize(str: string): string {
+    return str.charAt(0).toUpperCase() + str.substring(1);
+  }
+
+  changeTheme(mode: string): void {
+    if (mode === constants.SYSTEM_THEME_MODE) {
+      localStorage.setItem(constants.LOCALSTORAGE_SYSTEM_MODE_KEY, 'true');
+      localStorage.removeItem(constants.LOCALSTORAGE_THEME_KEY);
+      this.themingService.theme.next(
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? constants.DARK_MODE
+          : constants.LIGHT_MODE
+      );
+    } else {
+      localStorage.setItem(constants.LOCALSTORAGE_SYSTEM_MODE_KEY, 'false');
+      localStorage.setItem(constants.LOCALSTORAGE_THEME_KEY, mode);
+      this.themingService.theme.next(mode);
+    }
+  }
+
+  async signOut(): Promise<void> {
+    await this.auth.signOut();
+    this.router.navigate(['/welcome']);
   }
 }

@@ -14,7 +14,7 @@
   "cli": {
     "defaultCollection": "@nrwl/angular"
   },
-  "defaultProject": "admin",
+  "defaultProject": "community",
   "generators": {
     "@nrwl/angular:application": {
       "style": "scss",

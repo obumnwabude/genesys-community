@@ -60,11 +60,25 @@ $dark-theme: mat.define-dark-theme(
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
+.mat-drawer-side {
+  @media (min-width: 992px) {
+    border-left: solid 1px rgba(0, 0, 0, 0.12);
+    border-right: none;
+  }
+}
+
 .dark_mode {
   @include mat.all-component-colors($dark-theme);
 
   #content-card {
     border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .mat-drawer-side {
+    @media (min-width: 992px) {
+      border-left: solid 1px rgba(255, 255, 255, 0.12);
+      border-right: none;
+    }
   }
 }
 
@@ -127,4 +141,11 @@ mat-form-field#twitter-handle {
   .mat-spinner circle {
     stroke: #000000de;
   }
+}
+
+.label-for-radio-group {
+  opacity: 0.65;
+  font-size: 0.75rem;
+  margin-bottom: 8px;
+  text-align: left;
 }

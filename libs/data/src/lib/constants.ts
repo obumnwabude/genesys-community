@@ -5,6 +5,7 @@ export const constants = {
   DEFAULT_PAGE_SIZE: 50,
   DEFAULT_THEME: 'light_mode',
   LIGHT_MODE: 'light_mode',
+  LOCALSTORAGE_HEADING_TAB_INDEX: 'member_heading_tab_index',
   LOCALSTORAGE_ORDER_BY_KEY: 'order_by',
   LOCALSTORAGE_ORDER_DIRECTION_KEY: 'order_direction',
   LOCALSTORAGE_THEME_KEY: 'theme',

@@ -3,7 +3,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Member, memberSnap } from '@community/data';
+import { constants, Member, memberSnap } from '@community/data';
 
 @Component({
   templateUrl: './member.component.html',
@@ -15,6 +15,15 @@ export class MemberComponent implements OnInit {
   member: Member | null = null;
   @HostListener('window:scroll') scrolled() {
     this.hasScrolled = this.scroll.getScrollPosition()[1] > 256;
+  }
+
+  set memberHeadingTabIndex(i: number) {
+    localStorage.setItem(constants.LOCALSTORAGE_HEADING_TAB_INDEX, `${i}`);
+  }
+
+  get memberHeadingTabIndex(): number {
+    const n = localStorage.getItem(constants.LOCALSTORAGE_HEADING_TAB_INDEX);
+    return !Number.isNaN(n) ? Number(n) : 0;
   }
 
   constructor(

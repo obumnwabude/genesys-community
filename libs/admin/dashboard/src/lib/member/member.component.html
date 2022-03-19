@@ -7,7 +7,7 @@
 
 <div id="member-details" *ngIf="!isLoading && member">
   <p id="member-name">{{ member.authInfo.displayName }}</p>
-  <mat-tab-group mat-stretch-tabs>
+  <mat-tab-group mat-stretch-tabs [(selectedIndex)]="memberHeadingTabIndex">
     <mat-tab label="Profile">
       <div id="profile-body" class="tab-body">
         <div id="left-profile-desktop">

@@ -1,5 +1,7 @@
 # Genesys Campus Club AE-FUNAI
 
+A custom form for recording progress and sharing achievements of members of the Genesys AE-FUNAI community.
+
 ## Angular
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.4.

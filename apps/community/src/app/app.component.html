@@ -38,15 +38,20 @@
     [mode]="isLargeScreen ? 'side' : 'over'"
     [position]="isLargeScreen ? 'start' : 'end'"
   >
-    <mat-nav-list *ngIf="isMember">
-      <a
-        mat-list-item
-        *ngFor="let item of navLinks"
-        [routerLink]="item.link"
-        [routerLinkActive]="['active-nav-link']"
-        >{{ item.name }}</a
-      >
-      <button mat-button (click)="signOut()">Sign Out</button>
+    <mat-nav-list>
+      <ng-container *ngIf="isMember">
+        <a
+          mat-list-item
+          *ngFor="let item of navLinks"
+          [routerLink]="item.link"
+          [routerLinkActive]="['active-nav-link']"
+          >{{ item.name }}</a
+        ></ng-container
+      > 
+      <a mat-list-item>Support Group</a>
+      <a mat-list-item (click)="signOut()" sign-out *ngIf="isMember">
+        Sign Out
+      </a>
     </mat-nav-list>
     <label class="label-for-radio-group">Theme</label>
     <mat-radio-group>

@@ -47,8 +47,14 @@
           [routerLinkActive]="['active-nav-link']"
           >{{ item.name }}</a
         ></ng-container
-      > 
-      <a mat-list-item>Support Group</a>
+      >
+      <a
+        mat-list-item
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://chat.whatsapp.com/I7bYqpIqByqGHJbcAHQZA2"
+        >Support Group</a
+      >
       <a mat-list-item (click)="signOut()" sign-out *ngIf="isMember">
         Sign Out
       </a>

@@ -92,7 +92,7 @@
             <p>No recorded progress yet.</p>
           </div>
           <div *ngIf="member.progress.length > 0">
-            <div *ngFor="let p of member.progress" app-card>
+            <div *ngFor="let p of member.progress.reverse()" app-card>
               <p time>{{ p.time | date: 'EEE, dd/MM/YYYY, hh:mm a' }}</p>
               <p skill>In {{ p.skill }}</p>
 
@@ -120,7 +120,7 @@
             <p>No shared achievement yet.</p>
           </div>
           <div *ngIf="member.achievements.length > 0">
-            <div *ngFor="let a of member.achievements" app-card>
+            <div *ngFor="let a of member.achievements.reverse()" app-card>
               <p time>
                 {{ a.time | date: 'EEE, dd/MM/YYYY, hh:mm a' }}
               </p>

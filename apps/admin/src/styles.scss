@@ -71,6 +71,11 @@ $dark-theme: mat.define-dark-theme(
   }
 }
 
+img[src$='.svg'][switch-color] {
+  filter: brightness(0) saturate(100%);
+  opacity: 0.87;
+}
+
 .dark_mode {
   @include mat.all-component-colors($dark-theme);
 
@@ -84,6 +89,10 @@ $dark-theme: mat.define-dark-theme(
       // mat-sidenav-content's background in dark theme
       background-color: #303030;
     }
+  }
+
+  img[src$='.svg'][switch-color] {
+    filter: brightness(0) saturate(100%) invert(1);
   }
 }
 

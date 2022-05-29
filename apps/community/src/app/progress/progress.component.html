@@ -1,15 +1,15 @@
-<h2 id="page-heading">Record your Progress</h2>
+<h2 page-heading>Record your Progress</h2>
 
-<p class="subheading">What has been your progress so far?</p>
+<p subheading>What has been your progress so far?</p>
 
 <p *ngIf="auth.currentUser">
   You are currently signed in, and your progress will be recorded under your
-  email: <span class="font-bold">{{ auth.currentUser.email }}</span>
+  email: <span font-bold>{{ auth.currentUser.email }}</span>
 </p>
 
 <p>&nbsp;</p>
 
-<form id="progress-form" #progressForm="ngForm" (ngSubmit)="recordProgress()">
+<form progress-form #progressForm="ngForm" (ngSubmit)="recordProgress()">
   <mat-form-field>
     <mat-label>Skill/Path</mat-label>
     <small>In what tech skill you are making progress?</small>

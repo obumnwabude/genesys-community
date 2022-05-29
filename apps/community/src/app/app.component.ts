@@ -1,6 +1,6 @@
-import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { MatSidenav } from '@angular/material/sidenav';

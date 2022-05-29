@@ -1,22 +1,18 @@
-<h2 id="page-heading">Share your Achievement</h2>
+<h2 page-heading>Share your Achievement</h2>
 
-<p class="subheading">
+<p subheading>
   Congratulations on the latest win! Kindly share it with the community.
 </p>
 
 <p *ngIf="auth.currentUser">
   You are currently signed in, and your achievement will be recorded under your
-  email: <span class="font-bold">{{ auth.currentUser.email }}</span>
+  email: <span font-bold>{{ auth.currentUser.email }}</span>
 </p>
 
 <p>&nbsp;</p>
 
-<form
-  id="achievement-form"
-  #achievementForm="ngForm"
-  (ngSubmit)="shareAchievement()"
->
-  <mat-form-field id="achievement-type">
+<form #achievementForm="ngForm" (ngSubmit)="shareAchievement()">
+  <mat-form-field achievement-type>
     <mat-label>Achievement Type</mat-label>
     <mat-select [(value)]="achievement.type">
       <mat-option

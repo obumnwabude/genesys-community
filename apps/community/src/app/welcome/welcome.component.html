@@ -1,12 +1,12 @@
-<h2 id="page-heading">Welcome</h2>
+<h2 page-heading>Welcome</h2>
 <div
-  id="page-loader"
+  page-loader
   *ngIf="
     !hasLoadedPage ||
     (auth.currentUser && auth.currentUser.phoneNumber && !isNewMember)
   "
 >
-  <p class="subheading">Please wait ...</p>
+  <p subheading>Please wait ...</p>
   <div>
     <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
   </div>
@@ -14,7 +14,7 @@
 
 <div *ngIf="hasLoadedPage">
   <div *ngIf="!auth.currentUser">
-    <p class="subheading">Welcome to Genesys Campus Club AE-FUNAI.</p>
+    <p subheading>Welcome to Genesys Campus Club AE-FUNAI.</p>
     <p>
       We are a tech community. With us, you would create awesome projects with
       others and become an expert in tech. We hold study jams, workshops and
@@ -26,7 +26,7 @@
         <img
           src="assets/svgs/google.svg"
           aria-hidden="true"
-          id="google-logo-sign-in-button"
+          google-logo
           *ngIf="!isSigningIn"
         />
         <span *ngIf="!isSigningIn">Sign In With Google</span>
@@ -34,7 +34,7 @@
           mode="indeterminate"
           strokeWidth="4"
           diameter="18"
-          id="sign-in-spinner"
+          sign-in-spinner
           *ngIf="isSigningIn"
         ></mat-progress-spinner>
       </button>
@@ -46,12 +46,12 @@
   </div>
 
   <div
-    id="profile-section"
+    profile-section
     *ngIf="auth.currentUser && auth.currentUser.phoneNumber && isNewMember"
   >
-    <p class="subheading">Please let's know a little more about you.</p>
-    <form id="profile-form" #profileForm="ngForm" (ngSubmit)="saveProfile()">
-      <label class="label-for-radio-group"> Gender *</label>
+    <p subheading>Please let's know a little more about you.</p>
+    <form #profileForm="ngForm" (ngSubmit)="saveProfile()">
+      <label label-for-radio-group> Gender *</label>
       <mat-radio-group>
         <mat-radio-button
           *ngFor="let gender of genders; first as first"
@@ -62,8 +62,8 @@
           {{ gender }}
         </mat-radio-button>
       </mat-radio-group>
-      
-      <label class="label-for-radio-group">Faculty *</label>
+
+      <label label-for-radio-group>Faculty *</label>
       <mat-radio-group>
         <mat-radio-button
           *ngFor="let faculty of faculties; first as first"
@@ -75,7 +75,7 @@
         </mat-radio-button>
       </mat-radio-group>
 
-      <label class="label-for-radio-group">Level *</label>
+      <label label-for-radio-group>Level *</label>
       <mat-radio-group>
         <mat-radio-button
           *ngFor="let level of levels; first as first"
@@ -100,7 +100,7 @@
         <mat-error *ngIf="!department.valid">Department is required</mat-error>
       </mat-form-field>
 
-      <mat-form-field id="twitter-handle">
+      <mat-form-field twitter-handle>
         <mat-label>Twitter Handle</mat-label>
         <span>@</span>
         <input

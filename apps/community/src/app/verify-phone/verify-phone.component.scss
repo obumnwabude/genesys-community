@@ -1,9 +1,9 @@
-#recaptcha-container {
+[recaptcha-container] {
   margin-top: 32px;
   margin-bottom: 16px;
 }
 
-#recaptcha-container.hidden {
+[recaptcha-container].hidden {
   visibility: hidden;
   height: 0;
   margin: 0;
@@ -21,10 +21,10 @@ mat-form-field {
   max-width: 144px;
 }
 
-#cancel-code-button {
+[cancel-code-button] {
   margin-right: 16px;
 }
 
-.black-spinner-container.horizontal-padding {
+[black-spinner-container].horizontal-padding {
   padding: 0 32px;
 }

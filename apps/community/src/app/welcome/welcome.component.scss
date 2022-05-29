@@ -1,24 +1,24 @@
-#page-loader > div {
+[page-loader] > div {
   height: 256px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-img#google-logo-sign-in-button {
+[google-logo] {
   width: 1rem;
   margin-right: 0.5rem;
 }
 
-#sign-in-spinner {
+[sign-in-spinner] {
   margin: 6px 32px;
 }
 
-#profile-section p.subheading {
+[profile-section] [subheading] {
   margin-bottom: 2rem;
 }
 
-.label-for-radio-group,
+[label-for-radio-group],
 mat-radio-group,
 mat-form-field {
   margin-left: auto;

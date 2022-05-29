@@ -1,4 +1,4 @@
-mat-toolbar#navbar {
+mat-toolbar[navbar] {
   box-shadow: 0 3px 1.5px -1.5px #0d102517;
   z-index: 10;
   position: fixed;
@@ -15,7 +15,7 @@ mat-toolbar#navbar {
     h1 {
       line-height: 0;
 
-      img#nav-logo {
+      img[nav-logo] {
         @media (max-width: 575.98px) {
           height: 30px;
         }
@@ -47,11 +47,11 @@ mat-sidenav {
   border-radius: 8px;
 }
 
-.label-for-radio-group {
+[label-for-radio-group] {
   margin-top: 1rem;
 }
 
-.label-for-radio-group,
+[label-for-radio-group],
 mat-radio-button {
   display: block;
   padding-left: 1rem;
@@ -70,7 +70,7 @@ mat-sidenav-content {
     padding: 32px 16px;
     max-width: 992px;
 
-    #content-card {
+    [content-card] {
       max-width: 512px;
       margin-left: auto;
       margin-right: auto;

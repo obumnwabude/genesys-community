@@ -56,7 +56,7 @@ $dark-theme: mat.define-dark-theme(
 
 @include mat.all-component-themes($light-theme);
 
-#content-card {
+[content-card] {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
@@ -70,7 +70,7 @@ $dark-theme: mat.define-dark-theme(
 .dark_mode {
   @include mat.all-component-colors($dark-theme);
 
-  #content-card {
+  [content-card] {
     border: 1px solid rgba(255, 255, 255, 0.12);
   }
 
@@ -98,25 +98,25 @@ body {
   font-size: 16px;
 }
 
-.spacer {
+[spacer] {
   flex: 1 1 auto;
 }
 
-.font-bold {
+[font-bold] {
   font-weight: bold;
 }
 
-.text-center {
+[text-center] {
   text-align: center;
 }
 
-h2#page-heading {
+[page-heading] {
   margin-bottom: 0.5rem;
   text-decoration: underline;
   text-decoration-style: double;
 }
 
-p.subheading {
+[subheading] {
   font-size: 1.25rem;
 }
 
@@ -124,14 +124,14 @@ p {
   margin-bottom: 16px;
 }
 
-mat-form-field#phone-form-field,
-mat-form-field#twitter-handle {
+mat-form-field[phone-form-field],
+mat-form-field[twitter-handle] {
   .mat-form-field-infix {
     display: flex;
   }
 }
 
-.black-spinner-container {
+[black-spinner-container] {
   .mat-button-wrapper {
     display: flex;
     align-items: center;
@@ -143,7 +143,7 @@ mat-form-field#twitter-handle {
   }
 }
 
-.label-for-radio-group {
+[label-for-radio-group] {
   opacity: 0.65;
   font-size: 0.75rem;
   margin-bottom: 8px;

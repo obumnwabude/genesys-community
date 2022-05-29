@@ -1,6 +1,6 @@
-<h2 id="page-heading">Hi there 👋</h2>
+<h2 page-heading>Hi there 👋</h2>
 
-<p class="subheading">What would you like to do today?</p>
+<p subheading>What would you like to do today?</p>
 
 <p>Do you want to record your progress?</p>
 
@@ -38,9 +38,9 @@
 
 <p>&nbsp;</p>
 
-<p *ngIf="auth.currentUser" id="sign-out-message">
+<p *ngIf="auth.currentUser" sign-out-message>
   You are signed in as
-  <span class="font-bold">{{ auth.currentUser.email }}</span
+  <span font-bold>{{ auth.currentUser.email }}</span
   >. Do you want to interact as another member? You will have to sign out first.
 </p>
 

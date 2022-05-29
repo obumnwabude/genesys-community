@@ -5,12 +5,12 @@
 >
 </ngx-ui-loader>
 
-<mat-toolbar id="navbar">
+<mat-toolbar navbar>
   <mat-toolbar-row>
     <a routerLink="/" mat-button>
       <h1>
         <img
-          id="nav-logo"
+          nav-logo
           [src]="
             'assets/images/logo_' +
             (themeModes.indexOf(cssClass) === 0
@@ -59,7 +59,7 @@
         Sign Out
       </a>
     </mat-nav-list>
-    <label class="label-for-radio-group">Theme</label>
+    <label label-for-radio-group>Theme</label>
     <mat-radio-group>
       <mat-radio-button
         *ngFor="let mode of themeModes"
@@ -76,7 +76,7 @@
 
   <mat-sidenav-content>
     <main>
-      <div id="content-card">
+      <div content-card>
         <img
           src="assets/images/community.png"
           aria-details="Picture of the Community"

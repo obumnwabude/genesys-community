@@ -11,6 +11,6 @@ mat-form-field {
   }
 }
 
-mat-form-field#achievement-type {
+mat-form-field[achievement-type] {
   max-width: 144px;
 }

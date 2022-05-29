@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   isLargeScreen = false;
   isMember = false;
   navLinks = [
+    { link: '/', name: 'Home' },
     { link: '/progress', name: 'Record Progress' },
     { link: '/achievement', name: 'Share Achievement' }
   ];

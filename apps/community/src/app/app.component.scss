@@ -47,11 +47,15 @@ mat-sidenav {
   border-radius: 8px;
 }
 
-[label-for-radio-group] {
-  margin-top: 1rem;
+[radio-group-label] {
+  opacity: 0.65;
+  font-size: 0.75rem;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  text-align: left;
 }
 
-[label-for-radio-group],
+[radio-group-label],
 mat-radio-button {
   display: block;
   padding-left: 1rem;

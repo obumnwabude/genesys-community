@@ -63,41 +63,37 @@
   >
     <p subheading>Please let's know a little more about you.</p>
     <form #profileForm="ngForm" (ngSubmit)="saveProfile()">
-      <label label-for-radio-group> Gender *</label>
-      <mat-radio-group>
-        <mat-radio-button
-          *ngFor="let gender of genders; first as first"
-          (change)="profile.gender = $event.value"
-          [checked]="first"
-          [value]="gender"
+      <mat-form-field>
+        <mat-label>Gender</mat-label>
+        <mat-select
+          [(ngModel)]="profile.gender"
+          name="gender"
+          #gender="ngModel"
+          placeholder="Your Gender"
+          required
         >
-          {{ gender }}
-        </mat-radio-button>
-      </mat-radio-group>
+          <mat-option *ngFor="let gender of genders" [value]="gender">
+            {{ gender }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="!gender.valid">Gender is required</mat-error>
+      </mat-form-field>
 
-      <label label-for-radio-group>Faculty *</label>
-      <mat-radio-group>
-        <mat-radio-button
-          *ngFor="let faculty of faculties; first as first"
-          (change)="profile.faculty = $event.value"
-          [checked]="first"
-          [value]="faculty"
+      <mat-form-field>
+        <mat-label>Faculty</mat-label>
+        <mat-select
+          [(ngModel)]="profile.faculty"
+          name="faculty"
+          #faculty="ngModel"
+          placeholder="Your Faculty"
+          required
         >
-          {{ faculty }}
-        </mat-radio-button>
-      </mat-radio-group>
-
-      <label label-for-radio-group>Level *</label>
-      <mat-radio-group>
-        <mat-radio-button
-          *ngFor="let level of levels; first as first"
-          (change)="profile.level = $event.value"
-          [checked]="first"
-          [value]="level"
-        >
-          {{ level }}
-        </mat-radio-button>
-      </mat-radio-group>
+          <mat-option *ngFor="let faculty of faculties" [value]="faculty">
+            {{ faculty }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="!faculty.valid">Faculty is required</mat-error>
+      </mat-form-field>
 
       <mat-form-field>
         <mat-label>Department</mat-label>
@@ -108,8 +104,25 @@
           [(ngModel)]="profile.department"
           name="department"
           #department="ngModel"
+          placeholder="Your Department"
         />
         <mat-error *ngIf="!department.valid">Department is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Level</mat-label>
+        <mat-select
+          [(ngModel)]="profile.level"
+          name="level"
+          #level="ngModel"
+          placeholder="Your Level"
+          required
+        >
+          <mat-option *ngFor="let level of levels" [value]="level">
+            {{ level }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="!level.valid">Level is required</mat-error>
       </mat-form-field>
 
       <mat-form-field twitter-handle>

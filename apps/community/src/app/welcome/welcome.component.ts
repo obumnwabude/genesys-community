@@ -9,8 +9,8 @@ import { doc, Firestore, setDoc, Timestamp } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { memberSnap, Profile } from '@community/data';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   templateUrl: './welcome.component.html',
@@ -23,13 +23,7 @@ export class WelcomeComponent implements OnInit {
   isNewMember = false;
   isSigningIn = false;
   levels = Profile.LEVELS;
-  profile = new Profile(
-    '',
-    this.faculties[0],
-    this.genders[0],
-    this.levels[0],
-    ''
-  );
+  profile = new Profile('', '', '', '', '');
   @ViewChild('profileForm') profileForm!: NgForm;
 
   constructor(
@@ -40,7 +34,7 @@ export class WelcomeComponent implements OnInit {
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {}
 
   navigateOut(): void {
     let nextRoute = this.route.snapshot.queryParams['next'];
@@ -89,7 +83,7 @@ export class WelcomeComponent implements OnInit {
       if (!member) {
         this.isSigningIn = false;
         this.changeDetector.detectChanges();
-      } else if (member.phoneNumber) {
+      } else {
         try {
           const snap = await memberSnap(this.firestore, member.uid);
           if (!snap.exists()) {
@@ -102,7 +96,7 @@ export class WelcomeComponent implements OnInit {
                 (i) => i === ''
               ).length === 5;
           }
-          if (!this.isNewMember) this.navigateOut();
+          if (!this.isNewMember && member.phoneNumber) this.navigateOut();
         } catch (error: any) {
           if (error.code === 'unavailable') {
             this.hasLoadedPage = false;

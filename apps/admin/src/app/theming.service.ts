@@ -13,9 +13,14 @@ export class ThemingService {
   );
 
   constructor(@Inject(PLATFORM_ID) platformId: any) {
+    if (!localStorage.getItem(constants.LOCALSTORAGE_SYSTEM_MODE_KEY)) {
+      localStorage.setItem(constants.LOCALSTORAGE_SYSTEM_MODE_KEY, 'true');
+    }
+
     isPlatformBrowser(platformId) &&
       window.matchMedia &&
       window.matchMedia('(prefers-color-scheme: dark)').matches &&
+      localStorage.getItem(constants.LOCALSTORAGE_SYSTEM_MODE_KEY) === 'true' &&
       !localStorage.getItem(constants.LOCALSTORAGE_THEME_KEY) &&
       this.theme.next(constants.DARK_MODE);
 
@@ -23,9 +28,11 @@ export class ThemingService {
       window
         .matchMedia('(prefers-color-scheme: dark)')
         .addEventListener('change', (e) => {
-          this.theme.next(
-            e.matches ? constants.DARK_MODE : constants.LIGHT_MODE
-          );
+          localStorage.getItem(constants.LOCALSTORAGE_SYSTEM_MODE_KEY) ===
+            'true' &&
+            this.theme.next(
+              e.matches ? constants.DARK_MODE : constants.LIGHT_MODE
+            );
         });
   }
 }

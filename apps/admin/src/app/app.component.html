@@ -12,50 +12,87 @@
         <img
           id="nav-logo"
           [src]="
-            'assets/images/logo_' + (themes.indexOf(cssClass) === 0
+            'assets/images/logo_' +
+            (themes.indexOf(cssClass) === 0
               ? themes[1].split('_')[0]
-              : themes[0].split('_')[0]) + '.png'
+              : themes[0].split('_')[0]) +
+            '.png'
           "
           aria-details="Genesys"
         />
       </h1>
     </a>
     <span class="spacer"></span>
-    <button
-      mat-stroked-button
-      (click)="signOut()"
-      id="sign-out-button"
-      *ngIf="auth.currentUser"
-    >
-      Sign Out
-    </button>
-    <button mat-icon-button (click)="changeTheme()" title="Switch Theme">
-      <mat-icon outlined>{{
-        themes.indexOf(cssClass) === 0 ? themes[1] : themes[0]
-      }}</mat-icon>
+    <button mat-icon-button (click)="snav.toggle()" *ngIf="!isLargeScreen">
+      <mat-icon outlined>menu</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-sidenav-container>
+  <mat-sidenav
+    #snav
+    [fixedInViewport]="true"
+    [fixedTopGap]="56"
+    [opened]="isLargeScreen"
+    [mode]="isLargeScreen ? 'side' : 'over'"
+    [position]="isLargeScreen ? 'start' : 'end'"
+  >
+    <mat-nav-list>
+      <a
+        mat-list-item
+        *ngIf="auth.currentUser"
+        [routerLink]="'dashboard'"
+        [routerLinkActive]="['active-nav-link']"
+        >Dashboard</a
+      >
+      <a mat-list-item>Support Group</a>
+      <a mat-list-item (click)="signOut()" sign-out *ngIf="auth.currentUser">
+        Sign Out
+      </a>
+    </mat-nav-list>
+    <label class="label-for-radio-group">Theme</label>
+    <mat-radio-group>
+      <mat-radio-button
+        *ngFor="let mode of themeModes"
+        [checked]="
+          isInSystemThemeMode ? mode === SYSTEM_THEME_MODE : cssClass === mode
+        "
+        (change)="changeTheme(mode)"
+        [value]="mode"
+      >
+        {{ capitalize(mode.split('_')[0]) }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </mat-sidenav>
+
   <mat-sidenav-content>
     <main>
       <router-outlet></router-outlet>
     </main>
 
-    <footer>
-      <mat-toolbar>
-        <mat-toolbar-row>
-          <small>&copy; {{ year }} All Rights Reserved</small>
-          <a
-            href="https://twitter.com/GenesysAEFUNAI"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Follow Us on Twitter"
-            ><img src="assets/svgs/twitter.svg"
-          /></a>
-        </mat-toolbar-row>
-      </mat-toolbar>
-    </footer>
+    <ng-template
+      [ngTemplateOutlet]="footer"
+      *ngIf="!isLargeScreen"
+    ></ng-template>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<ng-template [ngTemplateOutlet]="footer" *ngIf="isLargeScreen"></ng-template>
+
+<ng-template #footer>
+  <footer [class.wide-screen-footer]="isLargeScreen">
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <small>&copy; {{ year }} All Rights Reserved</small>
+        <a
+          href="https://twitter.com/GenesysAEFUNAI"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Follow Us on Twitter"
+          ><img src="assets/svgs/twitter.svg"
+        /></a>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </footer>
+</ng-template>

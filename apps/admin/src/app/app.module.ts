@@ -10,6 +10,8 @@ import { provideAuth, getAuth, connectAuthEmulator } from '@angular/fire/auth';
 import { AuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {
   MatSnackBarModule,
@@ -49,6 +51,8 @@ const routes: Route[] = [
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'top' }),
     MatButtonModule,
     MatIconModule,
+    MatListModule,
+    MatRadioModule,
     MatSidenavModule,
     MatSnackBarModule,
     MatToolbarModule,

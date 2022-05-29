@@ -40,7 +40,13 @@ export class WelcomeComponent implements OnInit {
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
+
+  navigateOut(): void {
+    let nextRoute = this.route.snapshot.queryParams['next'];
+    if (!nextRoute) nextRoute = '/';
+    this.router.navigate([nextRoute]);
+  }
 
   async ngOnInit(): Promise<void> {
     try {
@@ -77,12 +83,13 @@ export class WelcomeComponent implements OnInit {
       // from this place no just matter. Na ESLint talk say catch block no
       // suppose dey empty. Say I must put comment if I wan ignore error.
     }
+
     this.auth.onAuthStateChanged(async (member) => {
       this.hasLoadedPage = true;
       if (!member) {
         this.isSigningIn = false;
         this.changeDetector.detectChanges();
-      } else {
+      } else if (member.phoneNumber) {
         try {
           const snap = await memberSnap(this.firestore, member.uid);
           if (!snap.exists()) {
@@ -95,11 +102,7 @@ export class WelcomeComponent implements OnInit {
                 (i) => i === ''
               ).length === 5;
           }
-          if (!this.isNewMember) {
-            let nextRoute = this.route.snapshot.queryParams['next'];
-            if (!nextRoute) nextRoute = '/';
-            this.router.navigate([nextRoute]);
-          }
+          if (!this.isNewMember) this.navigateOut();
         } catch (error: any) {
           if (error.code === 'unavailable') {
             this.hasLoadedPage = false;

@@ -6,9 +6,21 @@
     (auth.currentUser && auth.currentUser.phoneNumber && !isNewMember)
   "
 >
-  <p subheading>Please wait ...</p>
+  <ng-container *ngIf="!hasLoadedPage">
+    <p subheading>Please wait ...</p>
+    <div>
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+  </ng-container>
   <div>
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <button
+      mat-raised-button
+      (click)="navigateOut()"
+      *ngIf="auth.currentUser && auth.currentUser.phoneNumber && !isNewMember"
+      color="primary"
+    >
+      Continue
+    </button>
   </div>
 </div>
 

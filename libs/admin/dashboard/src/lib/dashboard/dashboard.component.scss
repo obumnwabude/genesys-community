@@ -1,4 +1,4 @@
-#dashboard {
+[dashboard] {
   padding: 0 16px 64px;
   max-width: 992px;
   margin-left: auto;
@@ -8,7 +8,7 @@
     max-width: 512px;
   }
 
-  h2#page-heading {
+  [page-heading] {
     margin-top: 16px;
     margin-bottom: 32px;
     text-decoration: underline;
@@ -16,7 +16,7 @@
     text-align: center;
   }
 
-  #page-loader {
+  [page-loader] {
     margin-top: 64px;
 
     p {
@@ -33,7 +33,7 @@
     }
   }
 
-  #tools {
+  [tools] {
     text-align: center;
 
     @media (min-width: 992px) {
@@ -43,7 +43,7 @@
       flex-wrap: wrap;
     }
 
-    #accordion-buttons {
+    [accordion-buttons] {
       margin-bottom: 24px;
       width: fit-content;
 
@@ -57,7 +57,7 @@
       }
     }
 
-    #bottom-tools {
+    [bottom-tools] {
       @media (min-width: 768px) {
         display: flex;
         justify-content: center;
@@ -87,8 +87,8 @@
     text-overflow: ellipsis;
   }
 
-  .show-in-wide-screen {
-    .info-container {
+  [show-in-wide-screen] {
+    [info-container] {
       margin-top: 0;
     }
 
@@ -111,7 +111,7 @@
     }
   }
 
-  .info-container {
+  [info-container] {
     font-size: 1rem;
 
     @media (min-width: 768px) {
@@ -124,7 +124,7 @@
         display: flex;
       }
 
-      .hide-in-wide-screen {
+      [hide-in-wide-screen] {
         display: none;
       }
 
@@ -137,12 +137,12 @@
       margin-bottom: 16px;
     }
 
-    .info-label {
+    [info-label] {
       text-decoration: underline;
       margin-right: 4px;
     }
 
-    .more-button-container {
+    [more-button-container] {
       text-align: right;
 
       @media (max-width: 575.98px) {

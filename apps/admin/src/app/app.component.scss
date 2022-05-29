@@ -1,4 +1,4 @@
-mat-toolbar#navbar {
+mat-toolbar[navbar] {
   box-shadow: 0 3px 1.5px -1.5px #0d102517;
   z-index: 10;
   position: fixed;
@@ -15,8 +15,7 @@ mat-toolbar#navbar {
     h1 {
       line-height: 0;
 
-      img#nav-logo {
-        height: 30px;
+      [nav-logo] {
         @media (max-width: 575.98px) {
           height: 30px;
         }
@@ -48,11 +47,15 @@ mat-sidenav {
   border-radius: 8px;
 }
 
-.label-for-radio-group {
+[radio-group-label] {
+  font-size: 0.75rem;
+  margin-bottom: 8px;
   margin-top: 1rem;
+  opacity: 0.65;
+  text-align: left;
 }
 
-.label-for-radio-group,
+[radio-group-label],
 mat-radio-button {
   display: block;
   padding-left: 1rem;
@@ -79,25 +82,25 @@ mat-sidenav-content {
   }
 }
 
-  footer {
-    margin-top: auto;
-    box-shadow: 0 -1px 0.5px -0.5px #0d102517;
+footer {
+  margin-top: auto;
+  box-shadow: 0 -1px 0.5px -0.5px #0d102517;
 
-    mat-toolbar-row {
-      max-width: 992px;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-left: auto;
-      margin-right: auto;
+  mat-toolbar-row {
+    max-width: 992px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
 
-      > a {
-        width: 36px;
-        height: 36px;
-      }
+    > a {
+      width: 36px;
+      height: 36px;
     }
   }
+}
 
 footer.wide-screen-footer {
   z-index: 10;

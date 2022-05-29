@@ -1,5 +1,10 @@
 import { ViewportScroller } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,7 +12,8 @@ import { constants, Member, memberSnap } from '@community/data';
 
 @Component({
   templateUrl: './member.component.html',
-  styleUrls: ['./member.component.scss']
+  styleUrls: ['./member.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MemberComponent implements OnInit {
   isLoading = false;
@@ -24,6 +30,21 @@ export class MemberComponent implements OnInit {
   get memberHeadingTabIndex(): number {
     const n = localStorage.getItem(constants.LOCALSTORAGE_HEADING_TAB_INDEX);
     return !Number.isNaN(n) ? Number(n) : 0;
+  }
+
+  get leftSideDetails(): string[][] {
+    if (!this.member) return [];
+
+    const { email, phoneNumber } = this.member.authInfo;
+    const { department, faculty, gender, level } = this.member.profile;
+    return [
+      ['Email Address', email],
+      ['Phone Number', phoneNumber],
+      ['Gender', gender],
+      ['Faculty', faculty],
+      ['Department', department],
+      ['Level', level]
+    ];
   }
 
   constructor(

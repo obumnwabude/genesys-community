@@ -1,4 +1,4 @@
-#page-loader > div {
+[page-loader] > div {
   height: 256px;
   width: 256px;
   display: flex;
@@ -6,7 +6,7 @@
   align-items: center;
 }
 
-#sign-in-card {
+[app-card] {
   max-width: 512px;
   margin-left: auto;
   margin-right: auto;
@@ -14,23 +14,23 @@
   padding: 32px;
   width: fit-content;
 
-  h2#page-heading {
+  [page-heading] {
     margin-bottom: 0.5rem;
     text-decoration: underline;
     text-decoration-style: double;
   }
 
-  p.subheading {
+  [subheading] {
     font-size: 1.25rem;
     margin-bottom: 24px;
   }
 }
 
-img#google-logo-sign-in-button {
+[google-logo] {
   width: 1rem;
   margin-right: 0.5rem;
 }
 
-#sign-in-spinner {
+[sign-in-spinner] {
   margin: 6px 32px;
 }

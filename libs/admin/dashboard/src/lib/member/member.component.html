@@ -1,177 +1,169 @@
-<div id="page-loader" *ngIf="isLoading || !member">
-  <p>Please wait ...</p>
-  <div>
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+<div member-page>
+  <div page-loader *ngIf="isLoading || !member">
+    <p>Please wait ...</p>
+    <div>
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
   </div>
-</div>
 
-<div id="member-details" *ngIf="!isLoading && member">
-  <p id="member-name">{{ member.authInfo.displayName }}</p>
-  <mat-tab-group mat-stretch-tabs [(selectedIndex)]="memberHeadingTabIndex">
-    <mat-tab label="Profile">
-      <div id="profile-body" class="tab-body">
-        <div id="left-profile-desktop">
-          <div class="info-container">
-            <p class="info-label">Email Address</p>
-            <p class="info-value">{{ member.authInfo.email }}</p>
+  <div member-details *ngIf="!isLoading && member">
+    <p member-name>{{ member.authInfo.displayName }}</p>
+    <mat-tab-group mat-stretch-tabs [(selectedIndex)]="memberHeadingTabIndex">
+      <mat-tab label="Profile">
+        <div profile-body tab-body>
+          <div left-profile-desktop>
+            <div info-container *ngFor="let detail of leftSideDetails">
+              <p info-label>{{ detail[0] }}</p>
+              <p info-value>{{ detail[1] }}</p>
+            </div>
           </div>
-          <div class="info-container">
-            <p class="info-label">Phone Number</p>
-            <p class="info-value">{{ member.authInfo.phoneNumber }}</p>
-          </div>
-          <div class="info-container">
-            <p class="info-label">Gender</p>
-            <p class="info-value">{{ member.profile.gender }}</p>
-          </div>
-          <div class="info-container">
-            <p class="info-label">Faculty</p>
-            <p class="info-value">{{ member.profile.faculty }}</p>
-          </div>
-          <div class="info-container">
-            <p class="info-label">Department</p>
-            <p class="info-value">{{ member.profile.department }}</p>
-          </div>
-          <div class="info-container">
-            <p class="info-label">Level</p>
-            <p class="info-value">{{ member.profile.level }}</p>
-          </div>
-        </div>
-        <div>
-          <div class="info-container">
-            <p class="info-label">Creation Time</p>
-            <p class="info-value">
-              {{
-                member.authInfo.creationTime | date: 'EEE, dd/MM/YYYY, hh:mm a'
-              }}.
-            </p>
-          </div>
-          <div class="info-container">
-            <p class="info-label">Last Sign In Time</p>
-            <p class="info-value">
-              {{
-                member.authInfo.lastSignInTime
-                  | date: 'EEE, dd/MM/YYYY, hh:mm a'
-              }}.
-            </p>
-          </div>
-          <div class="info-container">
-            <p class="info-label">Recorded Progress</p>
-            <p class="info-value">
-              {{
-                member.stats.progress === 0
-                  ? 'Never'
-                  : member.stats.progress === 1
-                  ? 'Once'
-                  : member.stats.progress + ' Times'
-              }}
-            </p>
-          </div>
-          <div class="info-container">
-            <p class="info-label">Shared Achievements</p>
-            <p class="info-value">
-              {{
-                member.stats.achievements === 0
-                  ? 'Never'
-                  : member.stats.achievements === 1
-                  ? 'Once'
-                  : member.stats.achievements + ' Times'
-              }}
-            </p>
-          </div>
-          <div class="info-container">
-            <p class="info-label">Twitter</p>
-            <p class="info-value" *ngIf="!member.profile.twitter">
-              {{ member.profile.twitter }}
-            </p>
-            <a
-              [href]="'https://twitter.com/' + member.profile.twitter"
-              *ngIf="member.profile.twitter"
-              target="_blank"
-              rel="noreferrer noopener"
-              mat-button
-              class="twitter-link-button"
-              ><p class="info-value">
-                @{{ member.profile.twitter }} &nbsp;
-                <mat-icon>open_in_new</mat-icon>
-              </p></a
-            >
-          </div>
-          <div class="info-container">
-            <p class="info-label">User Id</p>
-            <p class="info-value">{{ member.authInfo.uid }}</p>
-          </div>
-        </div>
-      </div>
-    </mat-tab>
-    <mat-tab label="Progress">
-      <div id="progress-body" class="tab-body">
-        <div id="no-progress" *ngIf="member.progress.length === 0">
-          <p>No recorded progress yet.</p>
-        </div>
-        <div *ngIf="member.progress.length > 0">
-          <div *ngFor="let p of member.progress" class="app-card progress">
-            <p class="time">{{ p.time | date: 'EEE, dd/MM/YYYY, hh:mm a' }}</p>
-            <p class="skill">In {{ p.skill }}</p>
 
-            <mat-form-field appearance="standard" class="description-container">
-              <textarea
-                matInput
-                readonly
-                class="description"
-                [value]="p.description"
-                cdkTextareaAutosize
-                cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="8"
-              ></textarea>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-    </mat-tab>
-    <mat-tab label="Achievements">
-      <div id="achievement-body" class="tab-body">
-        <div id="no-achievement" *ngIf="member.achievements.length === 0">
-          <p>No shared achievement yet.</p>
-        </div>
-        <div *ngIf="member.achievements.length > 0">
-          <div *ngFor="let a of member.achievements" class="app-card progress">
-            <p class="time">{{ a.time | date: 'EEE, dd/MM/YYYY, hh:mm a' }}</p>
-            <p class="type">{{ capitalise(a.type) }}</p>
-            <p class="title">{{ a.title }}</p>
-            <p class="link">
+          <div>
+            <div info-container>
+              <p info-label>Creation Time</p>
+              <p info-value>
+                {{
+                  member.authInfo.creationTime
+                    | date: 'EEE, dd/MM/YYYY, hh:mm a'
+                }}.
+              </p>
+            </div>
+            <div info-container>
+              <p info-label>Last Sign In Time</p>
+              <p info-value>
+                {{
+                  member.authInfo.lastSignInTime
+                    | date: 'EEE, dd/MM/YYYY, hh:mm a'
+                }}.
+              </p>
+            </div>
+            <div info-container>
+              <p info-label>Recorded Progress</p>
+              <p info-value>
+                {{
+                  member.stats.progress === 0
+                    ? 'Never'
+                    : member.stats.progress === 1
+                    ? 'Once'
+                    : member.stats.progress + ' Times'
+                }}
+              </p>
+            </div>
+            <div info-container>
+              <p info-label>Shared Achievements</p>
+              <p info-value>
+                {{
+                  member.stats.achievements === 0
+                    ? 'Never'
+                    : member.stats.achievements === 1
+                    ? 'Once'
+                    : member.stats.achievements + ' Times'
+                }}
+              </p>
+            </div>
+            <div info-container>
+              <p info-label>Twitter</p>
+              <p info-value *ngIf="!member.profile.twitter">
+                {{ member.profile.twitter }}
+              </p>
               <a
-                [href]="a.link"
+                [href]="'https://twitter.com/' + member.profile.twitter"
+                *ngIf="member.profile.twitter"
                 target="_blank"
                 rel="noreferrer noopener"
-                mat-stroked-button
+                mat-button
+                twitter-link-button
+                ><p info-value>
+                  @{{ member.profile.twitter }} &nbsp;
+                  <mat-icon>open_in_new</mat-icon>
+                </p></a
               >
-                <span>{{ a.link }}</span>
-                <mat-icon>open_in_new</mat-icon>
-              </a>
-            </p>
-            <mat-form-field appearance="standard" class="description-container">
-              <textarea
-                matInput
-                readonly
-                class="description"
-                [value]="a.description"
-                cdkTextareaAutosize
-                cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="8"
-              ></textarea>
-            </mat-form-field>
+            </div>
+            <div info-container>
+              <p info-label>User Id</p>
+              <p info-value>{{ member.authInfo.uid }}</p>
+            </div>
           </div>
         </div>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
-</div>
+      </mat-tab>
+      <mat-tab label="Progress">
+        <div progress-body tab-body>
+          <div no-progress *ngIf="member.progress.length === 0">
+            <p>No recorded progress yet.</p>
+          </div>
+          <div *ngIf="member.progress.length > 0">
+            <div *ngFor="let p of member.progress" app-card>
+              <p time>{{ p.time | date: 'EEE, dd/MM/YYYY, hh:mm a' }}</p>
+              <p skill>In {{ p.skill }}</p>
 
-<button
-  mat-fab
-  (click)="scrollToTop()"
-  class="hide-scroll scroll-to-top"
-  [class.show-scroll]="hasScrolled"
->
-  <mat-icon>arrow_upward</mat-icon>
-</button>
+              <mat-form-field
+                appearance="standard"
+                class="description-container"
+              >
+                <textarea
+                  matInput
+                  readonly
+                  class="description"
+                  [value]="p.description"
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="1"
+                  cdkAutosizeMaxRows="8"
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Achievements">
+        <div achievement-body tab-body>
+          <div no-achievement *ngIf="member.achievements.length === 0">
+            <p>No shared achievement yet.</p>
+          </div>
+          <div *ngIf="member.achievements.length > 0">
+            <div *ngFor="let a of member.achievements" app-card>
+              <p time>
+                {{ a.time | date: 'EEE, dd/MM/YYYY, hh:mm a' }}
+              </p>
+              <p achievement-type>{{ capitalise(a.type) }}</p>
+              <p title>{{ a.title }}</p>
+              <p link>
+                <a
+                  [href]="a.link"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  mat-stroked-button
+                >
+                  <span>{{ a.link }}</span>
+                  <mat-icon>open_in_new</mat-icon>
+                </a>
+              </p>
+              <mat-form-field
+                appearance="standard"
+                class="description-container"
+              >
+                <textarea
+                  matInput
+                  readonly
+                  class="description"
+                  [value]="a.description"
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="1"
+                  cdkAutosizeMaxRows="8"
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <button
+    mat-fab
+    (click)="scrollToTop()"
+    class="hide-scroll scroll-to-top"
+    [class.show-scroll]="hasScrolled"
+  >
+    <mat-icon>arrow_upward</mat-icon>
+  </button>
+</div>

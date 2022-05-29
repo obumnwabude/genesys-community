@@ -45,6 +45,7 @@
           *ngFor="let item of navLinks"
           [routerLink]="item.link"
           [routerLinkActive]="['active-nav-link']"
+          [routerLinkActiveOptions]="{ exact: true }"
           >{{ item.name }}</a
         ></ng-container
       >

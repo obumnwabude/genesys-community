@@ -1,14 +1,14 @@
-import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { constants } from '@community/data';
 import { NavigationEnd, Router } from '@angular/router';
+import { constants } from '@community/data';
 import { SPINNER } from 'ngx-ui-loader';
 
-import { ThemingService } from './theming.service';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { filter } from 'rxjs';
+import { ThemingService } from './theming.service';
 
 @Component({
   selector: 'app-root',
@@ -27,9 +27,7 @@ export class AppComponent implements OnInit {
   @ViewChild('snav') snav!: MatSidenav;
 
   get isInSystemThemeMode(): boolean {
-    return (
-      localStorage.getItem(constants.LOCALSTORAGE_SYSTEM_MODE_KEY) === 'true'
-    );
+    return localStorage.getItem(constants.LS_SYSTEM_MODE_KEY) === 'true';
   }
 
   get themeModes(): string[] {
@@ -67,16 +65,16 @@ export class AppComponent implements OnInit {
 
   changeTheme(mode: string): void {
     if (mode === constants.SYSTEM_THEME_MODE) {
-      localStorage.setItem(constants.LOCALSTORAGE_SYSTEM_MODE_KEY, 'true');
-      localStorage.removeItem(constants.LOCALSTORAGE_THEME_KEY);
+      localStorage.setItem(constants.LS_SYSTEM_MODE_KEY, 'true');
+      localStorage.removeItem(constants.LS_THEME_KEY);
       this.themingService.theme.next(
         window.matchMedia('(prefers-color-scheme: dark)').matches
           ? constants.DARK_MODE
           : constants.LIGHT_MODE
       );
     } else {
-      localStorage.setItem(constants.LOCALSTORAGE_SYSTEM_MODE_KEY, 'false');
-      localStorage.setItem(constants.LOCALSTORAGE_THEME_KEY, mode);
+      localStorage.setItem(constants.LS_SYSTEM_MODE_KEY, 'false');
+      localStorage.setItem(constants.LS_THEME_KEY, mode);
       this.themingService.theme.next(mode);
     }
   }

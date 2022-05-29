@@ -65,10 +65,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
       }
     );
     this.orderBy =
-      localStorage.getItem(constants.LOCALSTORAGE_ORDER_BY_KEY) ??
+      localStorage.getItem(constants.LS_ORDER_BY_KEY) ??
       constants.DEFAULT_ORDER_BY;
     this.orderDirection = (localStorage.getItem(
-      constants.LOCALSTORAGE_ORDER_DIRECTION_KEY
+      constants.LS_ORDER_DIRECTION_KEY
     ) ?? constants.DEFAULT_ORDER_DIRECTION) as OrderByDirection;
     this.assignExtraLabel();
     await this.fetchMembers();
@@ -88,7 +88,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   }
 
   changeOrderBy(): void {
-    localStorage.setItem(constants.LOCALSTORAGE_ORDER_BY_KEY, this.orderBy);
+    localStorage.setItem(constants.LS_ORDER_BY_KEY, this.orderBy);
     this.currentPage = 0;
     this.assignExtraLabel();
     this.lastQueryMember = null;
@@ -96,10 +96,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   }
 
   changeOrderDirection(): void {
-    localStorage.setItem(
-      constants.LOCALSTORAGE_ORDER_DIRECTION_KEY,
-      this.orderDirection
-    );
+    localStorage.setItem(constants.LS_ORDER_DIRECTION_KEY, this.orderDirection);
     if (this.members) this.members = this.members.reverse();
   }
 

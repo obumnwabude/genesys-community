@@ -24,11 +24,11 @@ export class MemberComponent implements OnInit {
   }
 
   set memberHeadingTabIndex(i: number) {
-    localStorage.setItem(constants.LOCALSTORAGE_HEADING_TAB_INDEX, `${i}`);
+    localStorage.setItem(constants.LS_HEADING_TAB_INDEX, `${i}`);
   }
 
   get memberHeadingTabIndex(): number {
-    const n = localStorage.getItem(constants.LOCALSTORAGE_HEADING_TAB_INDEX);
+    const n = localStorage.getItem(constants.LS_HEADING_TAB_INDEX);
     return !Number.isNaN(n) ? Number(n) : 0;
   }
 

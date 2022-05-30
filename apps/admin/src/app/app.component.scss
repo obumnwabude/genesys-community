@@ -99,6 +99,11 @@ footer {
       width: 36px;
       height: 36px;
     }
+
+    > a:first-of-type {
+      margin-right: 12px;
+      margin-top: -6px;
+    }
   }
 }
 

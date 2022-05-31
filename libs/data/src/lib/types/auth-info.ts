@@ -7,6 +7,7 @@ export class AuthInfo {
     public email: string,
     public lastSignInTime: Date,
     public phoneNumber: string,
+    public photoURL: string,
     public uid: string
   ) {}
 
@@ -17,18 +18,20 @@ export class AuthInfo {
       json['email'],
       json['lastSignInTime'].toDate(),
       json['phoneNumber'],
+      json['photoURL'],
       json['uid']
     );
   }
 
   static toJSON(authInfo: AuthInfo) {
-    const { displayName, email, phoneNumber, uid } = authInfo;
+    const { displayName, email, phoneNumber, photoURL, uid } = authInfo;
     return {
       creationTime: Timestamp.fromDate(authInfo.creationTime),
       displayName,
       email,
       lastSignInTime: Timestamp.fromDate(authInfo.lastSignInTime),
       phoneNumber,
+      photoURL,
       uid
     };
   }

@@ -1,53 +1,62 @@
-<h2 page-heading>Hi there 👋</h2>
+<div content-card>
+  <img
+    src="assets/images/community.png"
+    aria-details="Picture of the Community"
+  />
+  <div>
+    <h2 page-heading>Hi there 👋</h2>
 
-<p subheading>What would you like to do today?</p>
+    <p subheading>What would you like to do today?</p>
 
-<p>Do you want to record your progress?</p>
+    <p>Do you want to record your progress?</p>
 
-<p>
-  <a routerLink="/progress" mat-raised-button color="primary"
-    >Record Progress</a
-  >
-</p>
+    <p>
+      <a routerLink="/progress" mat-raised-button color="primary"
+        >Record Progress</a
+      >
+    </p>
 
-<p>&nbsp;</p>
+    <p>&nbsp;</p>
 
-<p>Or do you want to share an achievement...</p>
+    <p>Or do you want to share an achievement...</p>
 
-<p>
-  <a routerLink="/achievement" mat-raised-button color="primary"
-    >Share Achievement</a
-  >
-</p>
+    <p>
+      <a routerLink="/achievement" mat-raised-button color="primary"
+        >Share Achievement</a
+      >
+    </p>
 
-<p>&nbsp;</p>
+    <p>&nbsp;</p>
 
-<p>Follow our Twitter or checkout our latest tweets ...</p>
+    <p>Follow our Twitter or checkout our latest tweets ...</p>
 
-<p>
-  <a
-    mat-raised-button
-    color="primary"
-    href="https://twitter.com/GenesysAEFUNAI"
-    target="_blank"
-    rel="noopener noreferrer"
-    title="Follow Us on Twitter"
-    >Our Twitter</a
-  >
-</p>
+    <p>
+      <a
+        mat-raised-button
+        color="primary"
+        href="https://twitter.com/GenesysAEFUNAI"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Follow Us on Twitter"
+        >Our Twitter</a
+      >
+    </p>
 
-<p>&nbsp;</p>
+    <p>&nbsp;</p>
 
-<p *ngIf="auth.currentUser" sign-out-message>
-  You are signed in as
-  <span font-bold>{{ auth.currentUser.email }}</span
-  >. Do you want to interact as another member? You will have to sign out first.
-</p>
+    <p *ngIf="auth.currentUser" sign-out-message>
+      You are signed in as
+      <span font-bold>{{ auth.currentUser.email }}</span
+      >. Do you want to interact as another member? You will have to sign out
+      first.
+    </p>
 
-<p *ngIf="auth.currentUser">
-  <button mat-stroked-button (click)="signOut()" color="primary">
-    Sign Out
-  </button>
-</p>
+    <p *ngIf="auth.currentUser">
+      <button mat-stroked-button (click)="signOut()" color="primary">
+        Sign Out
+      </button>
+    </p>
 
-<p>&nbsp;</p>
+    <p>&nbsp;</p>
+  </div>
+</div>

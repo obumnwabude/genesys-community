@@ -24,7 +24,8 @@ export class AppComponent implements OnInit {
   navLinks = [
     { link: '/', name: 'Home' },
     { link: '/progress', name: 'Record Progress' },
-    { link: '/achievement', name: 'Share Achievement' }
+    { link: '/achievement', name: 'Share Achievement' },
+    { link: '/account', name: 'Account Settings' }
   ];
   // the 500 level of orange palette in Material design
   primaryColor = '#ff9800';
@@ -41,7 +42,7 @@ export class AppComponent implements OnInit {
   }
 
   constructor(
-    private auth: Auth,
+    public auth: Auth,
     private breakpoint: BreakpointObserver,
     private overlayContainer: OverlayContainer,
     private firestore: Firestore,
@@ -74,37 +75,38 @@ export class AppComponent implements OnInit {
       } else {
         try {
           const snap = await memberSnap(this.firestore, authMember.uid);
-          let isNewMember: boolean;
-          if (!snap.exists()) {
-            isNewMember = true;
-          } else {
+          let hasPhoneNumber = false;
+          let hasSetProfile = false;
+          if (snap.exists()) {
+            if (!authMember.phoneNumber) {
+              hasPhoneNumber = true;
+            }
+
+            const firestoreMember = snap.data();
             const phoneInAuth = authMember.phoneNumber;
-            if (!phoneInAuth) {
-              isNewMember = true;
-            } else {
-              const firestoreMember = snap.data();
-              const phoneNumber = authMember.phoneNumber;
-              const phoneInFirestore = firestoreMember.authInfo.phoneNumber;
-              if (!phoneInFirestore || phoneInFirestore !== phoneInAuth) {
-                await setDoc(
-                  doc(this.firestore, 'members', authMember.uid),
-                  { authInfo: { phoneNumber } },
-                  { merge: true }
-                );
-              }
-              const { department, gender, faculty, level, twitter } =
-                firestoreMember.profile;
-              isNewMember =
-                [department, gender, faculty, level, twitter].filter(
-                  (i) => i === ''
-                ).length === 5;
+            const phoneInFirestore = firestoreMember.authInfo.phoneNumber;
+            if (!phoneInFirestore || phoneInFirestore !== phoneInAuth) {
+              await setDoc(
+                doc(this.firestore, 'members', authMember.uid),
+                { authInfo: { phoneNumber: phoneInAuth } },
+                { merge: true }
+              );
             }
+            const { department, gender, faculty, level, twitter } =
+              firestoreMember.profile;
+            hasSetProfile = !(
+              [department, gender, faculty, level, twitter].filter(
+                (i) => i === ''
+              ).length === 5
+            );
           }
-          this.isMember = !isNewMember;
-          if (isNewMember) {
-            if (!this.router.url.includes('welcome')) {
-              this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
-            }
+
+          this.isMember = hasSetProfile;
+          if (
+            (!this.isMember || !hasPhoneNumber) &&
+            !this.router.url.includes('welcome')
+          ) {
+            this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
           }
         } catch (_) {
           if (!this.router.url.includes('welcome')) {

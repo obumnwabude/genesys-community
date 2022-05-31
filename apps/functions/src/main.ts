@@ -1,5 +1,5 @@
-import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import * as functions from 'firebase-functions';
 admin.initializeApp();
 const db = admin.firestore();
 
@@ -11,7 +11,7 @@ exports.createMember = functions.auth.user().onCreate(async (member) => {
 
   const { creationTime, lastSignInTime } = member.metadata;
   const { Timestamp } = admin.firestore;
-  const { displayName, email, phoneNumber, uid } = member;
+  const { displayName, email, phoneNumber, photoURL, uid } = member;
   await db
     .doc(`/members/${member.uid}`)
     .set(
@@ -23,6 +23,7 @@ exports.createMember = functions.auth.user().onCreate(async (member) => {
           email,
           lastSignInTime: Timestamp.fromDate(new Date(lastSignInTime)),
           phoneNumber,
+          photoURL,
           uid
         },
         profile: {},

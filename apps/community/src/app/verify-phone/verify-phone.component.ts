@@ -155,6 +155,7 @@ export class VerifyPhoneComponent implements AfterViewInit {
             },
             { merge: true }
           );
+          this.snackBar.open('Phone successfully verified');
         } catch (error: any) {
           this.verifyCodeCtrl.setValue('');
           if (

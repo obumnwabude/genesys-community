@@ -7,7 +7,11 @@
 
 <mat-toolbar navbar>
   <mat-toolbar-row>
-    <a routerLink="/" mat-button>
+    <button mat-icon-button (click)="snav.toggle()" *ngIf="!isLargeScreen">
+      <mat-icon outlined>menu</mat-icon>
+    </button>
+
+    <a routerLink="/" mat-button logo-link>
       <h1>
         <img
           nav-logo
@@ -23,9 +27,26 @@
       </h1>
     </a>
     <span spacer></span>
-    <button mat-icon-button (click)="snav.toggle()" *ngIf="!isLargeScreen">
-      <mat-icon outlined>menu</mat-icon>
-    </button>
+    <div
+      img-container
+      routerLink="/account"
+      *ngIf="isMember"
+      class="mat-elevation-z1"
+    >
+      <mat-icon person *ngIf="!auth.currentUser?.photoURL">person</mat-icon>
+      <div
+        image-display
+        *ngIf="auth.currentUser?.photoURL"
+        [ngStyle]="{
+          'background-image': 'url(' + auth.currentUser?.photoURL + ')'
+        }"
+      ></div>
+      <img
+        *ngIf="auth.currentUser?.photoURL"
+        [src]="auth.currentUser?.photoURL"
+        alt=""
+      />
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -33,10 +54,9 @@
   <mat-sidenav
     #snav
     [fixedInViewport]="true"
-    [fixedTopGap]="56"
+    [fixedTopGap]="64"
     [opened]="isLargeScreen"
     [mode]="isLargeScreen ? 'side' : 'over'"
-    [position]="isLargeScreen ? 'start' : 'end'"
   >
     <mat-nav-list>
       <ng-container *ngIf="isMember">
@@ -77,15 +97,7 @@
 
   <mat-sidenav-content>
     <main>
-      <div content-card>
-        <img
-          src="assets/images/community.png"
-          aria-details="Picture of the Community"
-        />
-        <div>
-          <router-outlet></router-outlet>
-        </div>
-      </div>
+      <router-outlet></router-outlet>
     </main>
 
     <ng-template

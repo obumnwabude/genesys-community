@@ -1,51 +1,62 @@
 import { NgModule } from '@angular/core';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import {
-  provideAnalytics,
   getAnalytics,
+  provideAnalytics,
   ScreenTrackingService,
   UserTrackingService
 } from '@angular/fire/analytics';
-import { provideAuth, getAuth, connectAuthEmulator } from '@angular/fire/auth';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import {
-  provideFirestore,
+  connectFirestoreEmulator,
   getFirestore,
-  connectFirestoreEmulator
+  provideFirestore
 } from '@angular/fire/firestore';
+import {
+  connectStorageEmulator,
+  getStorage,
+  provideStorage
+} from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import {
   MatFormFieldModule,
   MAT_FORM_FIELD_DEFAULT_OPTIONS
 } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import {
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS
 } from '@angular/material/snack-bar';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Route, RouterModule } from '@angular/router';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
 
-import { AppComponent } from './app.component';
-import { VerifyPhoneComponent } from './verify-phone/verify-phone.component';
 import { environment } from '../environments/environment';
-import { WelcomeComponent } from './welcome/welcome.component';
+import { AccountComponent } from './account/account.component';
+import { AchievementComponent } from './achievement/achievement.component';
+import { AppComponent } from './app.component';
+import { ConfirmChangePhoneDialog } from './confirm-change-phone-dialog';
+import { ConfirmRemovePhotoDialog } from './confirm-remove-photo-dialog';
 import { HomeComponent } from './home/home.component';
 import { ProgressComponent } from './progress/progress.component';
-import { AchievementComponent } from './achievement/achievement.component';
+import { VerifyPhoneComponent } from './verify-phone/verify-phone.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Route[] = [
   { path: '', component: HomeComponent },
   { path: 'achievement', component: AchievementComponent },
+  { path: 'account', component: AccountComponent },
   { path: 'progress', component: ProgressComponent },
   { path: 'welcome', component: WelcomeComponent },
   { path: '**', redirectTo: '/', pathMatch: 'full' }
@@ -58,7 +69,10 @@ const routes: Route[] = [
     WelcomeComponent,
     HomeComponent,
     ProgressComponent,
-    AchievementComponent
+    AchievementComponent,
+    AccountComponent,
+    ConfirmRemovePhotoDialog,
+    ConfirmChangePhoneDialog
   ],
   imports: [
     BrowserModule,
@@ -67,6 +81,7 @@ const routes: Route[] = [
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
@@ -77,6 +92,7 @@ const routes: Route[] = [
     MatSnackBarModule,
     MatSidenavModule,
     MatToolbarModule,
+    MatTooltipModule,
     NgxUiLoaderModule,
     NgxUiLoaderRouterModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
@@ -94,6 +110,13 @@ const routes: Route[] = [
         connectFirestoreEmulator(firestore, 'localhost', 8080);
       }
       return firestore;
+    }),
+    provideStorage(() => {
+      const storage = getStorage();
+      if (!environment.production) {
+        connectStorageEmulator(storage, 'localhost', 9199);
+      }
+      return storage;
     })
   ],
   providers: [

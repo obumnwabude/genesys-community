@@ -2,11 +2,13 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { firebaseConfig } from './firebase-config';
+import { appCheckDebug, firebaseConfig, recaptcha } from './firebase-assets';
 
 export const environment = {
+  appCheckDebug,
   firebase: firebaseConfig,
-  production: false
+  production: false,
+  recaptcha
 };
 
 /*

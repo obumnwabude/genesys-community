@@ -6,6 +6,11 @@ import {
   UserTrackingService
 } from '@angular/fire/analytics';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import {
+  initializeAppCheck,
+  provideAppCheck,
+  ReCaptchaV3Provider
+} from '@angular/fire/app-check';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import {
   connectFirestoreEmulator,
@@ -96,6 +101,15 @@ const routes: Route[] = [
     NgxUiLoaderModule,
     NgxUiLoaderRouterModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAppCheck(() => {
+      (self as any).FIREBASE_APPCHECK_DEBUG_TOKEN = environment.production
+        ? false
+        : environment.appCheckDebug;
+      return initializeAppCheck(initializeApp(environment.firebase), {
+        provider: new ReCaptchaV3Provider(environment.recaptcha),
+        isTokenAutoRefreshEnabled: true
+      });
+    }),
     ...(environment.production ? [provideAnalytics(() => getAnalytics())] : []),
     provideAuth(() => {
       const auth = getAuth();

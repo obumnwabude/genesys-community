@@ -75,13 +75,21 @@ export class AccountComponent {
       const ext = fileNameParts[fileNameParts.length - 1];
       const photoRef = ref(
         this.storage,
-        `/profilePhotos/${'this.auth.currentUser.uid'}.${ext}`
+        `/profilePhotos/${this.auth.currentUser.uid}.${ext}`
       );
       try {
         await uploadBytes(photoRef, file);
         await updateProfile(this.auth.currentUser, {
           photoURL: await getDownloadURL(photoRef)
         });
+        await this.auth.currentUser.reload();
+      } catch (error: any) {
+        this.snackBar.open(error.message);
+      } finally {
+        this.isUploadingPhoto = false;
+      }
+      
+      try {
         if (oldExt && oldExt != ext) {
           await deleteObject(
             ref(
@@ -90,11 +98,8 @@ export class AccountComponent {
             )
           );
         }
-        await this.auth.currentUser.reload();
-      } catch (error: any) {
-        this.snackBar.open(error.message);
-      } finally {
-        this.isUploadingPhoto = false;
+      } catch (_) {
+        // no need handling object not found errors
       }
     } else {
       this.router.navigateByUrl('/sign-in');
@@ -115,20 +120,32 @@ export class AccountComponent {
             .afterClosed()
         );
         if (confirm) {
+          this.isUploadingPhoto = true;
+
           try {
-            this.isUploadingPhoto = true;
             await deleteObject(
               ref(this.storage, this.auth.currentUser.photoURL?.split('?')[0])
             );
+          } catch (_) {
+            // couldn't find a way to check if a storage object exists
+            // or if the photoURL is a from Firebase Storage. (It could have
+            // come from the Google Account's photoURL).
+            //
+            // so catching errors and ignoring errors at this point was okay.
+          }
+
+          try {
             await updateProfile(this.auth.currentUser, { photoURL: '' });
             await setDoc(
               doc(this.firestore, `/members/${this.auth.currentUser.uid}`),
               { authInfo: { photoURL: '' } },
               { merge: true }
             );
+            await this.auth.currentUser.reload();
             this.snackBar.open('Profile Photo successfully removed');
           } catch (error: any) {
             this.snackBar.open(error.message);
+            console.error(error);
           } finally {
             this.isUploadingPhoto = false;
           }

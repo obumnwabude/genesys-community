@@ -75,13 +75,8 @@ export class AppComponent implements OnInit {
       } else {
         try {
           const snap = await memberSnap(this.firestore, authMember.uid);
-          let hasPhoneNumber = false;
           let hasSetProfile = false;
           if (snap.exists()) {
-            if (!authMember.phoneNumber) {
-              hasPhoneNumber = true;
-            }
-
             const firestoreMember = snap.data();
             const phoneInAuth = authMember.phoneNumber;
             const phoneInFirestore = firestoreMember.authInfo.phoneNumber;
@@ -103,7 +98,7 @@ export class AppComponent implements OnInit {
 
           this.isMember = hasSetProfile;
           if (
-            (!this.isMember || !hasPhoneNumber) &&
+            (!this.isMember || !authMember.phoneNumber) &&
             !this.router.url.includes('welcome')
           ) {
             this.router.navigateByUrl(`/welcome?next=${this.router.url}`);
